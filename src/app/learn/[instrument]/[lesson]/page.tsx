@@ -798,16 +798,117 @@ function LessonContent() {
         }
 
         @media (max-width: 768px) {
+          .lesson-page {
+            padding: var(--space-4);
+          }
+
           .lesson-header {
             flex-direction: column;
           }
 
           .lesson-progress {
             text-align: left;
+            width: 100%;
           }
 
           .progress-bar {
             width: 100%;
+          }
+
+          .step-header h2 {
+            font-size: 1.25rem;
+          }
+
+          .step-description {
+            font-size: 0.9rem;
+          }
+
+          .instrument-section {
+            padding: var(--space-2) 0;
+            min-height: 200px;
+          }
+
+          .lesson-nav {
+            flex-direction: row;
+            gap: var(--space-2);
+            padding: var(--space-3) 0;
+          }
+
+          .lesson-nav .btn {
+            flex: 1;
+            padding: var(--space-3);
+            font-size: 0.9rem;
+          }
+
+          .feedback-toast {
+            bottom: 80px;
+            padding: var(--space-3) var(--space-4);
+            font-size: 0.9rem;
+            max-width: 90%;
+          }
+
+          .complete-icon {
+            font-size: 3rem;
+          }
+
+          .complete-title {
+            font-size: 1.5rem;
+          }
+
+          .complete-actions {
+            flex-direction: column;
+            width: 100%;
+          }
+
+          .complete-actions .btn {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .lesson-page {
+            padding: var(--space-3);
+          }
+
+          .lesson-info h1 {
+            font-size: 1.25rem;
+          }
+
+          .lesson-badges {
+            gap: var(--space-1);
+          }
+
+          .lesson-badge, .level-badge {
+            padding: 2px 8px;
+            font-size: 0.75rem;
+          }
+
+          .demo-controls, .practice-controls, .sequence-controls {
+            padding: var(--space-3);
+          }
+
+          .sequence-notes {
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+
+          .sequence-note {
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.9rem;
+          }
+
+          .stat-circle {
+            width: 80px;
+            height: 80px;
+          }
+
+          .stat-value {
+            font-size: 1.5rem;
+          }
+
+          .instrument-section {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
           }
         }
       `}</style>

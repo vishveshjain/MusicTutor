@@ -111,12 +111,14 @@
     line-height: 1.2;
     background: linear-gradient(to right, #ffffff, #e2e8f0);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .text-gradient {
     background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -231,31 +233,161 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 3rem;
+    }
+
+    .instruments-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .home {
+        padding: 1.5rem;
+        padding-top: 4rem;
+        /* Space for fixed nav */
+    }
+
+    .hero {
+        margin-bottom: 2rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .instruments {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .instruments-grid {
         grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+
+    .instrument-card {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .instrument-emoji {
+        font-size: 2rem;
+    }
+
+    .instrument-name {
+        font-size: 0.8rem;
+    }
+
+    .btn-lg {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .free-practice {
+        margin-bottom: 2rem;
+    }
+
+    /* Stack buttons on mobile */
+    .hero .btn-lg {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero .btn-secondary {
+        margin-left: 0 !important;
     }
 }
 
 @media (max-width: 480px) {
     .home {
         padding: 1rem;
+        padding-top: 3.5rem;
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
     }
 
     .instruments-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .instrument-card {
+        padding: 0.75rem;
+        border-radius: 12px;
+    }
+
+    .instrument-emoji {
+        font-size: 1.75rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .instrument-name {
+        font-size: 0.7rem;
     }
 
     .nav-username {
         display: none;
+    }
+
+    .user-nav {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    .login-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-lg {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .footer {
+        font-size: 0.75rem;
+        padding-top: 1rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .instruments-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
     }
 }
 
