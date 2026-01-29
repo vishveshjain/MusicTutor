@@ -185,7 +185,7 @@ class PitchDetectorService {
         }
 
         // Get time domain data
-        this.analyserNode.getFloatTimeDomainData(this.inputBuffer);
+        this.analyserNode.getFloatTimeDomainData(this.inputBuffer as any);
 
         // Detect pitch
         const [frequency, clarity] = this.detector.findPitch(
