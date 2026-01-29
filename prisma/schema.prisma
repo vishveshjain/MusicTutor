@@ -1,0 +1,171 @@
+// Prisma Schema for AI Music Tutor
+// Database can be switched by changing the provider (sqlite -> postgresql, mysql)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User model with skill level and preferences
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String?
+  image         String?
+  skillLevel    String    @default("beginner") // beginner, intermediate, advanced
+  preferredLang String    @default("en")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  progress      Progress[]
+  sessions      LessonSession[]
+  achievements  UserAchievement[]
+  accounts      Account[]
+}
+
+// OAuth accounts for NextAuth
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// Instrument definitions
+model Instrument {
+  id          String   @id @default(cuid())
+  slug        String   @unique // harmonium, piano, guitar, ukulele
+  nameEn      String   // English name
+  nameHi      String   // Hindi name
+  iconUrl     String?
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  
+  courses     Course[]
+}
+
+// Course structure
+model Course {
+  id           String     @id @default(cuid())
+  instrumentId String
+  instrument   Instrument @relation(fields: [instrumentId], references: [id])
+  level        String     // beginner, intermediate, advanced
+  titleEn      String
+  titleHi      String
+  descriptionEn String?
+  descriptionHi String?
+  orderIndex   Int        @default(0)
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  
+  modules      Module[]
+}
+
+// Module within a course (e.g., "Week 1: Sa Re Ga Ma")
+model Module {
+  id           String   @id @default(cuid())
+  courseId     String
+  course       Course   @relation(fields: [courseId], references: [id])
+  titleEn      String
+  titleHi      String
+  descriptionEn String?
+  descriptionHi String?
+  orderIndex   Int      @default(0)
+  createdAt    DateTime @default(now())
+  
+  lessons      Lesson[]
+}
+
+// Individual lesson
+model Lesson {
+  id           String   @id @default(cuid())
+  moduleId     String
+  module       Module   @relation(fields: [moduleId], references: [id])
+  titleEn      String
+  titleHi      String
+  contentJson  String   // JSON containing lesson steps, exercises
+  targetNotes  String   // Comma-separated expected notes
+  duration     Int      @default(15) // Estimated duration in minutes
+  orderIndex   Int      @default(0)
+  createdAt    DateTime @default(now())
+  
+  progress     Progress[]
+  sessions     LessonSession[]
+}
+
+// User progress per lesson
+model Progress {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId      String
+  lesson        Lesson   @relation(fields: [lessonId], references: [id])
+  accuracy      Float    @default(0)
+  bestAccuracy  Float    @default(0)
+  completed     Boolean  @default(false)
+  attempts      Int      @default(0)
+  totalTime     Int      @default(0) // Total time spent in seconds
+  lastAttempt   DateTime @default(now())
+  createdAt     DateTime @default(now())
+  
+  @@unique([userId, lessonId])
+}
+
+// Individual lesson session for detailed tracking
+model LessonSession {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+  accuracy    Float
+  notesPlayed Int      @default(0)
+  mistakes    Int      @default(0)
+  duration    Int      // Duration in seconds
+  createdAt   DateTime @default(now())
+}
+
+// Achievement definitions
+model Achievement {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  titleEn      String
+  titleHi      String
+  descriptionEn String
+  descriptionHi String
+  iconUrl      String?
+  requirement  String   // JSON describing how to earn this
+  points       Int      @default(10)
+  
+  users        UserAchievement[]
+}
+
+// User achievements (many-to-many)
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  earnedAt      DateTime    @default(now())
+  
+  @@unique([userId, achievementId])
+}

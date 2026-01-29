@@ -1,0 +1,466 @@
+/* Ukulele - Realistic Full-Body Design */
+
+.ukulele {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    user-select: none;
+}
+
+.ukuleleContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Full ukulele body - figure 8 shape with mahogany wood */
+.ukuleleBody {
+    position: relative;
+    width: 200px;
+    background: linear-gradient(135deg,
+            #8B4513 0%,
+            #A0522D 15%,
+            #CD853F 30%,
+            #B8732D 50%,
+            #A0522D 70%,
+            #8B4513 85%,
+            #6B3513 100%);
+    border-radius: 50% 50% 45% 45% / 35% 35% 50% 50%;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(0, 0, 0, 0.3),
+        inset 0 5px 10px rgba(255, 255, 255, 0.1);
+    border: 4px solid #654321;
+}
+
+/* Upper bout */
+.upperBout {
+    width: 160px;
+    height: 100px;
+    margin: 0 auto;
+    background: linear-gradient(180deg,
+            #B87333 0%,
+            #CD853F 30%,
+            #D4956B 50%,
+            #CD853F 70%,
+            #B87333 100%);
+    border-radius: 50% 50% 30% 30%;
+    position: relative;
+}
+
+/* Waist (curved inward) */
+.waist {
+    width: 140px;
+    height: 40px;
+    margin: -10px auto;
+    background: linear-gradient(180deg,
+            #A0522D 0%,
+            #B87333 50%,
+            #A0522D 100%);
+    border-radius: 0 0 50% 50% / 0 0 80% 80%;
+    position: relative;
+}
+
+/* Lower bout (larger) */
+.lowerBout {
+    width: 200px;
+    height: 150px;
+    margin: -15px auto 0;
+    background: linear-gradient(180deg,
+            #B87333 0%,
+            #CD853F 20%,
+            #D4956B 40%,
+            #CD853F 60%,
+            #B87333 80%,
+            #A0522D 100%);
+    border-radius: 30% 30% 50% 50%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset 0 0 40px rgba(0, 0, 0, 0.2),
+        inset 0 -10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Sound hole */
+.soundHole {
+    width: 55px;
+    height: 55px;
+    background: radial-gradient(circle,
+            #0a0a0a 0%,
+            #1a1a1a 40%,
+            #2a2a2a 70%,
+            #1a1a1a 100%);
+    border-radius: 50%;
+    border: 3px solid #f5f5dc;
+    box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.9),
+        0 0 0 4px #CD853F,
+        0 0 0 6px #8B4513;
+    position: absolute;
+    top: 30px;
+}
+
+/* Decorative rosette around sound hole */
+.soundHole::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+/* Bridge */
+.bridge {
+    width: 70px;
+    height: 12px;
+    background: linear-gradient(180deg,
+            #2a1a0a 0%,
+            #1a0a00 50%,
+            #2a1a0a 100%);
+    border-radius: 4px;
+    position: absolute;
+    bottom: 30px;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Saddle on bridge */
+.saddle {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg,
+            #f5f5dc 0%,
+            #fff 50%,
+            #f5f5dc 100%);
+    border-radius: 2px;
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Neck */
+.neck {
+    width: 50px;
+    background: linear-gradient(90deg,
+            #8B4513 0%,
+            #A0522D 30%,
+            #B87333 50%,
+            #A0522D 70%,
+            #8B4513 100%);
+    padding: 0;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: -5px;
+    position: relative;
+    z-index: 2;
+    box-shadow:
+        -3px 0 8px rgba(0, 0, 0, 0.3),
+        3px 0 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Fretboard on neck */
+.fretboard {
+    width: 46px;
+    margin: 0 auto;
+    background: linear-gradient(90deg,
+            #1a0a00 0%,
+            #2a1a0a 20%,
+            #3a2a1a 50%,
+            #2a1a0a 80%,
+            #1a0a00 100%);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+/* Headstock */
+.headstock {
+    width: 55px;
+    height: 80px;
+    background: linear-gradient(135deg,
+            #A0522D 0%,
+            #B87333 30%,
+            #CD853F 50%,
+            #B87333 70%,
+            #8B4513 100%);
+    border-radius: 8px 8px 4px 4px;
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    position: relative;
+    box-shadow:
+        0 -4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Tuning pegs row */
+.tuningPegs {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 4px;
+    margin-bottom: 6px;
+}
+
+.tuningPeg {
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 30% 30%,
+            #f5f5f5 0%,
+            #e0e0e0 40%,
+            #c0c0c0 70%,
+            #a0a0a0 100%);
+    border-radius: 50%;
+    border: 1px solid #888;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.tuningPeg:hover {
+    transform: scale(1.1);
+}
+
+/* Nut */
+.nut {
+    width: 44px;
+    height: 6px;
+    background: linear-gradient(90deg,
+            #f5f5dc 0%,
+            #fff 50%,
+            #f5f5dc 100%);
+    border-radius: 2px;
+    margin-top: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Fret */
+.fret {
+    display: flex;
+    flex-direction: column;
+    height: 35px;
+    border-bottom: 2px solid #c0c0c0;
+    position: relative;
+}
+
+.fret:last-child {
+    border-bottom: none;
+}
+
+/* Fret marker dots */
+.fretMarker {
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #f5f5dc 0%, #d0d0b0 100%);
+    border-radius: 50%;
+}
+
+/* String position (clickable area) */
+.stringPosition {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+
+.stringPosition:hover {
+    background: rgba(255, 215, 0, 0.3);
+}
+
+.stringPosition.pressed {
+    background: rgba(255, 215, 0, 0.5);
+}
+
+.stringPosition.highlighted {
+    background: rgba(255, 215, 0, 0.4);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.stringPosition.correct {
+    background: rgba(76, 175, 80, 0.5);
+    animation: none;
+}
+
+.stringPosition.wrong {
+    background: rgba(244, 67, 54, 0.5);
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Strings running through */
+.string {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(220, 220, 220, 1) 50%,
+            rgba(255, 255, 255, 0.9) 100%);
+    pointer-events: none;
+}
+
+/* Position strings across the fretboard */
+.stringPosition:nth-child(1) .string {
+    left: 15%;
+}
+
+.stringPosition:nth-child(2) .string {
+    left: 38%;
+}
+
+.stringPosition:nth-child(3) .string {
+    left: 62%;
+}
+
+.stringPosition:nth-child(4) .string {
+    left: 85%;
+}
+
+/* Strings on body (visual only) */
+.bodyStrings {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.bodyString {
+    width: 1.5px;
+    height: 100%;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(200, 200, 200, 1) 30%,
+            rgba(255, 255, 255, 0.9) 100%);
+}
+
+/* Fret number label */
+.fretNumber {
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* String tuning labels */
+.stringLabels {
+    display: flex;
+    justify-content: space-between;
+    width: 44px;
+    margin-top: 8px;
+}
+
+.stringLabel {
+    font-size: 10px;
+    color: #8B4513;
+    font-weight: 700;
+}
+
+/* Loading */
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    border-radius: 12px;
+    z-index: 100;
+}
+
+/* Animations */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+@keyframes stringVibrate {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-1px);
+    }
+
+    75% {
+        transform: translateX(1px);
+    }
+}
+
+.stringPosition.pressed .string {
+    animation: stringVibrate 0.05s ease-in-out 10;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .fret {
+        height: 28px;
+    }
+
+    .headstock {
+        width: 48px;
+        height: 65px;
+    }
+
+    .fretboard {
+        width: 40px;
+    }
+
+    .lowerBout {
+        width: 170px;
+        height: 130px;
+    }
+}

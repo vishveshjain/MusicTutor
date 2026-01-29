@@ -1,0 +1,417 @@
+/* Flute - Realistic Silver Concert Flute */
+
+.flute {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    user-select: none;
+}
+
+.fluteContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Main tube sections */
+.fluteBody {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Head joint (with embouchure) */
+.headJoint {
+    width: 120px;
+    height: 28px;
+    background: linear-gradient(180deg,
+            #e8e8e8 0%,
+            #f5f5f5 20%,
+            #d8d8d8 40%,
+            #c0c0c0 60%,
+            #d8d8d8 80%,
+            #e8e8e8 100%);
+    border-radius: 14px 4px 4px 14px;
+    position: relative;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #a0a0a0;
+}
+
+/* Crown (end cap) */
+.crown {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 22px;
+    background: linear-gradient(90deg,
+            #c0c0c0 0%,
+            #e8e8e8 40%,
+            #f0f0f0 60%,
+            #d0d0d0 100%);
+    border-radius: 8px 0 0 8px;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Embouchure plate (lip plate) */
+.embouchurePlate {
+    position: absolute;
+    left: 30px;
+    top: -6px;
+    width: 45px;
+    height: 38px;
+    background: linear-gradient(180deg,
+            #d0d0d0 0%,
+            #e8e8e8 30%,
+            #f0f0f0 50%,
+            #d8d8d8 70%,
+            #c0c0c0 100%);
+    border-radius: 8px;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    border: 1px solid #a8a8a8;
+}
+
+/* Embouchure hole */
+.embouchureHole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 8px;
+    background: linear-gradient(180deg,
+            #1a1a1a 0%,
+            #2a2a2a 50%,
+            #1a1a1a 100%);
+    border-radius: 50%;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Body joint (main tube with keys) */
+.bodyJoint {
+    width: 280px;
+    height: 28px;
+    background: linear-gradient(180deg,
+            #e8e8e8 0%,
+            #f5f5f5 20%,
+            #d8d8d8 40%,
+            #c0c0c0 60%,
+            #d8d8d8 80%,
+            #e8e8e8 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 15px;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #a0a0a0;
+    border-bottom: 1px solid #a0a0a0;
+}
+
+/* Foot joint (end section) */
+.footJoint {
+    width: 60px;
+    height: 28px;
+    background: linear-gradient(180deg,
+            #e8e8e8 0%,
+            #f5f5f5 20%,
+            #d8d8d8 40%,
+            #c0c0c0 60%,
+            #d8d8d8 80%,
+            #e8e8e8 100%);
+    border-radius: 4px 14px 14px 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 10px;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #a0a0a0;
+}
+
+/* Key base styling */
+.key {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(145deg,
+            #f0f0f0 0%,
+            #e0e0e0 30%,
+            #c8c8c8 60%,
+            #d8d8d8 100%);
+    border: 2px solid #b0b0b0;
+    cursor: pointer;
+    transition: all 0.08s ease;
+    position: relative;
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Key arm/lever */
+.key::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 10px;
+    background: linear-gradient(90deg,
+            #c0c0c0 0%,
+            #e0e0e0 50%,
+            #c0c0c0 100%);
+    border-radius: 2px;
+}
+
+/* Key pad (the part touching the hole) */
+.key::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(145deg,
+            #d8d8d8 0%,
+            #c0c0c0 50%,
+            #b8b8b8 100%);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Key hover state */
+.key:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+/* Key pressed state (covering hole) */
+.key.pressed {
+    transform: translateY(2px);
+    background: linear-gradient(145deg,
+            #d0d0d0 0%,
+            #c0c0c0 30%,
+            #b8b8b8 60%,
+            #c8c8c8 100%);
+    box-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Key highlighted */
+.key.highlighted {
+    border-color: #ffd700;
+    box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.5),
+        0 3px 8px rgba(0, 0, 0, 0.25);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Key correct state */
+.key.correct {
+    border-color: #4caf50;
+    box-shadow:
+        0 0 15px rgba(76, 175, 80, 0.5),
+        0 3px 8px rgba(0, 0, 0, 0.25);
+    animation: none;
+}
+
+/* Key wrong state */
+.key.wrong {
+    border-color: #f44336;
+    box-shadow:
+        0 0 15px rgba(244, 67, 54, 0.5),
+        0 3px 8px rgba(0, 0, 0, 0.25);
+    animation: shake 0.3s ease-in-out;
+}
+
+/* Key label */
+.keyLabel {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    color: #666;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Note display */
+.noteDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    padding: 20px 40px;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.currentNote {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary, #fff);
+}
+
+.noteHint {
+    font-size: 14px;
+    color: var(--text-muted, #888);
+    margin-top: 4px;
+}
+
+/* Fingering chart */
+.fingeringChart {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 32px;
+    padding: 20px;
+    background: var(--bg-secondary, rgba(0, 0, 0, 0.2));
+    border-radius: 12px;
+    max-width: 400px;
+}
+
+.fingeringItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 8px;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.fingeringItem:hover {
+    background: var(--color-primary, #6366f1);
+    border-color: var(--color-primary, #6366f1);
+}
+
+.fingeringItem.active {
+    background: var(--color-primary, #6366f1);
+    border-color: var(--color-primary-light, #818cf8);
+}
+
+.fingeringNoteName {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary, #fff);
+}
+
+.fingeringDots {
+    display: flex;
+    gap: 3px;
+    margin-top: 8px;
+}
+
+.fingeringDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.fingeringDot.closed {
+    background: #c0c0c0;
+    border-color: #a0a0a0;
+}
+
+/* Loading */
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    border-radius: 8px;
+    z-index: 100;
+}
+
+/* Animations */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateY(2px) translateX(0);
+    }
+
+    25% {
+        transform: translateY(2px) translateX(-2px);
+    }
+
+    75% {
+        transform: translateY(2px) translateX(2px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .fluteBody {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .headJoint,
+    .bodyJoint,
+    .footJoint {
+        width: 90%;
+        max-width: 280px;
+    }
+
+    .headJoint {
+        border-radius: 14px;
+    }
+
+    .footJoint {
+        border-radius: 14px;
+    }
+
+    .fingeringChart {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

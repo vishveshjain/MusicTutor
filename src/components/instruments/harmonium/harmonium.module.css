@@ -1,0 +1,486 @@
+/* Harmonium - Traditional Indian Style */
+
+.harmonium {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    user-select: none;
+}
+
+.harmoniumBody {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 20%, #CD853F 40%, #8B4513 60%, #654321 100%);
+    border-radius: 8px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+    padding: 16px;
+    border: 3px solid #654321;
+}
+
+/* Bellows - Blue cloth accordion style */
+.bellows {
+    width: 80px;
+    min-height: 180px;
+    background: linear-gradient(90deg,
+            #1a237e 0%,
+            #283593 10%,
+            #1a237e 20%,
+            #283593 30%,
+            #1a237e 40%,
+            #283593 50%,
+            #1a237e 60%,
+            #283593 70%,
+            #1a237e 80%,
+            #283593 90%,
+            #1a237e 100%);
+    background-size: 20px 100%;
+    border-radius: 4px 0 0 4px;
+    margin-right: 12px;
+    position: relative;
+    transition: width 0.15s ease-out;
+    box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.bellows::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(0, 0, 0, 0.3) 8px,
+            rgba(0, 0, 0, 0.3) 10px);
+    border-radius: 4px 0 0 4px;
+}
+
+/* Bellows expanded animation */
+.bellows.expanded {
+    width: 100px;
+}
+
+/* Main panel container */
+.mainPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Carved wooden cover */
+.carvedCover {
+    background: linear-gradient(180deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+    border-radius: 4px;
+    padding: 12px 20px;
+    position: relative;
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.carvedPattern {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.carvedElement {
+    width: 40px;
+    height: 24px;
+    background: linear-gradient(180deg, #654321 0%, #8B4513 50%, #654321 100%);
+    border-radius: 4px;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.5),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Keyboard area */
+.keyboardContainer {
+    background: linear-gradient(180deg, #654321 0%, #5D3A1A 100%);
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.keyboard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* White keys container */
+.whiteKeys {
+    display: flex;
+    position: relative;
+    z-index: 1;
+}
+
+/* Black keys container - positioned absolutely */
+.blackKeys {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.blackKeyWrapper {
+    width: 38px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.blackKeyWrapper.noKey {
+    visibility: hidden;
+}
+
+/* Key base styles */
+.key {
+    border: none;
+    cursor: pointer;
+    transition: all 0.08s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 6px;
+    font-family: inherit;
+}
+
+/* White keys - scalloped edge style */
+.whiteKey {
+    width: 36px;
+    height: 120px;
+    background: linear-gradient(180deg,
+            #ffffff 0%,
+            #f8f8f8 70%,
+            #e8e8e8 90%,
+            #d0d0d0 100%);
+    border-radius: 0 0 4px 4px;
+    margin: 0 1px;
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.1),
+        inset 1px 0 0 rgba(255, 255, 255, 0.8),
+        inset -1px 0 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Scalloped top edge */
+.whiteKey::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 6px;
+    background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%);
+    border-radius: 0 0 50% 50%;
+}
+
+.whiteKey:hover {
+    background: linear-gradient(180deg,
+            #ffffff 0%,
+            #f5f5f5 70%,
+            #e0e0e0 90%,
+            #c8c8c8 100%);
+}
+
+.whiteKey.pressed,
+.whiteKey:active {
+    background: linear-gradient(180deg,
+            #e8e8e8 0%,
+            #e0e0e0 70%,
+            #d0d0d0 90%,
+            #c0c0c0 100%);
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+
+/* Black keys */
+.blackKey {
+    width: 24px;
+    height: 70px;
+    background: linear-gradient(180deg,
+            #2a2a2a 0%,
+            #1a1a1a 60%,
+            #0a0a0a 100%);
+    border-radius: 0 0 3px 3px;
+    pointer-events: auto;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.5),
+        inset 0 -2px 4px rgba(255, 255, 255, 0.05),
+        inset 1px 0 0 rgba(255, 255, 255, 0.1),
+        inset -1px 0 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.blackKey:hover {
+    background: linear-gradient(180deg,
+            #3a3a3a 0%,
+            #2a2a2a 60%,
+            #1a1a1a 100%);
+}
+
+.blackKey.pressed,
+.blackKey:active {
+    background: linear-gradient(180deg,
+            #1a1a1a 0%,
+            #0a0a0a 60%,
+            #000000 100%);
+    box-shadow:
+        0 2px 3px rgba(0, 0, 0, 0.5),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(2px);
+    height: 68px;
+}
+
+/* Highlighted keys */
+.highlighted {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.whiteKey.highlighted {
+    background: linear-gradient(180deg,
+            #fff3cd 0%,
+            #ffc107 70%,
+            #e0a800 90%,
+            #c69500 100%);
+    box-shadow:
+        0 0 20px rgba(255, 193, 7, 0.6),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.blackKey.highlighted {
+    background: linear-gradient(180deg,
+            #ffc107 0%,
+            #e0a800 60%,
+            #c69500 100%);
+    box-shadow:
+        0 0 15px rgba(255, 193, 7, 0.6),
+        0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Correct state */
+.correct {
+    animation: none !important;
+}
+
+.whiteKey.correct {
+    background: linear-gradient(180deg,
+            #d4edda 0%,
+            #28a745 70%,
+            #1e7e34 90%,
+            #155724 100%);
+    box-shadow:
+        0 0 20px rgba(40, 167, 69, 0.6),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.blackKey.correct {
+    background: linear-gradient(180deg,
+            #28a745 0%,
+            #1e7e34 60%,
+            #155724 100%);
+    box-shadow:
+        0 0 15px rgba(40, 167, 69, 0.6),
+        0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Wrong state */
+.wrong {
+    animation: shake 0.3s ease-in-out !important;
+}
+
+.whiteKey.wrong {
+    background: linear-gradient(180deg,
+            #f8d7da 0%,
+            #dc3545 70%,
+            #c82333 90%,
+            #bd2130 100%);
+    box-shadow:
+        0 0 20px rgba(220, 53, 69, 0.6),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.blackKey.wrong {
+    background: linear-gradient(180deg,
+            #dc3545 0%,
+            #c82333 60%,
+            #bd2130 100%);
+    box-shadow:
+        0 0 15px rgba(220, 53, 69, 0.6),
+        0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Note labels */
+.noteLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #666;
+    pointer-events: none;
+}
+
+.whiteKey .noteLabel {
+    color: #555;
+}
+
+.blackKey .noteLabel {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 8px;
+}
+
+.indian {
+    color: #8B4513;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.blackKey .indian {
+    color: #ffc107;
+    font-size: 10px;
+}
+
+/* Stopper knobs panel */
+.stopperPanel {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 20px;
+    background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.stopper {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #f0f0f0 0%, #888 50%, #333 100%);
+    border: 2px solid #444;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.stopper:hover {
+    transform: scale(1.1);
+}
+
+.stopper.active {
+    background: radial-gradient(circle at 30% 30%, #222 0%, #111 50%, #000 100%);
+}
+
+/* Side handle */
+.handle {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 60px;
+    background: linear-gradient(90deg, #c0c0c0 0%, #a0a0a0 50%, #c0c0c0 100%);
+    border-radius: 4px;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Loading overlay */
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    border-radius: 8px;
+    z-index: 100;
+}
+
+/* Animations */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .harmonium {
+        padding: 12px;
+    }
+
+    .whiteKey {
+        width: 28px;
+        height: 100px;
+    }
+
+    .blackKey {
+        width: 20px;
+        height: 60px;
+    }
+
+    .blackKeyWrapper {
+        width: 30px;
+        height: 50px;
+    }
+
+    .bellows {
+        width: 60px;
+        min-height: 140px;
+    }
+
+    .bellows.expanded {
+        width: 80px;
+    }
+}

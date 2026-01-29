@@ -1,0 +1,166 @@
+.saxophone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    gap: var(--space-6);
+}
+
+.saxContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.loading {
+    position: absolute;
+    background: var(--bg-elevated);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    z-index: 10;
+}
+
+/* Mouthpiece */
+.mouthpiece {
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    border-radius: 10px 10px 5px 5px;
+    position: relative;
+}
+
+.reed {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 25px;
+    background: linear-gradient(180deg, #d4a574 0%, #8B4513 100%);
+    border-radius: 0 0 6px 6px;
+}
+
+/* Neck */
+.neck {
+    width: 24px;
+    height: 60px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    border-radius: 12px;
+    transform: rotate(-10deg);
+    margin-top: -5px;
+}
+
+/* Body */
+.body {
+    width: 50px;
+    min-height: 200px;
+    background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+    border-radius: 25px;
+    padding: var(--space-2);
+    box-shadow:
+        inset -5px 0 10px rgba(0, 0, 0, 0.2),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.keys {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.key {
+    width: 30px;
+    height: 16px;
+    background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
+    border: 1px solid #666;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.key:hover {
+    background: linear-gradient(135deg, #d4d4d4 0%, #a0a0a0 100%);
+}
+
+.key.pressed {
+    background: var(--color-primary);
+    transform: scale(0.95);
+}
+
+.key.highlighted {
+    background: var(--color-primary);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+    animation: pulse 1s infinite;
+}
+
+.keyLabel {
+    font-size: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Bell */
+.bell {
+    width: 80px;
+    height: 60px;
+    background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
+    border-radius: 0 0 40px 40px;
+    margin-top: -10px;
+    box-shadow:
+        inset 0 -10px 20px rgba(0, 0, 0, 0.2),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Note grid for easier playing */
+.noteGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-2);
+}
+
+.noteBtn {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.noteBtn:hover {
+    border-color: var(--color-primary);
+}
+
+.noteBtn.pressed {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: scale(0.95);
+}
+
+.noteBtn.highlighted {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
