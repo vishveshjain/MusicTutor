@@ -60,6 +60,43 @@ export const WESTERN_TO_INDIAN: Record<string, string> = {
     B: "Ni",
 };
 
+// Reverse mapping: Indian notation (shorthand) to Western notes
+// Supports both full names (Sa, Re) and shorthand (S, R) and with octave markers (S', .S)
+export const INDIAN_TO_WESTERN: Record<string, string> = {
+    // Shorthand notation (common in song sheets)
+    "S": "C4",
+    "R": "D4",
+    "G": "E4",
+    "M": "F4",
+    "P": "G4",
+    "D": "A4",
+    "N": "B4",
+    // Upper octave (taar saptak) - marked with '
+    "S'": "C5",
+    "R'": "D5",
+    "G'": "E5",
+    "M'": "F5",
+    "P'": "G5",
+    "D'": "A5",
+    "N'": "B5",
+    // Lower octave (mandra saptak) - marked with .
+    ".S": "C3",
+    ".R": "D3",
+    ".G": "E3",
+    ".M": "F3",
+    ".P": "G3",
+    ".D": "A3",
+    ".N": "B3",
+    // Full names
+    "Sa": "C4",
+    "Re": "D4",
+    "Ga": "E4",
+    "Ma": "F4",
+    "Pa": "G4",
+    "Dha": "A4",
+    "Ni": "B4",
+};
+
 // Indian swaras with their frequency ratios relative to Sa
 export const INDIAN_RATIOS: Record<string, number> = {
     Sa: 1, // 1:1

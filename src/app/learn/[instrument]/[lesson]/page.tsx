@@ -16,6 +16,7 @@ import { getSoundPlayer } from "@/lib/audio/sound-player";
 import { getLesson, type Lesson, type LessonStep } from "@/lib/lessons/lesson-content";
 import { completeLesson as saveProgress, addPracticeTime } from "@/lib/progress/progress-service";
 import { getSong } from "@/lib/songs/song-data";
+import { INDIAN_TO_WESTERN } from "@/lib/audio/note-frequencies";
 
 function LessonContent() {
     const params = useParams();
@@ -255,7 +256,11 @@ function LessonContent() {
             const expectedNote = step.sequence[sequenceIndex];
             setTotalAttempts(prev => prev + 1);
 
-            if (fullNote === expectedNote) {
+            // Convert expected note to Western for comparison (handles Indian notation)
+            const expectedWestern = INDIAN_TO_WESTERN[expectedNote] || expectedNote;
+            const isMatch = fullNote === expectedNote || fullNote === expectedWestern;
+
+            if (isMatch) {
                 // Correct note in sequence!
                 setCorrectCount(prev => prev + 1);
                 setKeyStates({ [fullNote]: { highlighted: false, pressed: false, correct: true, wrong: false } });
@@ -287,19 +292,39 @@ function LessonContent() {
         }
     }, [step, language, goToNext, sequenceIndex]);
 
+    // Helper to convert Indian notation to Western (for harmonium)
+    const convertToWestern = useCallback((note: string): string => {
+        // If already Western format (like C4, D#5), return as-is
+        if (/^[A-G]#?\d$/.test(note)) {
+            return note;
+        }
+        // Try to convert from Indian notation
+        return INDIAN_TO_WESTERN[note] || note;
+    }, []);
+
     // Get highlighted notes for current step
     const getHighlightedNotes = useCallback((): string[] => {
         if (!step) return [];
+
+        let notes: string[] = [];
+
         if (step.highlightKey) {
-            return [step.highlightKey];
-        }
-        if (step.sequence && step.sequence.length > 0) {
+            notes = [step.highlightKey];
+        } else if (step.sequence && step.sequence.length > 0) {
             // Only highlight the current note in the sequence
             const currentNote = step.sequence[sequenceIndex];
-            return currentNote ? [currentNote] : [];
+            notes = currentNote ? [currentNote] : [];
+        } else if (step.note) {
+            notes = [step.note];
         }
-        return [];
-    }, [step, sequenceIndex]);
+
+        // Convert Indian notation to Western for harmonium highlighting
+        if (instrument === "harmonium") {
+            return notes.map(convertToWestern);
+        }
+
+        return notes;
+    }, [step, sequenceIndex, instrument, convertToWestern]);
 
     // Convert note to guitar fret position (find first valid position)
     const GUITAR_TUNING = ["E4", "B3", "G3", "D3", "A2", "E2"];
