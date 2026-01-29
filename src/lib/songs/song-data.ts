@@ -1,4 +1,3 @@
-
 export interface SongNote {
     note: string;
     duration: number; // in seconds, or relative beat
@@ -8,42 +7,307 @@ export interface SongNote {
 export interface Song {
     id: string;
     title: string;
-    artist?: string; // or "Traditional"
+    titleHi?: string;
+    artist?: string;
     difficulty: "easy" | "medium" | "hard";
-    instrument: string; // "piano" | "harmonium" | "guitar" (or "all" if generic, but usually specific keys matter)
+    instrument: string;
     notes: SongNote[];
     description?: string;
+    descriptionHi?: string;
     tags: string[];
 }
 
 export const SONGS: Song[] = [
+    // ===== INDIAN PATRIOTIC SONGS =====
+    {
+        id: "jana-gana-mana",
+        title: "Jana Gana Mana",
+        titleHi: "जन गण मन",
+        artist: "Rabindranath Tagore",
+        difficulty: "medium",
+        instrument: "harmonium",
+        description: "The National Anthem of India",
+        descriptionHi: "भारत का राष्ट्रगान",
+        tags: ["patriotic", "anthem", "india"],
+        notes: [
+            // जन गण मन अधिनायक जय हे
+            { note: "S", duration: 0.5, lyric: "Ja" },
+            { note: "S", duration: 0.5, lyric: "na" },
+            { note: "R", duration: 0.5, lyric: "Ga" },
+            { note: "G", duration: 0.5, lyric: "na" },
+            { note: "M", duration: 1, lyric: "Ma" },
+            { note: "M", duration: 0.5, lyric: "na" },
+            { note: "G", duration: 0.5, lyric: "A" },
+            { note: "R", duration: 0.5, lyric: "dhi" },
+            { note: "G", duration: 0.5, lyric: "naa" },
+            { note: "M", duration: 1, lyric: "yak" },
+            { note: "P", duration: 0.5, lyric: "Ja" },
+            { note: "D", duration: 1, lyric: "ya" },
+            { note: "S'", duration: 1, lyric: "He" },
+            // भारत भाग्य विधाता
+            { note: "D", duration: 0.5, lyric: "Bhaa" },
+            { note: "P", duration: 0.5, lyric: "ra" },
+            { note: "M", duration: 1, lyric: "ta" },
+            { note: "G", duration: 0.5, lyric: "Bhaag" },
+            { note: "R", duration: 0.5, lyric: "ya" },
+            { note: "S", duration: 0.5, lyric: "Vi" },
+            { note: "R", duration: 0.5, lyric: "dhaa" },
+            { note: "G", duration: 1, lyric: "taa" },
+            // पंजाब सिंध गुजरात मराठा
+            { note: "M", duration: 0.5, lyric: "Pan" },
+            { note: "P", duration: 0.5, lyric: "jab" },
+            { note: "D", duration: 0.5, lyric: "Sindh" },
+            { note: "S'", duration: 0.5, lyric: "Gu" },
+            { note: "N", duration: 0.5, lyric: "ja" },
+            { note: "D", duration: 1, lyric: "rat" },
+            { note: "P", duration: 0.5, lyric: "Ma" },
+            { note: "M", duration: 0.5, lyric: "raa" },
+            { note: "G", duration: 1, lyric: "tha" },
+            // द्रविड़ उत्कल बंगा
+            { note: "R", duration: 0.5, lyric: "Draa" },
+            { note: "G", duration: 0.5, lyric: "vid" },
+            { note: "M", duration: 1, lyric: "Ut" },
+            { note: "P", duration: 0.5, lyric: "kal" },
+            { note: "D", duration: 1, lyric: "Ban" },
+            { note: "S'", duration: 1.5, lyric: "gaa" },
+            // विंध्य हिमाचल यमुना गंगा
+            { note: "D", duration: 0.5, lyric: "Vin" },
+            { note: "P", duration: 0.5, lyric: "dhya" },
+            { note: "M", duration: 0.5, lyric: "Hi" },
+            { note: "P", duration: 0.5, lyric: "maa" },
+            { note: "D", duration: 1, lyric: "chal" },
+            { note: "S'", duration: 0.5, lyric: "Ya" },
+            { note: "N", duration: 0.5, lyric: "mu" },
+            { note: "D", duration: 0.5, lyric: "naa" },
+            { note: "P", duration: 1, lyric: "Gan" },
+            { note: "D", duration: 1.5, lyric: "gaa" },
+            // उच्छल जलधि तरंग
+            { note: "M", duration: 0.5, lyric: "Uch" },
+            { note: "P", duration: 0.5, lyric: "chhal" },
+            { note: "D", duration: 0.5, lyric: "Ja" },
+            { note: "P", duration: 0.5, lyric: "la" },
+            { note: "M", duration: 1, lyric: "dhi" },
+            { note: "G", duration: 0.5, lyric: "Ta" },
+            { note: "R", duration: 0.5, lyric: "ran" },
+            { note: "S", duration: 1.5, lyric: "ga" },
+            // तव शुभ नामे जागे
+            { note: "R", duration: 0.5, lyric: "Ta" },
+            { note: "G", duration: 0.5, lyric: "va" },
+            { note: "M", duration: 0.5, lyric: "Shubh" },
+            { note: "P", duration: 0.5, lyric: "Naa" },
+            { note: "D", duration: 1, lyric: "me" },
+            { note: "P", duration: 0.5, lyric: "Jaa" },
+            { note: "M", duration: 1.5, lyric: "ge" },
+            // तव शुभ आशिष मांगे
+            { note: "G", duration: 0.5, lyric: "Ta" },
+            { note: "M", duration: 0.5, lyric: "va" },
+            { note: "P", duration: 0.5, lyric: "Shubh" },
+            { note: "D", duration: 0.5, lyric: "Aa" },
+            { note: "S'", duration: 1, lyric: "shish" },
+            { note: "N", duration: 0.5, lyric: "Maan" },
+            { note: "D", duration: 1.5, lyric: "ge" },
+            // गाहे तव जय गाथा
+            { note: "P", duration: 0.5, lyric: "Gaa" },
+            { note: "D", duration: 0.5, lyric: "he" },
+            { note: "S'", duration: 0.5, lyric: "Ta" },
+            { note: "N", duration: 0.5, lyric: "va" },
+            { note: "D", duration: 1, lyric: "Ja" },
+            { note: "P", duration: 0.5, lyric: "ya" },
+            { note: "M", duration: 0.5, lyric: "Gaa" },
+            { note: "G", duration: 1.5, lyric: "thaa" },
+            // जन गण मंगल दायक जय हे
+            { note: "R", duration: 0.5, lyric: "Ja" },
+            { note: "G", duration: 0.5, lyric: "na" },
+            { note: "M", duration: 0.5, lyric: "Ga" },
+            { note: "P", duration: 0.5, lyric: "na" },
+            { note: "D", duration: 1, lyric: "Man" },
+            { note: "S'", duration: 0.5, lyric: "gal" },
+            { note: "N", duration: 0.5, lyric: "Daa" },
+            { note: "D", duration: 0.5, lyric: "ya" },
+            { note: "P", duration: 1, lyric: "ka" },
+            { note: "M", duration: 0.5, lyric: "Ja" },
+            { note: "G", duration: 0.5, lyric: "ya" },
+            { note: "R", duration: 1.5, lyric: "He" },
+            // भारत भाग्य विधाता
+            { note: "G", duration: 0.5, lyric: "Bhaa" },
+            { note: "M", duration: 0.5, lyric: "rat" },
+            { note: "P", duration: 1, lyric: "Bhaag" },
+            { note: "D", duration: 0.5, lyric: "ya" },
+            { note: "S'", duration: 1, lyric: "Vi" },
+            { note: "N", duration: 0.5, lyric: "dhaa" },
+            { note: "D", duration: 1.5, lyric: "taa" },
+            // जय हे जय हे जय हे
+            { note: "P", duration: 1, lyric: "Ja" },
+            { note: "M", duration: 1, lyric: "ya" },
+            { note: "G", duration: 1, lyric: "He" },
+            { note: "R", duration: 1, lyric: "Ja" },
+            { note: "G", duration: 1, lyric: "ya" },
+            { note: "M", duration: 1, lyric: "He" },
+            { note: "P", duration: 1, lyric: "Ja" },
+            { note: "D", duration: 1, lyric: "ya" },
+            { note: "S'", duration: 2, lyric: "He" },
+            // जय जय जय जय हे
+            { note: "D", duration: 0.5, lyric: "Ja" },
+            { note: "P", duration: 0.5, lyric: "ya" },
+            { note: "M", duration: 0.5, lyric: "Ja" },
+            { note: "G", duration: 0.5, lyric: "ya" },
+            { note: "R", duration: 0.5, lyric: "Ja" },
+            { note: "G", duration: 0.5, lyric: "ya" },
+            { note: "M", duration: 0.5, lyric: "Ja" },
+            { note: "P", duration: 0.5, lyric: "ya" },
+            { note: "S", duration: 2, lyric: "He" }
+        ]
+    },
+    {
+        id: "vande-mataram",
+        title: "Vande Mataram",
+        titleHi: "वंदे मातरम्",
+        artist: "Bankim Chandra Chattopadhyay",
+        difficulty: "medium",
+        instrument: "harmonium",
+        description: "National Song of India - Salute to the Motherland",
+        descriptionHi: "भारत का राष्ट्रीय गीत - मातृभूमि को नमन",
+        tags: ["patriotic", "national song", "india"],
+        notes: [
+            // वंदे मातरम्
+            { note: "S", duration: 1, lyric: "Van" },
+            { note: "R", duration: 0.5, lyric: "de" },
+            { note: "G", duration: 1.5, lyric: "Maa" },
+            { note: "M", duration: 0.5, lyric: "ta" },
+            { note: "P", duration: 1.5, lyric: "ram" },
+            // सुजलाम् सुफलाम्
+            { note: "D", duration: 0.5, lyric: "Su" },
+            { note: "P", duration: 0.5, lyric: "ja" },
+            { note: "M", duration: 1, lyric: "laam" },
+            { note: "G", duration: 0.5, lyric: "Su" },
+            { note: "M", duration: 0.5, lyric: "pha" },
+            { note: "P", duration: 1.5, lyric: "laam" },
+            // मलयज शीतलाम्
+            { note: "D", duration: 0.5, lyric: "Ma" },
+            { note: "P", duration: 0.5, lyric: "la" },
+            { note: "M", duration: 0.5, lyric: "ya" },
+            { note: "G", duration: 0.5, lyric: "ja" },
+            { note: "R", duration: 0.5, lyric: "Shee" },
+            { note: "G", duration: 0.5, lyric: "ta" },
+            { note: "M", duration: 1.5, lyric: "laam" },
+            // शस्य श्यामलाम्
+            { note: "P", duration: 0.5, lyric: "Sha" },
+            { note: "D", duration: 0.5, lyric: "sya" },
+            { note: "S'", duration: 1, lyric: "Shyaa" },
+            { note: "N", duration: 0.5, lyric: "ma" },
+            { note: "D", duration: 1.5, lyric: "laam" },
+            // मातरम्
+            { note: "P", duration: 0.5, lyric: "Maa" },
+            { note: "M", duration: 0.5, lyric: "ta" },
+            { note: "G", duration: 1.5, lyric: "ram" },
+            // वंदे मातरम्
+            { note: "R", duration: 0.5, lyric: "Van" },
+            { note: "G", duration: 0.5, lyric: "de" },
+            { note: "M", duration: 1, lyric: "Maa" },
+            { note: "P", duration: 0.5, lyric: "ta" },
+            { note: "D", duration: 1.5, lyric: "ram" }
+        ]
+    },
+    {
+        id: "saare-jahan-se-achha",
+        title: "Sare Jahan Se Achha",
+        titleHi: "सारे जहाँ से अच्छा",
+        artist: "Muhammad Iqbal",
+        difficulty: "easy",
+        instrument: "harmonium",
+        description: "Patriotic song celebrating India's beauty",
+        descriptionHi: "भारत की सुंदरता का गुणगान करने वाला देशभक्ति गीत",
+        tags: ["patriotic", "classic", "india"],
+        notes: [
+            // सारे जहाँ से अच्छा
+            { note: "S", duration: 0.5, lyric: "Saa" },
+            { note: "R", duration: 0.5, lyric: "re" },
+            { note: "G", duration: 0.5, lyric: "Ja" },
+            { note: "M", duration: 0.5, lyric: "haan" },
+            { note: "P", duration: 0.5, lyric: "Se" },
+            { note: "D", duration: 0.5, lyric: "Ach" },
+            { note: "S'", duration: 1, lyric: "cha" },
+            // हिंदोस्तां हमारा
+            { note: "N", duration: 0.5, lyric: "Hin" },
+            { note: "D", duration: 0.5, lyric: "dos" },
+            { note: "P", duration: 0.5, lyric: "taan" },
+            { note: "M", duration: 1, lyric: "Ha" },
+            { note: "G", duration: 0.5, lyric: "maa" },
+            { note: "R", duration: 1, lyric: "raa" },
+            // हम बुलबुलें हैं इसकी
+            { note: "S", duration: 0.5, lyric: "Hum" },
+            { note: "R", duration: 0.5, lyric: "Bul" },
+            { note: "G", duration: 0.5, lyric: "bu" },
+            { note: "M", duration: 0.5, lyric: "lein" },
+            { note: "P", duration: 0.5, lyric: "Hain" },
+            { note: "D", duration: 0.5, lyric: "Is" },
+            { note: "S'", duration: 1, lyric: "ki" },
+            // यह गुलिस्तां हमारा
+            { note: "N", duration: 0.5, lyric: "Yeh" },
+            { note: "D", duration: 0.5, lyric: "Gu" },
+            { note: "P", duration: 0.5, lyric: "lis" },
+            { note: "M", duration: 1, lyric: "taan" },
+            { note: "G", duration: 0.5, lyric: "Ha" },
+            { note: "R", duration: 0.5, lyric: "maa" },
+            { note: "S", duration: 1.5, lyric: "raa" }
+        ]
+    },
+
+    // ===== CLASSIC & KIDS SONGS (COMPLETE VERSIONS) =====
     {
         id: "happy-birthday",
         title: "Happy Birthday",
+        titleHi: "जन्मदिन मुबारक",
         artist: "Traditional",
         difficulty: "easy",
         instrument: "piano",
         description: "The classic birthday song that everyone should know!",
-        tags: ["classic", "celebration"],
+        descriptionHi: "क्लासिक जन्मदिन गाना जो हर किसी को आना चाहिए!",
+        tags: ["classic", "celebration", "kids"],
         notes: [
-            { note: "C4", duration: 0.5, lyric: "Hap" },
-            { note: "C4", duration: 0.5, lyric: "py" },
-            { note: "D4", duration: 1, lyric: "Birth" },
+            // Happy birthday to you
+            { note: "C4", duration: 0.75, lyric: "Hap" },
+            { note: "C4", duration: 0.25, lyric: "py" },
+            { note: "D4", duration: 1, lyric: "birth" },
             { note: "C4", duration: 1, lyric: "day" },
             { note: "F4", duration: 1, lyric: "to" },
             { note: "E4", duration: 2, lyric: "you" },
-            // ... more notes would go here
+            // Happy birthday to you
+            { note: "C4", duration: 0.75, lyric: "Hap" },
+            { note: "C4", duration: 0.25, lyric: "py" },
+            { note: "D4", duration: 1, lyric: "birth" },
+            { note: "C4", duration: 1, lyric: "day" },
+            { note: "G4", duration: 1, lyric: "to" },
+            { note: "F4", duration: 2, lyric: "you" },
+            // Happy birthday dear [name]
+            { note: "C4", duration: 0.75, lyric: "Hap" },
+            { note: "C4", duration: 0.25, lyric: "py" },
+            { note: "C5", duration: 1, lyric: "birth" },
+            { note: "A4", duration: 1, lyric: "day" },
+            { note: "F4", duration: 1, lyric: "dear" },
+            { note: "E4", duration: 1, lyric: "friend" },
+            { note: "D4", duration: 1, lyric: "" },
+            // Happy birthday to you
+            { note: "A#4", duration: 0.75, lyric: "Hap" },
+            { note: "A#4", duration: 0.25, lyric: "py" },
+            { note: "A4", duration: 1, lyric: "birth" },
+            { note: "F4", duration: 1, lyric: "day" },
+            { note: "G4", duration: 1, lyric: "to" },
+            { note: "F4", duration: 2, lyric: "you" }
         ]
     },
     {
         id: "twinkle-twinkle",
         title: "Twinkle Twinkle Little Star",
+        titleHi: "ट्विंकल ट्विंकल लिटिल स्टार",
         artist: "Traditional",
         difficulty: "easy",
         instrument: "piano",
         description: "A perfect first song for beginners.",
-        tags: ["nursery", "kids"],
+        descriptionHi: "शुरुआत के लिए सबसे अच्छा गाना।",
+        tags: ["nursery", "kids", "beginner"],
         notes: [
+            // Twinkle twinkle little star
             { note: "C4", duration: 1, lyric: "Twin" },
             { note: "C4", duration: 1, lyric: "kle" },
             { note: "G4", duration: 1, lyric: "twin" },
@@ -51,6 +315,169 @@ export const SONGS: Song[] = [
             { note: "A4", duration: 1, lyric: "lit" },
             { note: "A4", duration: 1, lyric: "tle" },
             { note: "G4", duration: 2, lyric: "star" },
+            // How I wonder what you are
+            { note: "F4", duration: 1, lyric: "How" },
+            { note: "F4", duration: 1, lyric: "I" },
+            { note: "E4", duration: 1, lyric: "won" },
+            { note: "E4", duration: 1, lyric: "der" },
+            { note: "D4", duration: 1, lyric: "what" },
+            { note: "D4", duration: 1, lyric: "you" },
+            { note: "C4", duration: 2, lyric: "are" },
+            // Up above the world so high
+            { note: "G4", duration: 1, lyric: "Up" },
+            { note: "G4", duration: 1, lyric: "a" },
+            { note: "F4", duration: 1, lyric: "bove" },
+            { note: "F4", duration: 1, lyric: "the" },
+            { note: "E4", duration: 1, lyric: "world" },
+            { note: "E4", duration: 1, lyric: "so" },
+            { note: "D4", duration: 2, lyric: "high" },
+            // Like a diamond in the sky
+            { note: "G4", duration: 1, lyric: "Like" },
+            { note: "G4", duration: 1, lyric: "a" },
+            { note: "F4", duration: 1, lyric: "dia" },
+            { note: "F4", duration: 1, lyric: "mond" },
+            { note: "E4", duration: 1, lyric: "in" },
+            { note: "E4", duration: 1, lyric: "the" },
+            { note: "D4", duration: 2, lyric: "sky" },
+            // Twinkle twinkle little star (repeat)
+            { note: "C4", duration: 1, lyric: "Twin" },
+            { note: "C4", duration: 1, lyric: "kle" },
+            { note: "G4", duration: 1, lyric: "twin" },
+            { note: "G4", duration: 1, lyric: "kle" },
+            { note: "A4", duration: 1, lyric: "lit" },
+            { note: "A4", duration: 1, lyric: "tle" },
+            { note: "G4", duration: 2, lyric: "star" },
+            // How I wonder what you are
+            { note: "F4", duration: 1, lyric: "How" },
+            { note: "F4", duration: 1, lyric: "I" },
+            { note: "E4", duration: 1, lyric: "won" },
+            { note: "E4", duration: 1, lyric: "der" },
+            { note: "D4", duration: 1, lyric: "what" },
+            { note: "D4", duration: 1, lyric: "you" },
+            { note: "C4", duration: 2, lyric: "are" }
+        ]
+    },
+    {
+        id: "mary-had-a-little-lamb",
+        title: "Mary Had a Little Lamb",
+        titleHi: "मेरी का छोटा मेमना",
+        artist: "Traditional",
+        difficulty: "easy",
+        instrument: "piano",
+        description: "Classic nursery rhyme - great for beginners",
+        descriptionHi: "क्लासिक नर्सरी राइम - शुरुआत के लिए बढ़िया",
+        tags: ["nursery", "kids", "beginner"],
+        notes: [
+            // Mary had a little lamb
+            { note: "E4", duration: 1, lyric: "Ma" },
+            { note: "D4", duration: 1, lyric: "ry" },
+            { note: "C4", duration: 1, lyric: "had" },
+            { note: "D4", duration: 1, lyric: "a" },
+            { note: "E4", duration: 1, lyric: "lit" },
+            { note: "E4", duration: 1, lyric: "tle" },
+            { note: "E4", duration: 2, lyric: "lamb" },
+            // Little lamb, little lamb
+            { note: "D4", duration: 1, lyric: "Lit" },
+            { note: "D4", duration: 1, lyric: "tle" },
+            { note: "D4", duration: 2, lyric: "lamb" },
+            { note: "E4", duration: 1, lyric: "Lit" },
+            { note: "G4", duration: 1, lyric: "tle" },
+            { note: "G4", duration: 2, lyric: "lamb" },
+            // Mary had a little lamb
+            { note: "E4", duration: 1, lyric: "Ma" },
+            { note: "D4", duration: 1, lyric: "ry" },
+            { note: "C4", duration: 1, lyric: "had" },
+            { note: "D4", duration: 1, lyric: "a" },
+            { note: "E4", duration: 1, lyric: "lit" },
+            { note: "E4", duration: 1, lyric: "tle" },
+            { note: "E4", duration: 1, lyric: "lamb" },
+            { note: "E4", duration: 1, lyric: "" },
+            // Its fleece was white as snow
+            { note: "D4", duration: 1, lyric: "Its" },
+            { note: "D4", duration: 1, lyric: "fleece" },
+            { note: "E4", duration: 1, lyric: "was" },
+            { note: "D4", duration: 1, lyric: "white" },
+            { note: "C4", duration: 2, lyric: "as" },
+            { note: "C4", duration: 2, lyric: "snow" }
+        ]
+    },
+
+    // ===== BOLLYWOOD SONGS =====
+    {
+        id: "kal-ho-na-ho",
+        title: "Kal Ho Na Ho",
+        titleHi: "कल हो ना हो",
+        artist: "Shankar-Ehsaan-Loy",
+        difficulty: "medium",
+        instrument: "piano",
+        description: "Iconic Bollywood song from the movie Kal Ho Na Ho",
+        descriptionHi: "कल हो ना हो फिल्म का प्रतिष्ठित गाना",
+        tags: ["bollywood", "romantic", "hindi"],
+        notes: [
+            // Kal ho na ho
+            { note: "G4", duration: 1, lyric: "Kal" },
+            { note: "A4", duration: 0.5, lyric: "ho" },
+            { note: "B4", duration: 0.5, lyric: "naa" },
+            { note: "C5", duration: 1.5, lyric: "ho" },
+            // Har pal yahan
+            { note: "B4", duration: 0.5, lyric: "Har" },
+            { note: "A4", duration: 0.5, lyric: "pal" },
+            { note: "G4", duration: 0.5, lyric: "ya" },
+            { note: "A4", duration: 1.5, lyric: "haan" },
+            // Jee bhar jiyo
+            { note: "G4", duration: 0.5, lyric: "Jee" },
+            { note: "F#4", duration: 0.5, lyric: "bhar" },
+            { note: "E4", duration: 0.5, lyric: "ji" },
+            { note: "D4", duration: 1.5, lyric: "yo" },
+            // Jo hai sama
+            { note: "E4", duration: 0.5, lyric: "Jo" },
+            { note: "F#4", duration: 0.5, lyric: "hai" },
+            { note: "G4", duration: 0.5, lyric: "sa" },
+            { note: "A4", duration: 1.5, lyric: "maa" },
+            // Kal ho na ho
+            { note: "G4", duration: 1, lyric: "Kal" },
+            { note: "A4", duration: 0.5, lyric: "ho" },
+            { note: "B4", duration: 0.5, lyric: "naa" },
+            { note: "C5", duration: 2, lyric: "ho" }
+        ]
+    },
+    {
+        id: "tum-hi-ho",
+        title: "Tum Hi Ho",
+        titleHi: "तुम ही हो",
+        artist: "Mithoon / Arijit Singh",
+        difficulty: "medium",
+        instrument: "piano",
+        description: "Romantic ballad from the movie Aashiqui 2",
+        descriptionHi: "आशिकी 2 फिल्म का रोमांटिक गाना",
+        tags: ["bollywood", "romantic", "hindi"],
+        notes: [
+            // Hum tere bin
+            { note: "E4", duration: 0.5, lyric: "Hum" },
+            { note: "F#4", duration: 0.5, lyric: "te" },
+            { note: "G4", duration: 0.5, lyric: "re" },
+            { note: "A4", duration: 1.5, lyric: "bin" },
+            // Ab reh nahi sakte
+            { note: "G4", duration: 0.5, lyric: "Ab" },
+            { note: "F#4", duration: 0.5, lyric: "reh" },
+            { note: "E4", duration: 0.5, lyric: "na" },
+            { note: "D4", duration: 0.5, lyric: "hi" },
+            { note: "E4", duration: 1, lyric: "sak" },
+            { note: "F#4", duration: 1, lyric: "te" },
+            // Tere bina kya wajood mera
+            { note: "G4", duration: 0.5, lyric: "Te" },
+            { note: "A4", duration: 0.5, lyric: "re" },
+            { note: "B4", duration: 0.5, lyric: "bi" },
+            { note: "C5", duration: 1, lyric: "na" },
+            { note: "B4", duration: 0.5, lyric: "Kya" },
+            { note: "A4", duration: 0.5, lyric: "wa" },
+            { note: "G4", duration: 0.5, lyric: "jood" },
+            { note: "A4", duration: 1, lyric: "me" },
+            { note: "G4", duration: 1, lyric: "ra" },
+            // Tum hi ho
+            { note: "E4", duration: 1, lyric: "Tum" },
+            { note: "F#4", duration: 0.5, lyric: "hi" },
+            { note: "G4", duration: 2, lyric: "ho" }
         ]
     }
 ];
@@ -61,4 +488,12 @@ export function getSong(id: string): Song | undefined {
 
 export function getAllSongs(): Song[] {
     return SONGS;
+}
+
+export function getSongsByDifficulty(difficulty: "easy" | "medium" | "hard"): Song[] {
+    return SONGS.filter(s => s.difficulty === difficulty);
+}
+
+export function getSongsByTag(tag: string): Song[] {
+    return SONGS.filter(s => s.tags.includes(tag));
 }
