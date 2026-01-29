@@ -177,16 +177,16 @@ export const SONGS: Song[] = [
             { note: "P", duration: 0.5, lyric: "ya" },
             { note: "D", duration: 1, lyric: "He" },
 
-            // जय जय जय जय हे (SS RR GG RG M)
+            // जय जय जय जय हे (SS RR GG RG M) - using middle octave for harmonium
             { note: "S'", duration: 0.5, lyric: "Ja" },
             { note: "S'", duration: 0.5, lyric: "ya" },
-            { note: "R'", duration: 0.5, lyric: "Ja" },
-            { note: "R'", duration: 0.5, lyric: "ya" },
-            { note: "G'", duration: 0.5, lyric: "Ja" },
-            { note: "G'", duration: 0.5, lyric: "ya" },
-            { note: "R'", duration: 0.3, lyric: "Ja" },
-            { note: "G'", duration: 0.3, lyric: "ya" },
-            { note: "M'", duration: 1.5, lyric: "He" }
+            { note: "N", duration: 0.5, lyric: "Ja" },
+            { note: "N", duration: 0.5, lyric: "ya" },
+            { note: "D", duration: 0.5, lyric: "Ja" },
+            { note: "D", duration: 0.5, lyric: "ya" },
+            { note: "P", duration: 0.3, lyric: "Ja" },
+            { note: "M", duration: 0.3, lyric: "ya" },
+            { note: "G", duration: 1.5, lyric: "He" }
         ]
     },
     {
@@ -271,7 +271,7 @@ export const SONGS: Song[] = [
             { note: "N", duration: 0.3, lyric: "mi" },
             { note: "S'", duration: 0.5, lyric: "ta" },
             { note: "S'", duration: 0.3, lyric: "dru" },
-            { note: "R'", duration: 0.3, lyric: "ma" },
+            { note: "N", duration: 0.3, lyric: "ma" },
             { note: "S'", duration: 0.3, lyric: "dal" },
             { note: "N", duration: 0.5, lyric: "sho" },
             { note: "N", duration: 0.3, lyric: "bhi" },
