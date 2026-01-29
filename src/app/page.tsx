@@ -77,6 +77,9 @@ export default function HomePage() {
         <Link href="/onboarding" className="btn btn-primary btn-lg">
           Start Learning →
         </Link>
+        <Link href="/songs" className="btn btn-secondary btn-lg" style={{ marginLeft: '1rem' }}>
+          Browse Songs 🎵
+        </Link>
       </section>
 
       <section className="instruments">

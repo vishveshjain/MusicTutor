@@ -15,6 +15,7 @@ import { Saxophone } from "@/components/instruments/saxophone";
 import { getSoundPlayer } from "@/lib/audio/sound-player";
 import { getLesson, type Lesson, type LessonStep } from "@/lib/lessons/lesson-content";
 import { completeLesson as saveProgress, addPracticeTime } from "@/lib/progress/progress-service";
+import { getSong } from "@/lib/songs/song-data";
 
 function LessonContent() {
     const params = useParams();
@@ -35,7 +36,45 @@ function LessonContent() {
     const lessonStartTime = useRef<number>(Date.now());
 
     // Get lesson based on instrument and level
-    const lesson = useMemo(() => getLesson(instrument, level, lessonId), [instrument, level, lessonId]);
+    const lesson = useMemo(() => {
+        if (lessonId.startsWith("song-")) {
+            const songId = lessonId.replace("song-", "");
+            const song = getSong(songId);
+            if (song) {
+                return {
+                    id: lessonId,
+                    titleEn: song.title,
+                    titleHi: song.title,
+                    steps: [
+                        {
+                            type: "intro", // Using intro/demo type
+                            titleEn: "Get Ready",
+                            titleHi: "तैयार हो जाएं",
+                            contentEn: `Let's learn ${song.title}! Get your ${instrument} ready.`,
+                            contentHi: `${song.title} सीखने के लिए तैयार हो जाएं!`,
+                            note: song.notes[0].note // Just for reference
+                        },
+                        {
+                            type: "sequence",
+                            titleEn: "Play the Melody",
+                            titleHi: "धुन बजाएं",
+                            sequence: song.notes.map(n => n.note),
+                            contentEn: "Follow the notes to play the song.",
+                            contentHi: "सुरों का पालन करें।"
+                        },
+                        {
+                            type: "complete",
+                            titleEn: "Song Completed! 🎵",
+                            titleHi: "गाना पूरा हुआ! 🎵",
+                            contentEn: "You've played the whole song!",
+                            contentHi: "आपने पूरा गाना बजा लिया!"
+                        }
+                    ]
+                } as unknown as Lesson;
+            }
+        }
+        return getLesson(instrument, level, lessonId);
+    }, [instrument, level, lessonId]);
 
     // Safely get current step with bounds checking
     const step = lesson.steps[Math.min(currentStep, lesson.steps.length - 1)];
