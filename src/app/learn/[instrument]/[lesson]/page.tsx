@@ -41,35 +41,126 @@ function LessonContent() {
             const songId = lessonId.replace("song-", "");
             const song = getSong(songId);
             if (song) {
+                // Break song into learnable chunks (4-8 notes per chunk)
+                const CHUNK_SIZE = 6;
+                const chunks: Array<{ notes: typeof song.notes; startIdx: number }> = [];
+
+                for (let i = 0; i < song.notes.length; i += CHUNK_SIZE) {
+                    chunks.push({
+                        notes: song.notes.slice(i, i + CHUNK_SIZE),
+                        startIdx: i
+                    });
+                }
+
+                // Build progressive lesson steps
+                const steps: Array<{
+                    type: string;
+                    titleEn: string;
+                    titleHi: string;
+                    contentEn: string;
+                    contentHi: string;
+                    note?: string;
+                    sequence?: string[];
+                }> = [];
+
+                // Step 1: Introduction
+                steps.push({
+                    type: "demo",
+                    titleEn: `Learn: ${song.title}`,
+                    titleHi: `सीखें: ${song.titleHi || song.title}`,
+                    contentEn: `Welcome! We'll learn "${song.title}" step by step. This song has ${song.notes.length} notes divided into ${chunks.length} phrases. Let's start!`,
+                    contentHi: `स्वागत है! हम "${song.titleHi || song.title}" धीरे-धीरे सीखेंगे। इस गाने में ${song.notes.length} सुर हैं।`,
+                    note: song.notes[0].note
+                });
+
+                // For each chunk, create teaching steps
+                chunks.forEach((chunk, chunkIndex) => {
+                    const phraseNum = chunkIndex + 1;
+                    const lyrics = chunk.notes.map(n => n.lyric).filter(Boolean).join(" ");
+                    const noteNames = chunk.notes.map(n => n.note).join(" → ");
+
+                    // Demo step - show the phrase
+                    steps.push({
+                        type: "demo",
+                        titleEn: `Phrase ${phraseNum}: Listen & Watch`,
+                        titleHi: `भाग ${phraseNum}: सुनें और देखें`,
+                        contentEn: lyrics
+                            ? `📝 Lyrics: "${lyrics}"\n🎹 Notes: ${noteNames}\n\nWatch the highlighted keys and listen to the melody.`
+                            : `🎹 Notes: ${noteNames}\n\nWatch the highlighted keys and listen to the melody.`,
+                        contentHi: `इस भाग को ध्यान से सुनें और देखें।`,
+                        note: chunk.notes[0].note
+                    });
+
+                    // Practice step - play along one note at a time
+                    steps.push({
+                        type: "practice",
+                        titleEn: `Phrase ${phraseNum}: Practice Each Note`,
+                        titleHi: `भाग ${phraseNum}: एक-एक सुर बजाएं`,
+                        contentEn: `Now play each note one at a time. The highlighted key shows what to play next.\n\n${lyrics ? `Lyrics: "${lyrics}"` : ""}`,
+                        contentHi: `अब एक-एक करके सुर बजाएं।`,
+                        note: chunk.notes[0].note
+                    });
+
+                    // Sequence step - play the full phrase
+                    steps.push({
+                        type: "sequence",
+                        titleEn: `Phrase ${phraseNum}: Play the Sequence`,
+                        titleHi: `भाग ${phraseNum}: पूरा भाग बजाएं`,
+                        contentEn: `Play all ${chunk.notes.length} notes in order!\n\n${lyrics ? `🎤 "${lyrics}"` : ""}`,
+                        contentHi: `अब पूरा भाग क्रम से बजाएं!`,
+                        sequence: chunk.notes.map(n => n.note)
+                    });
+                });
+
+                // Review step - play larger sections
+                if (chunks.length > 2) {
+                    // First half review
+                    const firstHalfNotes = song.notes.slice(0, Math.floor(song.notes.length / 2));
+                    steps.push({
+                        type: "sequence",
+                        titleEn: "Review: First Half",
+                        titleHi: "दोहराएं: पहला भाग",
+                        contentEn: `Let's play the first half of the song (${firstHalfNotes.length} notes). You've got this!`,
+                        contentHi: `गाने का पहला भाग बजाएं!`,
+                        sequence: firstHalfNotes.map(n => n.note)
+                    });
+
+                    // Second half review
+                    const secondHalfNotes = song.notes.slice(Math.floor(song.notes.length / 2));
+                    steps.push({
+                        type: "sequence",
+                        titleEn: "Review: Second Half",
+                        titleHi: "दोहराएं: दूसरा भाग",
+                        contentEn: `Now the second half (${secondHalfNotes.length} notes). Keep going!`,
+                        contentHi: `अब दूसरा भाग बजाएं!`,
+                        sequence: secondHalfNotes.map(n => n.note)
+                    });
+                }
+
+                // Full song step
+                steps.push({
+                    type: "sequence",
+                    titleEn: "🎵 Full Song Performance!",
+                    titleHi: "🎵 पूरा गाना बजाएं!",
+                    contentEn: `Amazing! Now let's play the ENTIRE song - all ${song.notes.length} notes! Take your time.`,
+                    contentHi: `शानदार! अब पूरा गाना बजाएं - सभी ${song.notes.length} सुर!`,
+                    sequence: song.notes.map(n => n.note)
+                });
+
+                // Completion step
+                steps.push({
+                    type: "complete",
+                    titleEn: `🎉 You Learned "${song.title}"!`,
+                    titleHi: `🎉 आपने "${song.titleHi || song.title}" सीख लिया!`,
+                    contentEn: `Congratulations! You've mastered this song. Keep practicing to play it faster and smoother!`,
+                    contentHi: `बधाई हो! आपने यह गाना सीख लिया है!`
+                });
+
                 return {
                     id: lessonId,
                     titleEn: song.title,
-                    titleHi: song.title,
-                    steps: [
-                        {
-                            type: "intro", // Using intro/demo type
-                            titleEn: "Get Ready",
-                            titleHi: "तैयार हो जाएं",
-                            contentEn: `Let's learn ${song.title}! Get your ${instrument} ready.`,
-                            contentHi: `${song.title} सीखने के लिए तैयार हो जाएं!`,
-                            note: song.notes[0].note // Just for reference
-                        },
-                        {
-                            type: "sequence",
-                            titleEn: "Play the Melody",
-                            titleHi: "धुन बजाएं",
-                            sequence: song.notes.map(n => n.note),
-                            contentEn: "Follow the notes to play the song.",
-                            contentHi: "सुरों का पालन करें।"
-                        },
-                        {
-                            type: "complete",
-                            titleEn: "Song Completed! 🎵",
-                            titleHi: "गाना पूरा हुआ! 🎵",
-                            contentEn: "You've played the whole song!",
-                            contentHi: "आपने पूरा गाना बजा लिया!"
-                        }
-                    ]
+                    titleHi: song.titleHi || song.title,
+                    steps
                 } as unknown as Lesson;
             }
         }
