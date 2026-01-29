@@ -218,7 +218,7 @@ export const SONGS: Song[] = [
 
             // मलयज शीतलाम् [SARENi_–DhaPa-] [PaDhaMa–GaRe-]
             { note: "S'", duration: 0.5, lyric: "Ma" },
-            { note: "R'", duration: 0.5, lyric: "la" },
+            { note: "R", duration: 0.5, lyric: "la" },
             { note: "N", duration: 0.5, lyric: "ya" },
             { note: "D", duration: 0.5, lyric: "ja" },
             { note: "P", duration: 0.5, lyric: "Shee" },
