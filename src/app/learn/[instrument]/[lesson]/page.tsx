@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Harmonium, type KeyState } from "@/components/instruments/harmonium";
@@ -16,7 +16,7 @@ import { getSoundPlayer } from "@/lib/audio/sound-player";
 import { getLesson, type Lesson, type LessonStep } from "@/lib/lessons/lesson-content";
 import { completeLesson as saveProgress, addPracticeTime } from "@/lib/progress/progress-service";
 
-export default function LessonPage() {
+function LessonContent() {
     const params = useParams();
     const searchParams = useSearchParams();
 
@@ -773,5 +773,13 @@ export default function LessonPage() {
         }
       `}</style>
         </main>
+    );
+}
+
+export default function LessonPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#0F0A1A]">Loading...</div>}>
+            <LessonContent />
+        </Suspense>
     );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getCurrentLesson } from "@/lib/progress/progress-service";
@@ -16,7 +16,7 @@ interface OnboardingState {
   name: string;
 }
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const preselectedInstrument = searchParams.get("instrument") as Instrument | null;
@@ -586,5 +586,13 @@ export default function OnboardingPage() {
         }
       `}</style>
     </main>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#0F0A1A]">Loading...</div>}>
+      <OnboardingContent />
+    </Suspense>
   );
 }
