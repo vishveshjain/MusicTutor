@@ -49,9 +49,7 @@ const NOTE_FREQUENCIES: Record<string, number> = {
 
 class SoundPlayerService {
     private audioContext: AudioContext | null = null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private loadedInstruments: Map<string, any> = new Map();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private isLoading: Map<string, Promise<any>> = new Map();
     private useFallback: boolean = false;
 
@@ -129,7 +127,6 @@ class SoundPlayerService {
     /**
      * Load soundfont from CDN
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private async loadSoundfont(instrumentName: InstrumentType): Promise<any> {
         const Soundfont = await import("soundfont-player");
 
