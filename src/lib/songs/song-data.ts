@@ -1339,6 +1339,178 @@ export const SONGS: Song[] = [
             { note: "F#4", duration: 1, lyric: "" },
             { note: "F#4", duration: 1, lyric: "" }
         ]
+    },
+
+    // ===== BOLLYWOOD HITS (FULL) =====
+    {
+        id: "tum-hi-ho",
+        title: "Tum Hi Ho (Aashiqui 2)",
+        titleHi: "तुम ही हो",
+        artist: "Arijit Singh",
+        difficulty: "medium",
+        instrument: "piano",
+        description: "Soulful romantic anthem",
+        descriptionHi: "भावपूर्ण रोमांटिक गीत",
+        tags: ["bollywood", "romantic", "arijit"],
+        notes: [
+            // Hum tere bin ab reh nahi sakte
+            { note: "G4", duration: 0.5, lyric: "Hum" },
+            { note: "A4", duration: 0.5, lyric: "te" },
+            { note: "G4", duration: 0.5, lyric: "re" },
+            { note: "F4", duration: 0.5, lyric: "bin" },
+            { note: "E4", duration: 0.5, lyric: "ab" },
+            { note: "F4", duration: 0.5, lyric: "reh" },
+            { note: "G4", duration: 1, lyric: "nahi" },
+            { note: "F4", duration: 1, lyric: "sak" },
+            { note: "E4", duration: 2, lyric: "te" },
+            // Tere bina kya wajood mera
+            { note: "E4", duration: 0.5, lyric: "Te" },
+            { note: "F4", duration: 0.5, lyric: "re" },
+            { note: "E4", duration: 0.5, lyric: "bi" },
+            { note: "D4", duration: 0.5, lyric: "na" },
+            { note: "C4", duration: 0.5, lyric: "kya" },
+            { note: "D4", duration: 0.5, lyric: "wa" },
+            { note: "E4", duration: 1, lyric: "jood" },
+            { note: "D4", duration: 1, lyric: "me" },
+            { note: "C4", duration: 2, lyric: "ra" },
+            // Tujhse juda gar ho jayenge
+            { note: "G4", duration: 0.5, lyric: "Tujh" },
+            { note: "A4", duration: 0.5, lyric: "se" },
+            { note: "G4", duration: 0.5, lyric: "ju" },
+            { note: "F4", duration: 0.5, lyric: "da" },
+            { note: "E4", duration: 0.5, lyric: "gar" },
+            { note: "F4", duration: 0.5, lyric: "ho" },
+            { note: "G4", duration: 1, lyric: "ja" },
+            { note: "F4", duration: 1, lyric: "yen" },
+            { note: "E4", duration: 2, lyric: "ge" },
+            // Toh khud se hi ho jayenge juda
+            { note: "E4", duration: 0.5, lyric: "Toh" },
+            { note: "F4", duration: 0.5, lyric: "khud" },
+            { note: "E4", duration: 0.5, lyric: "se" },
+            { note: "D4", duration: 0.5, lyric: "hi" },
+            { note: "C4", duration: 0.5, lyric: "ho" },
+            { note: "D4", duration: 0.5, lyric: "ja" },
+            { note: "E4", duration: 1, lyric: "yen" },
+            { note: "D4", duration: 1, lyric: "ge" },
+            { note: "C4", duration: 2, lyric: "ju" },
+            { note: "B3", duration: 2, lyric: "da" },
+            // Kyunki tum hi ho
+            { note: "C4", duration: 1, lyric: "Kyun" },
+            { note: "D4", duration: 1, lyric: "ki" },
+            { note: "E4", duration: 2, lyric: "tum" },
+            { note: "F4", duration: 1, lyric: "hi" },
+            { note: "G4", duration: 3, lyric: "ho" }
+        ]
+    },
+    {
+        id: "kal-ho-naa-ho",
+        title: "Kal Ho Naa Ho",
+        titleHi: "कल हो ना हो",
+        artist: "Sonu Nigam",
+        difficulty: "medium",
+        instrument: "piano",
+        description: "Timeless melody about life",
+        descriptionHi: "जीवन के बारे में कालातीत धुन",
+        tags: ["bollywood", "classic", "emotional"],
+        notes: [
+            // Har ghadi badal rahi hai
+            { note: "C4", duration: 0.5, lyric: "Har" },
+            { note: "C4", duration: 0.5, lyric: "gha" },
+            { note: "E4", duration: 1, lyric: "di" },
+            { note: "D4", duration: 0.5, lyric: "ba" },
+            { note: "D4", duration: 0.5, lyric: "dal" },
+            { note: "F4", duration: 1, lyric: "ra" },
+            { note: "E4", duration: 0.5, lyric: "hi" },
+            { note: "E4", duration: 0.5, lyric: "hai" },
+            // Roop zindagi
+            { note: "G4", duration: 1, lyric: "roop" },
+            { note: "F4", duration: 1, lyric: "zin" },
+            { note: "E4", duration: 0.5, lyric: "da" },
+            { note: "D4", duration: 2, lyric: "gi" },
+            // Chaav hai kabhi
+            { note: "C4", duration: 0.5, lyric: "Chaav" },
+            { note: "C4", duration: 0.5, lyric: "hai" },
+            { note: "E4", duration: 1, lyric: "ka" },
+            { note: "D4", duration: 1, lyric: "bhi" },
+            // Kabhi hai dhoop zindagi
+            { note: "D4", duration: 0.5, lyric: "ka" },
+            { note: "D4", duration: 0.5, lyric: "bhi" },
+            { note: "F4", duration: 1, lyric: "hai" },
+            { note: "E4", duration: 1, lyric: "dhoop" },
+            { note: "G4", duration: 1, lyric: "zin" },
+            { note: "F4", duration: 1, lyric: "da" },
+            { note: "E4", duration: 0.5, lyric: "gi" },
+            { note: "D4", duration: 2, lyric: "gi" },
+            // Har pal yahan
+            { note: "G4", duration: 1, lyric: "Har" },
+            { note: "C5", duration: 1, lyric: "pal" },
+            { note: "B4", duration: 1, lyric: "ya" },
+            { note: "A4", duration: 2, lyric: "han" },
+            // Jee bhar jiyo
+            { note: "G4", duration: 1, lyric: "jee" },
+            { note: "C5", duration: 1, lyric: "bhar" },
+            { note: "B4", duration: 1, lyric: "ji" },
+            { note: "A4", duration: 2, lyric: "yo" },
+            // Jo hai sama
+            { note: "A4", duration: 1, lyric: "Jo" },
+            { note: "D5", duration: 1, lyric: "hai" },
+            { note: "C5", duration: 1, lyric: "sa" },
+            { note: "B4", duration: 2, lyric: "ma" },
+            // Kal ho naa ho
+            { note: "G4", duration: 1, lyric: "kal" },
+            { note: "F4", duration: 1, lyric: "ho" },
+            { note: "E4", duration: 1, lyric: "naa" },
+            { note: "D4", duration: 3, lyric: "ho" }
+        ]
+    },
+    {
+        id: "jai-ho",
+        title: "Jai Ho (Slumdog Millionaire)",
+        titleHi: "जय हो",
+        artist: "A.R. Rahman",
+        difficulty: "hard",
+        instrument: "piano",
+        description: "Oscar-winning energetic anthem",
+        descriptionHi: "ऑस्कर विजेता गीत",
+        tags: ["bollywood", "energetic", "ar-rahman"],
+        notes: [
+            // Jai Ho, Jai Ho
+            { note: "C4", duration: 0.5, lyric: "Jai" },
+            { note: "D4", duration: 0.5, lyric: "Ho" },
+            { note: "O", duration: 0.5 },
+            { note: "C4", duration: 0.5, lyric: "Jai" },
+            { note: "D4", duration: 0.5, lyric: "Ho" },
+            // Aaja aaja jind shamiyane ke tale
+            { note: "E4", duration: 0.5, lyric: "Aa" },
+            { note: "E4", duration: 0.5, lyric: "ja" },
+            { note: "E4", duration: 0.5, lyric: "aa" },
+            { note: "E4", duration: 0.5, lyric: "ja" },
+            { note: "D4", duration: 0.5, lyric: "jind" },
+            { note: "E4", duration: 0.5, lyric: "sha" },
+            { note: "F4", duration: 0.5, lyric: "mi" },
+            { note: "E4", duration: 0.5, lyric: "ya" },
+            { note: "D4", duration: 0.5, lyric: "ne" },
+            { note: "C4", duration: 0.5, lyric: "ke" },
+            { note: "D4", duration: 0.5, lyric: "ta" },
+            { note: "E4", duration: 2, lyric: "le" },
+            // Aaja jariwale nile aasman ke tale
+            { note: "E4", duration: 0.5, lyric: "Aa" },
+            { note: "E4", duration: 0.5, lyric: "ja" },
+            { note: "D4", duration: 0.5, lyric: "ja" },
+            { note: "E4", duration: 0.5, lyric: "ri" },
+            { note: "F4", duration: 0.5, lyric: "wa" },
+            { note: "E4", duration: 0.5, lyric: "le" },
+            { note: "D4", duration: 0.5, lyric: "ni" },
+            { note: "C4", duration: 0.5, lyric: "le" },
+            { note: "D4", duration: 0.5, lyric: "aas" },
+            { note: "C4", duration: 0.5, lyric: "man" },
+            { note: "B3", duration: 0.5, lyric: "ke" },
+            { note: "C4", duration: 0.5, lyric: "ta" },
+            { note: "D4", duration: 2, lyric: "le" },
+            // Jai Ho
+            { note: "C4", duration: 1, lyric: "Jai" },
+            { note: "E4", duration: 3, lyric: "Ho" }
+        ]
     }
 ];
 

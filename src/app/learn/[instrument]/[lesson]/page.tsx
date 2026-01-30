@@ -3,15 +3,18 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, Suspense } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Harmonium, type KeyState } from "@/components/instruments/harmonium";
-import { Piano } from "@/components/instruments/piano";
-import { Guitar } from "@/components/instruments/guitar";
-import { Ukulele } from "@/components/instruments/ukulele";
-import { Flute } from "@/components/instruments/flute";
-import { Violin } from "@/components/instruments/violin";
-import { Tabla } from "@/components/instruments/tabla";
-import { Drums } from "@/components/instruments/drums";
-import { Saxophone } from "@/components/instruments/saxophone";
+import dynamic from "next/dynamic";
+
+const Harmonium = dynamic(() => import("@/components/instruments/harmonium").then(mod => mod.Harmonium), { ssr: false, loading: () => <div className="instrument-loading">Loading Harmonium...</div> });
+const Piano = dynamic(() => import("@/components/instruments/piano").then(mod => mod.Piano), { ssr: false, loading: () => <div className="instrument-loading">Loading Piano...</div> });
+const Guitar = dynamic(() => import("@/components/instruments/guitar").then(mod => mod.Guitar), { ssr: false, loading: () => <div className="instrument-loading">Loading Guitar...</div> });
+const Ukulele = dynamic(() => import("@/components/instruments/ukulele").then(mod => mod.Ukulele), { ssr: false, loading: () => <div className="instrument-loading">Loading Ukulele...</div> });
+const Flute = dynamic(() => import("@/components/instruments/flute").then(mod => mod.Flute), { ssr: false, loading: () => <div className="instrument-loading">Loading Flute...</div> });
+const Violin = dynamic(() => import("@/components/instruments/violin").then(mod => mod.Violin), { ssr: false, loading: () => <div className="instrument-loading">Loading Violin...</div> });
+const Tabla = dynamic(() => import("@/components/instruments/tabla").then(mod => mod.Tabla), { ssr: false, loading: () => <div className="instrument-loading">Loading Tabla...</div> });
+const Drums = dynamic(() => import("@/components/instruments/drums").then(mod => mod.Drums), { ssr: false, loading: () => <div className="instrument-loading">Loading Drums...</div> });
+const Saxophone = dynamic(() => import("@/components/instruments/saxophone").then(mod => mod.Saxophone), { ssr: false, loading: () => <div className="instrument-loading">Loading Saxophone...</div> });
+import type { KeyState } from "@/components/instruments/harmonium";
 import { getSoundPlayer } from "@/lib/audio/sound-player";
 import { getLesson, type Lesson, type LessonStep } from "@/lib/lessons/lesson-content";
 import { completeLesson as saveProgress, addPracticeTime } from "@/lib/progress/progress-service";

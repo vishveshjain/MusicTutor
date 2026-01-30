@@ -83,6 +83,13 @@ const nextConfig = {
     typescript: {
         ignoreBuildErrors: true,
     },
+    compiler: {
+        removeConsole: process.env.NODE_ENV === "production",
+    },
+    // Improve image optimization
+    images: {
+        minimumCacheTTL: 60,
+    },
 };
 
 module.exports = withPWA(nextConfig);
