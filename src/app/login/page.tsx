@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import "./login.css";
 
 export default function LoginPage() {
-    const [showEmailForm, setShowEmailForm] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isSignUp, setIsSignUp] = useState(false);
@@ -73,13 +72,12 @@ export default function LoginPage() {
                 <div className="login-header">
                     <div className="logo">🎵</div>
                     <h1>Music Tutor</h1>
-                    <p>Sign in to sync your progress</p>
+                    <p>{isSignUp ? "Create your account" : "Welcome back!"}</p>
                 </div>
 
                 {error && <div className="error-message">{error}</div>}
                 {message && <div className="success-message">{message}</div>}
 
-                {/* Main OAuth Buttons - Simple One-Click Login */}
                 <div className="oauth-buttons">
                     <button
                         className="oauth-btn google"
@@ -107,61 +105,49 @@ export default function LoginPage() {
                     </button>
                 </div>
 
-                {/* Collapsible Email Form */}
-                {!showEmailForm ? (
-                    <button
-                        className="show-email-btn"
-                        onClick={() => setShowEmailForm(true)}
-                    >
-                        Or use email instead
+                <div className="divider">
+                    <span>or</span>
+                </div>
+
+                <form onSubmit={handleEmailAuth} className="email-form">
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="you@example.com"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            required
+                            minLength={6}
+                        />
+                    </div>
+
+                    <button type="submit" className="submit-btn" disabled={loading}>
+                        {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
                     </button>
-                ) : (
-                    <>
-                        <div className="divider">
-                            <span>email login</span>
-                        </div>
+                </form>
 
-                        <form onSubmit={handleEmailAuth} className="email-form">
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="you@example.com"
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    id="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="••••••••"
-                                    required
-                                    minLength={6}
-                                />
-                            </div>
-
-                            <button type="submit" className="submit-btn" disabled={loading}>
-                                {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
-                            </button>
-                        </form>
-
-                        <div className="toggle-auth">
-                            <p>
-                                {isSignUp ? "Already have an account?" : "Don't have an account?"}
-                                <button onClick={() => setIsSignUp(!isSignUp)}>
-                                    {isSignUp ? "Sign In" : "Sign Up"}
-                                </button>
-                            </p>
-                        </div>
-                    </>
-                )}
+                <div className="toggle-auth">
+                    <p>
+                        {isSignUp ? "Already have an account?" : "Don't have an account?"}
+                        <button onClick={() => setIsSignUp(!isSignUp)}>
+                            {isSignUp ? "Sign In" : "Sign Up"}
+                        </button>
+                    </p>
+                </div>
 
                 <a href="/" className="back-link">← Back to Home</a>
             </div>

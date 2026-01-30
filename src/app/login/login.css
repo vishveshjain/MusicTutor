@@ -3,26 +3,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    background: linear-gradient(135deg, #0F0A1A 0%, #1a1a2e 50%, #16213e 100%);
     padding: 2rem;
-}
-
-/* Show email button */
-.show-email-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background: transparent;
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    color: #9CA3AF;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.show-email-btn:hover {
-    border-color: #8B5CF6;
-    color: #8B5CF6;
 }
 
 .login-container {
