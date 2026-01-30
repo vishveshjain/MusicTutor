@@ -61,15 +61,6 @@ export default function SongsPage() {
                             onClick={() => setActiveCategory(cat.id)}
                         >
                             {cat.label}
-                            <span className="tab-count">
-                                {cat.id === "all"
-                                    ? allSongs.length
-                                    : allSongs.filter(s => s.tags.some(t =>
-                                        cat.id === "kids"
-                                            ? ["kids", "nursery"].includes(t.toLowerCase().trim())
-                                            : t.toLowerCase().trim() === cat.id
-                                    )).length}
-                            </span>
                         </button>
                     ))}
                 </div>
