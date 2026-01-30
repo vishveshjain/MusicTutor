@@ -568,7 +568,7 @@ function LessonContent() {
                     )}
                     {instrument === "piano" && (
                         <Piano
-                            octaves={2}
+                            octaves={3}
                             highlightedNotes={getHighlightedNotes()}
                             keyStates={keyStates}
                             onNotePlay={handleNotePlay}
