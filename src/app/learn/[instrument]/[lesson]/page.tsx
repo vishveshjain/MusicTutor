@@ -295,6 +295,30 @@ function LessonContent() {
         }
     }, [step, language, goToNext, sequenceIndex]);
 
+    // Auto-advance rest notes ("O") in sequence
+    useEffect(() => {
+        const sequence = step?.sequence;
+        if (!step || step.type !== "sequence" || !sequence) return;
+
+        const currentNote = sequence[sequenceIndex];
+        if (currentNote === "O") {
+            const timer = setTimeout(() => {
+                setFeedback(language === "en" ? "Rest..." : "विश्राम...");
+
+                const nextIndex = sequenceIndex + 1;
+                if (nextIndex >= sequence.length) {
+                    setFeedback(language === "en" ? "Sequence complete! 🎉" : "अनुक्रम पूर्ण! 🎉");
+                    setTimeout(() => {
+                        goToNext();
+                    }, 1500);
+                } else {
+                    setSequenceIndex(nextIndex);
+                }
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [step, sequenceIndex, goToNext, language]);
+
     // Helper to convert Indian notation to Western (for harmonium)
     const convertToWestern = useCallback((note: string): string => {
         // If already Western format (like C4, D#5), return as-is
@@ -499,7 +523,7 @@ function LessonContent() {
                                     key={idx}
                                     className={`sequence-note ${idx < sequenceIndex ? 'done' : ''} ${idx === sequenceIndex ? 'current' : ''}`}
                                 >
-                                    {note}
+                                    {note === "O" ? "⏸" : note}
                                 </span>
                             ))}
                         </div>
