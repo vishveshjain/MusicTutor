@@ -318,8 +318,8 @@ function LessonContent() {
             notes = [step.note];
         }
 
-        // Convert Indian notation to Western for harmonium highlighting
-        if (instrument === "harmonium") {
+        // Convert Indian notation to Western for harmonium/piano highlighting
+        if (instrument === "harmonium" || instrument === "piano") {
             return notes.map(convertToWestern);
         }
 
