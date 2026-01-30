@@ -27,11 +27,12 @@ export default function SongsPage() {
     const filteredSongs = activeCategory === "all"
         ? allSongs
         : allSongs.filter(song =>
-            song.tags.some(tag =>
-                activeCategory === "kids"
-                    ? tag === "kids" || tag === "nursery"
-                    : tag === activeCategory
-            )
+            song.tags.some(tag => {
+                const cleanTag = tag.toLowerCase().trim();
+                return activeCategory === "kids"
+                    ? cleanTag === "kids" || cleanTag === "nursery"
+                    : cleanTag === activeCategory;
+            })
         );
 
     return (
@@ -60,6 +61,15 @@ export default function SongsPage() {
                             onClick={() => setActiveCategory(cat.id)}
                         >
                             {cat.label}
+                            <span className="tab-count">
+                                {cat.id === "all"
+                                    ? allSongs.length
+                                    : allSongs.filter(s => s.tags.some(t =>
+                                        cat.id === "kids"
+                                            ? ["kids", "nursery"].includes(t.toLowerCase().trim())
+                                            : t.toLowerCase().trim() === cat.id
+                                    )).length}
+                            </span>
                         </button>
                     ))}
                 </div>
