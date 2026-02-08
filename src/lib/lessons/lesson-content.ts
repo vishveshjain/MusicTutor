@@ -4,7 +4,7 @@
 
 // Re-export types from lesson-types (for backward compatibility)
 export type { LessonStep, Lesson, SkillLevel } from "./lesson-types";
-import type { Lesson, SkillLevel } from "./lesson-types";
+import type { Lesson } from "./lesson-types";
 
 // Import comprehensive harmonium curriculum
 import { HARMONIUM_BEGINNER_LESSONS } from "./harmonium-lessons";
