@@ -2,27 +2,14 @@
  * Lesson Content organized by instrument and skill level
  */
 
-export interface LessonStep {
-    type: "intro" | "demo" | "practice" | "sequence" | "complete";
-    titleEn: string;
-    titleHi: string;
-    contentEn?: string;
-    contentHi?: string;
-    note?: string;
-    indianNote?: string;
-    highlightKey?: string;
-    expectedNote?: string;
-    sequence?: string[];
-    indianSequence?: string[];
-}
+// Re-export types from lesson-types (for backward compatibility)
+export type { LessonStep, Lesson, SkillLevel } from "./lesson-types";
+import type { Lesson, SkillLevel } from "./lesson-types";
 
-export interface Lesson {
-    id: string;
-    titleEn: string;
-    titleHi: string;
-    level: "beginner" | "intermediate" | "advanced";
-    steps: LessonStep[];
-}
+// Import comprehensive harmonium curriculum
+import { HARMONIUM_BEGINNER_LESSONS } from "./harmonium-lessons";
+import { HARMONIUM_INTERMEDIATE_LESSONS } from "./harmonium-intermediate";
+import { HARMONIUM_ADVANCED_LESSONS } from "./harmonium-advanced";
 
 // ===== HARMONIUM LESSONS =====
 
@@ -969,6 +956,24 @@ export function getLesson(instrument: string, level: SkillLevel, lessonId: strin
 
     // Extract lesson number
     const lessonNum = parseInt(lessonId.replace("lesson-", "")) || 1;
+
+    // Special handling for harmonium - use comprehensive curriculum
+    if (instrument === "harmonium") {
+        const lessonIndex = lessonNum - 1; // Arrays are 0-indexed
+        if (level === "beginner" && lessonIndex < HARMONIUM_BEGINNER_LESSONS.length) {
+            return HARMONIUM_BEGINNER_LESSONS[lessonIndex];
+        }
+        if (level === "intermediate" && lessonIndex < HARMONIUM_INTERMEDIATE_LESSONS.length) {
+            return HARMONIUM_INTERMEDIATE_LESSONS[lessonIndex];
+        }
+        if (level === "advanced" && lessonIndex < HARMONIUM_ADVANCED_LESSONS.length) {
+            return HARMONIUM_ADVANCED_LESSONS[lessonIndex];
+        }
+        // If beyond available lessons, return the last lesson
+        if (level === "beginner") return HARMONIUM_BEGINNER_LESSONS[HARMONIUM_BEGINNER_LESSONS.length - 1];
+        if (level === "intermediate") return HARMONIUM_INTERMEDIATE_LESSONS[HARMONIUM_INTERMEDIATE_LESSONS.length - 1];
+        if (level === "advanced") return HARMONIUM_ADVANCED_LESSONS[HARMONIUM_ADVANCED_LESSONS.length - 1];
+    }
 
     // Get the instrument lessons
     const instrumentLessons = primaryLessons[instrument];
