@@ -157,7 +157,7 @@
 /* Single fret */
 .fret {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 28px;
     border-bottom: 2.5px solid #c0c0c0;
     position: relative;
@@ -247,34 +247,40 @@
 
 /* String positions and thicknesses */
 .stringPosition:nth-child(1) .string {
-    left: 8%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 1px;
 }
 
 .stringPosition:nth-child(2) .string {
-    left: 24%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 1.2px;
 }
 
 .stringPosition:nth-child(3) .string {
-    left: 40%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 1.5px;
 }
 
 .stringPosition:nth-child(4) .string {
-    left: 56%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 2px;
     background: linear-gradient(180deg, #d4a060 0%, #c49050 50%, #d4a060 100%);
 }
 
 .stringPosition:nth-child(5) .string {
-    left: 72%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 2.5px;
     background: linear-gradient(180deg, #c49050 0%, #b48040 50%, #c49050 100%);
 }
 
 .stringPosition:nth-child(6) .string {
-    left: 88%;
+    left: 50%;
+    transform: translateX(-50%);
     width: 3px;
     background: linear-gradient(180deg, #b48040 0%, #a47030 50%, #b48040 100%);
 }

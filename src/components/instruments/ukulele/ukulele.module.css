@@ -245,10 +245,10 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Fret */
+/* Single fret */
 .fret {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 35px;
     border-bottom: 2px solid #bba171;
     position: relative;
@@ -325,21 +325,29 @@
     pointer-events: none;
 }
 
-/* Position strings across the fretboard */
+/* String positions and thicknesses */
 .stringPosition:nth-child(1) .string {
-    left: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.5px;
 }
 
 .stringPosition:nth-child(2) .string {
-    left: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2.5px;
 }
 
 .stringPosition:nth-child(3) .string {
-    left: 62%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
 }
 
 .stringPosition:nth-child(4) .string {
-    left: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.2px;
 }
 
 /* Strings on body (visual only) */
