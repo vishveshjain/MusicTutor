@@ -39,6 +39,18 @@ function LessonContent() {
     const [lessonCompleted, setLessonCompleted] = useState(false);
     const lessonStartTime = useRef<number>(Date.now());
 
+    // Reset all state when navigating to a new lesson
+    useEffect(() => {
+        setCurrentStep(0);
+        setKeyStates({});
+        setFeedback("");
+        setCorrectCount(0);
+        setTotalAttempts(0);
+        setSequenceIndex(0);
+        setLessonCompleted(false);
+        lessonStartTime.current = Date.now();
+    }, [lessonId, level]);
+
     // Get lesson based on instrument and level
     const lesson = useMemo(() => {
         if (lessonId.startsWith("song-")) {
