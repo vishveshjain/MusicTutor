@@ -568,7 +568,7 @@ function LessonContent() {
 
                             <div className="complete-actions">
                                 <Link
-                                    href={`/learn/${instrument}/lesson-${parseInt(lessonId.replace("lesson-", "")) + 1}?level=${level}&lang=${language}`}
+                                    href={`/learn/${instrument}/lesson-${(parseInt(lessonId.replace("lesson-", "")) || 1) + 1}?level=${level}&lang=${language}`}
                                     className="btn btn-primary btn-lg"
                                 >
                                     Next Lesson →

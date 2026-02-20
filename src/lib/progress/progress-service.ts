@@ -189,7 +189,7 @@ export function completeLesson(
     };
 
     // Update current lesson to next one
-    const lessonNum = parseInt(lessonId.replace("lesson-", ""), 10);
+    const lessonNum = parseInt(lessonId.replace("lesson-", ""), 10) || 1;
     progress.currentLesson[`${instrument}_${level}`] = `lesson-${lessonNum + 1}`;
 
     // Track instrument usage
