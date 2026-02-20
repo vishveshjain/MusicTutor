@@ -11,21 +11,33 @@ export interface SaxophoneProps {
     interactive?: boolean;
 }
 
-// Saxophone notes (Alto Saxophone concert pitch range)
+// Full chromatic saxophone range (D4 to C6 — covers all lesson notes)
 const NOTES = [
-    { note: "D4", label: "D", position: 0 },
-    { note: "E4", label: "E", position: 1 },
-    { note: "F4", label: "F", position: 2 },
-    { note: "F#4", label: "F#", position: 3 },
-    { note: "G4", label: "G", position: 4 },
-    { note: "A4", label: "A", position: 5 },
-    { note: "A#4", label: "Bb", position: 6 },
-    { note: "B4", label: "B", position: 7 },
-    { note: "C5", label: "C'", position: 8 },
-    { note: "D5", label: "D'", position: 9 },
-    { note: "E5", label: "E'", position: 10 },
-    { note: "F5", label: "F'", position: 11 },
-    { note: "G5", label: "G'", position: 12 },
+    // Octave 4 (low range)
+    { note: "D4", label: "D", sharp: false },
+    { note: "D#4", label: "D#", sharp: true },
+    { note: "E4", label: "E", sharp: false },
+    { note: "F4", label: "F", sharp: false },
+    { note: "F#4", label: "F#", sharp: true },
+    { note: "G4", label: "G", sharp: false },
+    { note: "G#4", label: "G#", sharp: true },
+    { note: "A4", label: "A", sharp: false },
+    { note: "A#4", label: "Bb", sharp: true },
+    { note: "B4", label: "B", sharp: false },
+    // Octave 5 (high range)
+    { note: "C5", label: "C", sharp: false },
+    { note: "C#5", label: "C#", sharp: true },
+    { note: "D5", label: "D", sharp: false },
+    { note: "D#5", label: "D#", sharp: true },
+    { note: "E5", label: "E", sharp: false },
+    { note: "F5", label: "F", sharp: false },
+    { note: "F#5", label: "F#", sharp: true },
+    { note: "G5", label: "G", sharp: false },
+    { note: "G#5", label: "G#", sharp: true },
+    { note: "A5", label: "A", sharp: false },
+    { note: "A#5", label: "Bb", sharp: true },
+    { note: "B5", label: "B", sharp: false },
+    { note: "C6", label: "C", sharp: false },
 ];
 
 export function Saxophone({
@@ -74,6 +86,13 @@ export function Saxophone({
     const isActive = (note: string) => pressedNote === note;
     const isHighlighted = (note: string) => highlightedNote === note;
 
+    // Split notes for visual key placement (upper body = lower octave, lower body = upper octave)
+    const lowerNotes = NOTES.filter(n => n.note.endsWith("4") || n.note === "C5");
+    const upperNotes = NOTES.filter(n => {
+        if (n.note === "C5") return false;
+        return n.note.endsWith("5") || n.note.endsWith("6");
+    });
+
     return (
         <div className={styles.saxophone}>
             <div className={styles.layout}>
@@ -96,12 +115,11 @@ export function Saxophone({
 
                     {/* Upper body */}
                     <div className={styles.upperBody}>
-                        {/* Left hand keys */}
                         <div className={styles.keyCluster}>
-                            {NOTES.slice(0, 6).map((n) => (
+                            {lowerNotes.map((n) => (
                                 <div
                                     key={n.note}
-                                    className={`${styles.saxKey} ${isActive(n.note) ? styles.keyDown : ""} ${isHighlighted(n.note) ? styles.keyGlow : ""}`}
+                                    className={`${styles.saxKey} ${n.sharp ? styles.sharpKey : ""} ${isActive(n.note) ? styles.keyDown : ""} ${isHighlighted(n.note) ? styles.keyGlow : ""}`}
                                     onClick={() => handlePress(n.note)}
                                     title={n.label}
                                 >
@@ -114,12 +132,11 @@ export function Saxophone({
 
                     {/* Lower body (bow area) */}
                     <div className={styles.lowerBody}>
-                        {/* Right hand keys */}
                         <div className={styles.keyCluster}>
-                            {NOTES.slice(6).map((n) => (
+                            {upperNotes.map((n) => (
                                 <div
                                     key={n.note}
-                                    className={`${styles.saxKey} ${isActive(n.note) ? styles.keyDown : ""} ${isHighlighted(n.note) ? styles.keyGlow : ""}`}
+                                    className={`${styles.saxKey} ${n.sharp ? styles.sharpKey : ""} ${isActive(n.note) ? styles.keyDown : ""} ${isHighlighted(n.note) ? styles.keyGlow : ""}`}
                                     onClick={() => handlePress(n.note)}
                                     title={n.label}
                                 >
@@ -146,10 +163,11 @@ export function Saxophone({
                         {NOTES.map((n) => (
                             <button
                                 key={n.note}
-                                className={`${styles.noteBtn} ${isActive(n.note) ? styles.noteBtnActive : ""} ${isHighlighted(n.note) ? styles.noteBtnHighlighted : ""}`}
+                                className={`${styles.noteBtn} ${n.sharp ? styles.noteBtnSharp : ""} ${isActive(n.note) ? styles.noteBtnActive : ""} ${isHighlighted(n.note) ? styles.noteBtnHighlighted : ""}`}
                                 onClick={() => handlePress(n.note)}
                             >
                                 <span className={styles.noteName}>{n.label}</span>
+                                <span className={styles.noteOctave}>{n.note.replace(/[A-G]#?/, "")}</span>
                             </button>
                         ))}
                     </div>

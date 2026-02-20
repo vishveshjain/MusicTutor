@@ -147,12 +147,17 @@
 
 /* Individual sax key */
 .saxKey {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
     position: relative;
     transition: transform 0.06s ease;
     -webkit-tap-highlight-color: transparent;
+}
+
+.sharpKey {
+    width: 18px;
+    height: 18px;
 }
 
 .keyPad {
@@ -263,8 +268,8 @@
 
 .noteGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
 }
 
 .noteBtn {
@@ -282,6 +287,19 @@
     transition: all 0.1s ease;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+}
+
+.noteBtnSharp {
+    background: linear-gradient(135deg,
+            rgba(100, 80, 30, 0.25) 0%,
+            rgba(80, 60, 15, 0.25) 100%);
+    border-color: rgba(180, 150, 40, 0.3);
+}
+
+.noteOctave {
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 1px;
 }
 
 .noteBtn:hover {
