@@ -51,7 +51,7 @@ class SoundPlayerService {
     private audioContext: AudioContext | null = null;
     private loadedInstruments: Map<string, any> = new Map();
     private isLoading: Map<string, Promise<any>> = new Map();
-    private useFallback: boolean = false;
+    private failedInstruments: Set<string> = new Set();
 
     /**
      * Initialize the audio context
@@ -117,9 +117,9 @@ class SoundPlayerService {
             console.log(`[SoundPlayer] Loaded instrument: ${soundfontName}`);
             return true;
         } catch (error) {
-            console.warn(`[SoundPlayer] Failed to load soundfont, using fallback:`, error);
+            console.warn(`[SoundPlayer] Failed to load soundfont for ${instrument}, using fallback:`, error);
             this.isLoading.delete(soundfontName);
-            this.useFallback = true;
+            this.failedInstruments.add(instrument);
             return true; // Return true to allow fallback to work
         }
     }
@@ -452,8 +452,8 @@ class SoundPlayerService {
             return;
         }
 
-        // Try soundfont first
-        if (!this.useFallback) {
+        // Try soundfont for this specific instrument (not a global fallback)
+        if (!this.failedInstruments.has(instrument)) {
             try {
                 await this.loadInstrument(instrument);
 
@@ -465,16 +465,16 @@ class SoundPlayerService {
                         duration,
                         gain,
                     });
-                    console.log(`[SoundPlayer] Playing soundfont: ${noteStr}`);
+                    console.log(`[SoundPlayer] Playing ${instrument} soundfont: ${noteStr}`);
                     return;
                 }
             } catch (error) {
-                console.warn("[SoundPlayer] Soundfont play failed, using fallback:", error);
-                this.useFallback = true;
+                console.warn(`[SoundPlayer] Soundfont play failed for ${instrument}, using fallback:`, error);
+                this.failedInstruments.add(instrument);
             }
         }
 
-        // Fallback to oscillator
+        // Fallback to oscillator (only for this specific instrument)
         this.playOscillator(noteStr, duration, gain * 0.5);
     }
 
