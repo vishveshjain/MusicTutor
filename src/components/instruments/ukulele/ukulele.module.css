@@ -250,8 +250,19 @@
     display: flex;
     flex-direction: column;
     height: 35px;
-    border-bottom: 2px solid #c0c0c0;
+    border-bottom: 2px solid #bba171;
     position: relative;
+}
+
+/* Open string area */
+.openStringFret {
+    height: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid #888;
+}
+
+.openStringFret .fretNumber {
+    display: none;
 }
 
 .fret:last-child {

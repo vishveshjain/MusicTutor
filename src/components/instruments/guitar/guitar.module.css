@@ -164,6 +164,17 @@
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+/* Open string area */
+.openStringFret {
+    height: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid #888;
+}
+
+.openStringFret .fretNumber {
+    display: none;
+}
+
 .fret:last-child {
     border-bottom: none;
 }

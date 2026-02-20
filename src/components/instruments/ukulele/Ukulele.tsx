@@ -145,6 +145,23 @@ export function Ukulele({
                 {/* Neck with fretboard */}
                 <div className={styles.neck}>
                     <div className={styles.fretboard}>
+                        {/* Open strings (fret 0) */}
+                        <div className={`${styles.fret} ${styles.openStringFret}`}>
+                            {STANDARD_TUNING.map((_, stringIndex) => (
+                                <div
+                                    key={stringIndex}
+                                    className={getPositionClassName(stringIndex, 0)}
+                                    onClick={() => handlePress(stringIndex, 0)}
+                                >
+                                    <div className={styles.string} />
+                                </div>
+                            ))}
+                            {showLabels && (
+                                <span className={styles.fretNumber}>0</span>
+                            )}
+                        </div>
+
+                        {/* Fretted positions */}
                         {Array.from({ length: frets }).map((_, fretIndex) => (
                             <div key={fretIndex} className={styles.fret}>
                                 {/* String positions (clickable) */}

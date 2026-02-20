@@ -385,7 +385,7 @@ function LessonContent() {
                 const openMidi = noteToMidi(GUITAR_TUNING[stringIdx]);
                 const fret = targetMidi - openMidi;
                 if (fret >= 0 && fret <= 12) {
-                    positions.push({ string: stringIdx, fret: fret === 0 ? 1 : fret });
+                    positions.push({ string: stringIdx, fret: fret });
                     break;
                 }
             }
@@ -404,7 +404,7 @@ function LessonContent() {
                 const openMidi = noteToMidi(UKULELE_TUNING[stringIdx]);
                 const fret = targetMidi - openMidi;
                 if (fret >= 0 && fret <= 12) {
-                    positions.push({ string: stringIdx, fret: fret === 0 ? 1 : fret });
+                    positions.push({ string: stringIdx, fret: fret });
                     break;
                 }
             }
