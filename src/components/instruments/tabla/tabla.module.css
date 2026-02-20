@@ -1,104 +1,289 @@
+/* ===== TABLA - REALISTIC STYLE ===== */
+
 .tabla {
     display: flex;
     justify-content: center;
-    padding: var(--space-4);
+    padding: 1.5rem 1rem 1rem;
 }
 
 .tablaContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-6);
+    gap: 1.5rem;
+    max-width: 560px;
+    width: 100%;
 }
 
-.loading {
-    position: absolute;
-    background: var(--bg-elevated);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-}
-
-/* Drums visual */
-.drums {
+/* ===== DRUM PAIR LAYOUT ===== */
+.drumPair {
     display: flex;
-    gap: var(--space-6);
+    gap: 2rem;
     align-items: flex-end;
+    justify-content: center;
+    perspective: 600px;
 }
 
-.bayan,
-.dayan {
+.drumWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.06s ease;
+}
+
+.drumWrapper.drumActive {
+    transform: scale(0.97);
+}
+
+/* ===== BAYAN (Left - Bass - Metal Body) ===== */
+.bayanWrapper {
+    margin-bottom: 0;
+}
+
+.bayan {
+    position: relative;
+    width: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.drumSurface {
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ===== DAYAN (Right - Treble - Wood Body) ===== */
+.dayanWrapper {
+    margin-bottom: 8px;
+}
+
+.dayan {
     position: relative;
-    box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.3),
-        0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-.bayan .drumSurface {
     width: 120px;
-    height: 120px;
-    background: linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.dayan .drumSurface {
-    width: 90px;
-    height: 90px;
-    background: linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%);
-}
-
-.syahi {
+/* ===== DRUM HEAD (Top Surface) ===== */
+.drumRim {
+    width: 100%;
+    aspect-ratio: 1;
     border-radius: 50%;
-    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    position: relative;
+    z-index: 2;
 }
 
-.bayan .syahi {
-    width: 50px;
-    height: 50px;
+.bayan .drumRim {
+    background: linear-gradient(145deg,
+            #c0c0c0 0%,
+            #a0a0a0 20%,
+            #888 50%,
+            #999 80%,
+            #b0b0b0 100%);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 
-.dayan .syahi {
-    width: 40px;
-    height: 40px;
+.dayan .drumRim {
+    background: linear-gradient(145deg,
+            #d4a574 0%,
+            #b8824a 30%,
+            #a06830 60%,
+            #c09060 100%);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 225, 180, 0.3);
 }
 
-.drumBody {
-    background: linear-gradient(180deg, #8B4513 0%, #5c3d2e 100%);
-    border-radius: 0 0 10px 10px;
+/* Drum skin (pudi) */
+.drumSkin {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.bayan .drumBody {
-    width: 110px;
+.bayan .drumSkin {
+    background: radial-gradient(ellipse at 42% 38%,
+            #f5edd5 0%,
+            #ece0c0 25%,
+            #ddd0a8 50%,
+            #cfc090 80%,
+            #c0b080 100%);
+}
+
+.dayan .drumSkin {
+    background: radial-gradient(ellipse at 42% 38%,
+            #f8f0e0 0%,
+            #f0e8d0 20%,
+            #e8dcc0 45%,
+            #ddd0b0 75%,
+            #d0c4a0 100%);
+}
+
+/* Maidan (main playing area ring) */
+.maidan {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    border: 1px solid rgba(180, 160, 120, 0.4);
+}
+
+/* Gajara (braided leather edge) */
+.gajara {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 6px solid transparent;
+    background:
+        repeating-conic-gradient(from 0deg,
+            rgba(139, 90, 43, 0.5) 0deg 6deg,
+            rgba(180, 130, 70, 0.3) 6deg 12deg) border-box;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* Syahi (black center paste) - Bayan */
+.syahiBayan {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48%;
+    height: 48%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 38%,
+            #3a3a3a 0%,
+            #222 35%,
+            #111 65%,
+            #0a0a0a 100%);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.6),
+        inset 0 -1px 3px rgba(255, 255, 255, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Syahi - Dayan (smaller, off-center) */
+.syahiDayan {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 42%;
+    height: 42%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 42% 40%,
+            #383838 0%,
+            #1e1e1e 30%,
+            #0f0f0f 60%,
+            #080808 100%);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.7),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Syahi inner sheen */
+.syahiInner {
+    position: absolute;
+    top: 15%;
+    left: 18%;
+    width: 30%;
+    height: 25%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 100%);
+}
+
+/* ===== DRUM BODIES ===== */
+.bayanBody {
+    width: 88%;
+    height: 90px;
+    background: linear-gradient(180deg,
+            #a0a0a0 0%,
+            #787878 15%,
+            #606060 40%,
+            #505050 70%,
+            #484848 100%);
+    border-radius: 0 0 50% 50% / 0 0 30% 30%;
+    margin-top: -6px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.dayanBody {
+    width: 85%;
     height: 80px;
+    background: linear-gradient(180deg,
+            #b07040 0%,
+            #8b4513 15%,
+            #6d3410 40%,
+            #5c2d0e 70%,
+            #4a2108 100%);
+    border-radius: 0 0 45% 45% / 0 0 25% 25%;
+    margin-top: -5px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(200, 160, 100, 0.15);
+    z-index: 1;
 }
 
-.dayan .drumBody {
-    width: 85px;
-    height: 70px;
+/* Wooden texture & highlight */
+.bodyHighlight {
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.08) 50%,
+            transparent 100%);
 }
 
+/* Lacing on dayan body */
+.lacing {
+    position: absolute;
+    inset: 5px;
+    background:
+        repeating-linear-gradient(0deg,
+            transparent 0px,
+            transparent 10px,
+            rgba(200, 160, 100, 0.15) 10px,
+            rgba(200, 160, 100, 0.15) 11px);
+}
+
+/* ===== DRUM LABELS ===== */
 .drumLabel {
-    margin-top: var(--space-2);
-    font-size: var(--text-sm);
-    color: var(--text-muted);
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Bol buttons */
+/* ===== BOL BUTTONS ===== */
 .bolGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-2);
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
 }
 
 .bol {
@@ -106,52 +291,169 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: var(--space-3) var(--space-4);
-    background: var(--bg-tertiary);
-    border: 2px solid var(--glass-border);
-    border-radius: var(--radius-lg);
+    padding: 10px 6px 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.15s ease;
-    min-width: 70px;
+    transition: all 0.1s ease;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* Color-code by drum */
+.bolbayan {
+    background: linear-gradient(135deg,
+            rgba(80, 80, 90, 0.6) 0%,
+            rgba(60, 60, 68, 0.6) 100%);
+    border-color: rgba(160, 160, 170, 0.25);
+}
+
+.boldayan {
+    background: linear-gradient(135deg,
+            rgba(100, 65, 30, 0.5) 0%,
+            rgba(75, 45, 15, 0.5) 100%);
+    border-color: rgba(180, 130, 70, 0.3);
+}
+
+.bolboth {
+    background: linear-gradient(135deg,
+            rgba(90, 60, 90, 0.5) 0%,
+            rgba(70, 40, 70, 0.5) 100%);
+    border-color: rgba(160, 120, 160, 0.3);
 }
 
 .bol:hover {
-    border-color: var(--color-primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bolbayan:hover {
+    border-color: rgba(200, 200, 210, 0.5);
+}
+
+.boldayan:hover {
+    border-color: rgba(220, 170, 100, 0.5);
+}
+
+.bolboth:hover {
+    border-color: rgba(200, 150, 200, 0.5);
 }
 
 .bol.pressed {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    transform: scale(0.95);
+    transform: scale(0.92);
+    filter: brightness(1.4);
 }
 
 .bol.highlighted {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-    animation: pulse 1s infinite;
+    animation: bolPulse 0.8s infinite ease-in-out;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    border-color: rgba(139, 92, 246, 0.6);
 }
 
+/* Bol text */
 .bolName {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+}
+
+.bolHindi {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 1px;
+}
+
+.bolMeta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
 }
 
 .bolDrum {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.35);
     text-transform: capitalize;
 }
 
-@keyframes pulse {
+.bolKey {
+    display: inline-block;
+    padding: 0px 4px;
+    font-size: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: inherit;
+    line-height: 1.4;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes bolPulse {
 
     0%,
     100% {
-        opacity: 1;
+        box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
     }
 
     50% {
-        opacity: 0.7;
+        box-shadow: 0 0 22px rgba(139, 92, 246, 0.7);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .drumPair {
+        gap: 1rem;
+    }
+
+    .bayan {
+        width: 115px;
+    }
+
+    .dayan {
+        width: 90px;
+    }
+
+    .bayanBody {
+        height: 65px;
+    }
+
+    .dayanBody {
+        height: 55px;
+    }
+
+    .bolGrid {
+        gap: 6px;
+    }
+
+    .bol {
+        padding: 8px 4px 6px;
+    }
+
+    .bolName {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .bayan {
+        width: 100px;
+    }
+
+    .dayan {
+        width: 80px;
+    }
+
+    .bayanBody {
+        height: 55px;
+    }
+
+    .dayanBody {
+        height: 48px;
     }
 }
