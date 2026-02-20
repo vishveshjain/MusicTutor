@@ -16,6 +16,12 @@ import { PIANO_BEGINNER_LESSONS } from "./piano-lessons";
 import { PIANO_INTERMEDIATE_LESSONS } from "./piano-intermediate";
 import { PIANO_ADVANCED_LESSONS } from "./piano-advanced";
 
+// Import saxophone curriculum
+import { SAX_BEGINNER_LESSONS, SAX_INTERMEDIATE_LESSONS, SAX_ADVANCED_LESSONS } from "./saxophone-lessons";
+
+// Import violin curriculum
+import { VIOLIN_BEGINNER_LESSONS, VIOLIN_INTERMEDIATE_LESSONS, VIOLIN_ADVANCED_LESSONS } from "./violin-lessons";
+
 // ===== HARMONIUM LESSONS =====
 
 export const HARMONIUM_BEGINNER_LESSON_1: Lesson = {
@@ -894,9 +900,9 @@ export function getLesson(instrument: string, level: SkillLevel, lessonId: strin
         },
         // New instruments - use similar lessons to existing ones
         violin: {
-            beginner: { ...HARMONIUM_BEGINNER_LESSON_1, titleEn: "Violin: Introduction to Sa Re Ga Ma", titleHi: "वायलिन: सा रे ग म का परिचय" },
-            intermediate: { ...HARMONIUM_INTERMEDIATE_LESSON_1, titleEn: "Violin: Full Scale Mastery", titleHi: "वायलिन: पूर्ण स्केल में महारत" },
-            advanced: { ...HARMONIUM_ADVANCED_LESSON_1, titleEn: "Violin: Raag Yaman", titleHi: "वायलिन: राग यमन" },
+            beginner: VIOLIN_BEGINNER_LESSONS[0],
+            intermediate: VIOLIN_INTERMEDIATE_LESSONS[0],
+            advanced: VIOLIN_ADVANCED_LESSONS[0],
         },
         tabla: {
             beginner: {
@@ -953,9 +959,9 @@ export function getLesson(instrument: string, level: SkillLevel, lessonId: strin
             },
         },
         saxophone: {
-            beginner: { ...FLUTE_BEGINNER_LESSON_1, titleEn: "Saxophone: First Notes", titleHi: "सैक्सोफोन: पहले नोट्स" },
-            intermediate: { ...FLUTE_INTERMEDIATE_LESSON_1, titleEn: "Saxophone: Scale Practice", titleHi: "सैक्सोफोन: स्केल अभ्यास" },
-            advanced: { ...FLUTE_ADVANCED_LESSON_1, titleEn: "Saxophone: Advanced Melodies", titleHi: "सैक्सोफोन: उन्नत धुन" },
+            beginner: SAX_BEGINNER_LESSONS[0],
+            intermediate: SAX_INTERMEDIATE_LESSONS[0],
+            advanced: SAX_ADVANCED_LESSONS[0],
         },
     };
 
@@ -995,6 +1001,40 @@ export function getLesson(instrument: string, level: SkillLevel, lessonId: strin
         if (level === "beginner") return PIANO_BEGINNER_LESSONS[PIANO_BEGINNER_LESSONS.length - 1];
         if (level === "intermediate") return PIANO_INTERMEDIATE_LESSONS[PIANO_INTERMEDIATE_LESSONS.length - 1];
         if (level === "advanced") return PIANO_ADVANCED_LESSONS[PIANO_ADVANCED_LESSONS.length - 1];
+    }
+
+    // Special handling for saxophone - use comprehensive curriculum
+    if (instrument === "saxophone") {
+        const lessonIndex = lessonNum - 1;
+        if (level === "beginner" && lessonIndex < SAX_BEGINNER_LESSONS.length) {
+            return SAX_BEGINNER_LESSONS[lessonIndex];
+        }
+        if (level === "intermediate" && lessonIndex < SAX_INTERMEDIATE_LESSONS.length) {
+            return SAX_INTERMEDIATE_LESSONS[lessonIndex];
+        }
+        if (level === "advanced" && lessonIndex < SAX_ADVANCED_LESSONS.length) {
+            return SAX_ADVANCED_LESSONS[lessonIndex];
+        }
+        if (level === "beginner") return SAX_BEGINNER_LESSONS[SAX_BEGINNER_LESSONS.length - 1];
+        if (level === "intermediate") return SAX_INTERMEDIATE_LESSONS[SAX_INTERMEDIATE_LESSONS.length - 1];
+        if (level === "advanced") return SAX_ADVANCED_LESSONS[SAX_ADVANCED_LESSONS.length - 1];
+    }
+
+    // Special handling for violin - use comprehensive curriculum
+    if (instrument === "violin") {
+        const lessonIndex = lessonNum - 1;
+        if (level === "beginner" && lessonIndex < VIOLIN_BEGINNER_LESSONS.length) {
+            return VIOLIN_BEGINNER_LESSONS[lessonIndex];
+        }
+        if (level === "intermediate" && lessonIndex < VIOLIN_INTERMEDIATE_LESSONS.length) {
+            return VIOLIN_INTERMEDIATE_LESSONS[lessonIndex];
+        }
+        if (level === "advanced" && lessonIndex < VIOLIN_ADVANCED_LESSONS.length) {
+            return VIOLIN_ADVANCED_LESSONS[lessonIndex];
+        }
+        if (level === "beginner") return VIOLIN_BEGINNER_LESSONS[VIOLIN_BEGINNER_LESSONS.length - 1];
+        if (level === "intermediate") return VIOLIN_INTERMEDIATE_LESSONS[VIOLIN_INTERMEDIATE_LESSONS.length - 1];
+        if (level === "advanced") return VIOLIN_ADVANCED_LESSONS[VIOLIN_ADVANCED_LESSONS.length - 1];
     }
 
     // Get the instrument lessons
