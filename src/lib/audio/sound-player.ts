@@ -128,11 +128,15 @@ class SoundPlayerService {
      * Load soundfont from CDN
      */
     private async loadSoundfont(instrumentName: InstrumentType): Promise<any> {
-        const Soundfont = await import("soundfont-player");
+        const SoundfontModule = await import("soundfont-player");
+        // Handle ESM/CJS interop - the module might have a default export
+        const Soundfont = (SoundfontModule as any).default || SoundfontModule;
 
         if (!this.audioContext) {
             throw new Error("Audio context not initialized");
         }
+
+        console.log(`[SoundPlayer] Fetching soundfont from CDN: ${instrumentName}`);
 
         const player = await Soundfont.instrument(
             this.audioContext,
@@ -143,6 +147,7 @@ class SoundPlayerService {
             }
         );
 
+        console.log(`[SoundPlayer] Successfully loaded soundfont player for: ${instrumentName}`, player ? "✅" : "❌");
         return player;
     }
 
