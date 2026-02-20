@@ -1,166 +1,340 @@
+/* ===== SAXOPHONE - REALISTIC STYLE ===== */
+
 .saxophone {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: var(--space-4);
-    gap: var(--space-6);
+    justify-content: center;
+    padding: 1rem;
 }
 
-.saxContainer {
+.layout {
     display: flex;
-    flex-direction: column;
+    gap: 2rem;
     align-items: center;
-    position: relative;
+    max-width: 600px;
+    width: 100%;
 }
 
 .loading {
     position: absolute;
-    background: var(--bg-elevated);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #aaa;
+    z-index: 20;
+    backdrop-filter: blur(4px);
+}
+
+/* ===== VISUAL SAXOPHONE ===== */
+.saxVisual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-width: 120px;
+    flex-shrink: 0;
 }
 
 /* Mouthpiece */
 .mouthpiece {
-    width: 20px;
-    height: 40px;
-    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-    border-radius: 10px 10px 5px 5px;
+    width: 16px;
+    height: 38px;
+    background: linear-gradient(180deg,
+            #1a1a1a 0%, #2d2d2d 40%, #222 100%);
+    border-radius: 6px 6px 3px 3px;
     position: relative;
+    z-index: 2;
+    transform: rotate(-12deg);
+    transform-origin: bottom center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .reed {
     position: absolute;
-    bottom: 0;
+    bottom: 2px;
     left: 50%;
     transform: translateX(-50%);
-    width: 12px;
-    height: 25px;
-    background: linear-gradient(180deg, #d4a574 0%, #8B4513 100%);
-    border-radius: 0 0 6px 6px;
+    width: 10px;
+    height: 22px;
+    background: linear-gradient(180deg,
+            #c9a060 0%, #a07030 50%, #8b5a2b 100%);
+    border-radius: 0 0 5px 5px;
 }
 
-/* Neck */
+.ligature {
+    position: absolute;
+    top: 14px;
+    left: -1px;
+    right: -1px;
+    height: 8px;
+    background: linear-gradient(180deg,
+            #c0c0c0 0%, #888 50%, #aaa 100%);
+    border-radius: 2px;
+}
+
+/* Neck (Crook) */
 .neck {
-    width: 24px;
-    height: 60px;
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    border-radius: 12px;
-    transform: rotate(-10deg);
-    margin-top: -5px;
-}
-
-/* Body */
-.body {
-    width: 50px;
-    min-height: 200px;
-    background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
-    border-radius: 25px;
-    padding: var(--space-2);
+    width: 20px;
+    height: 55px;
+    background: linear-gradient(135deg,
+            #e8c840 0%, #d4af37 30%, #b8960b 60%, #c9a820 100%);
+    border-radius: 10px;
+    position: relative;
+    margin-top: -6px;
+    transform: rotate(-8deg);
     box-shadow:
-        inset -5px 0 10px rgba(0, 0, 0, 0.2),
-        0 4px 15px rgba(0, 0, 0, 0.3);
+        inset -3px 0 6px rgba(0, 0, 0, 0.2),
+        inset 3px 0 6px rgba(255, 255, 255, 0.1),
+        1px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.keys {
+.neckOctaveKey {
+    position: absolute;
+    top: 8px;
+    left: -6px;
+    width: 10px;
+    height: 6px;
+    background: linear-gradient(135deg, #d0d0d0, #999);
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== BODY SECTIONS ===== */
+.upperBody,
+.lowerBody {
+    display: flex;
+    position: relative;
+}
+
+.upperBody {
+    margin-top: -4px;
+}
+
+.lowerBody {
+    margin-top: -2px;
+}
+
+/* Body tube (brass core) */
+.bodyTube {
+    width: 28px;
+    min-height: 100%;
+    background: linear-gradient(90deg,
+            #b8960b 0%,
+            #d4af37 20%,
+            #e8c840 45%,
+            #ffd700 55%,
+            #d4af37 80%,
+            #b8960b 100%);
+    border-radius: 4px;
+    box-shadow:
+        inset -4px 0 8px rgba(0, 0, 0, 0.15),
+        inset 4px 0 8px rgba(255, 255, 255, 0.08),
+        2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Key cluster (side keys) */
+.keyCluster {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    align-items: center;
+    padding: 6px 0;
+    margin-right: -4px;
+    z-index: 2;
 }
 
-.key {
-    width: 30px;
-    height: 16px;
-    background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
-    border: 1px solid #666;
-    border-radius: 4px;
+/* Individual sax key */
+.saxKey {
+    width: 24px;
+    height: 24px;
     cursor: pointer;
-    transition: all 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
+    transition: transform 0.06s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.key:hover {
-    background: linear-gradient(135deg, #d4d4d4 0%, #a0a0a0 100%);
+.keyPad {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%,
+            #e8e8e8 0%,
+            #c8c8c8 30%,
+            #a8a8a8 60%,
+            #888 100%);
+    border: 1.5px solid #777;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    transition: all 0.06s ease;
 }
 
-.key.pressed {
-    background: var(--color-primary);
-    transform: scale(0.95);
+.saxKey:hover .keyPad {
+    background: radial-gradient(circle at 40% 35%,
+            #f0f0f0 0%,
+            #d8d8d8 30%,
+            #b8b8b8 60%,
+            #999 100%);
+    transform: scale(1.05);
 }
 
-.key.highlighted {
-    background: var(--color-primary);
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
-    animation: pulse 1s infinite;
+.saxKey.keyDown .keyPad {
+    background: radial-gradient(circle at 40% 35%,
+            #d4af37 0%,
+            #b8960b 40%,
+            #8b7500 80%);
+    box-shadow:
+        0 0 8px rgba(212, 175, 55, 0.5),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: scale(0.92);
 }
 
-.keyLabel {
-    font-size: 8px;
-    color: #333;
-    font-weight: bold;
+.saxKey.keyGlow .keyPad {
+    background: radial-gradient(circle at 40% 35%,
+            #c8a0ff 0%,
+            #9060d0 40%,
+            #7040b0 80%);
+    box-shadow:
+        0 0 12px rgba(139, 92, 246, 0.6),
+        0 0 24px rgba(139, 92, 246, 0.3);
+    animation: keyPulse 0.8s infinite ease-in-out;
 }
 
-/* Bell */
+/* ===== BELL ===== */
 .bell {
     width: 80px;
-    height: 60px;
-    background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #b8860b 100%);
-    border-radius: 0 0 40px 40px;
-    margin-top: -10px;
+    height: 65px;
+    background: linear-gradient(180deg,
+            #d4af37 0%,
+            #e8c840 20%,
+            #ffd700 45%,
+            #e8c840 70%,
+            #d4af37 100%);
+    border-radius: 5px 5px 50% 50%;
+    position: relative;
+    margin-top: -4px;
     box-shadow:
-        inset 0 -10px 20px rgba(0, 0, 0, 0.2),
-        0 4px 15px rgba(0, 0, 0, 0.3);
+        inset 0 -8px 15px rgba(0, 0, 0, 0.2),
+        inset 0 4px 8px rgba(255, 255, 255, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Note grid for easier playing */
+.bellRim {
+    position: absolute;
+    bottom: 0;
+    left: -3px;
+    right: -3px;
+    height: 6px;
+    background: linear-gradient(180deg,
+            #e8c840, #b8960b, #d4af37);
+    border-radius: 0 0 50% 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bellInner {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 55%;
+    height: 35px;
+    border-radius: 0 0 50% 50%;
+    background: radial-gradient(ellipse at center bottom,
+            #1a1400 0%,
+            #2a2000 40%,
+            transparent 70%);
+}
+
+/* ===== NOTE PANEL ===== */
+.notePanel {
+    flex: 1;
+    min-width: 0;
+}
+
+.notePanelTitle {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
 .noteGrid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: var(--space-2);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
 }
 
 .noteBtn {
-    width: 40px;
-    height: 40px;
-    background: var(--bg-tertiary);
-    border: 2px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    color: var(--text-primary);
-    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 4px;
+    background: linear-gradient(135deg,
+            rgba(180, 150, 50, 0.15) 0%,
+            rgba(140, 110, 20, 0.15) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.1s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
 .noteBtn:hover {
-    border-color: var(--color-primary);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.noteBtn.pressed {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    transform: scale(0.95);
+.noteBtnActive {
+    background: linear-gradient(135deg,
+            rgba(212, 175, 55, 0.4) 0%,
+            rgba(180, 150, 30, 0.4) 100%);
+    border-color: rgba(212, 175, 55, 0.7);
+    transform: scale(0.94);
 }
 
-.noteBtn.highlighted {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
-    animation: pulse 1s infinite;
+.noteBtnHighlighted {
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+    animation: keyPulse 0.8s infinite ease-in-out;
 }
 
-@keyframes pulse {
+.noteName {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes keyPulse {
 
     0%,
     100% {
-        opacity: 1;
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
     }
 
     50% {
-        opacity: 0.7;
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.7);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .layout {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .saxVisual {
+        transform: scale(0.85);
+    }
+
+    .noteGrid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }

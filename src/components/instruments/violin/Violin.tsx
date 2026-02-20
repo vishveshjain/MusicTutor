@@ -22,9 +22,10 @@ export interface ViolinProps {
 // Violin strings (from high to low): E5, A4, D4, G3
 const STRING_TUNING = ["E5", "A4", "D4", "G3"];
 const STRING_NAMES = ["E", "A", "D", "G"];
+const STRING_COLORS = ["#e8e0d0", "#d4c8b0", "#c8b890", "#b8a878"];
 const POSITIONS = 8; // Finger positions on the fingerboard
 
-const NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const NOTES_MAP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 function getNoteFromPosition(openNote: string, position: number): string {
     const match = openNote.match(/([A-G]#?)(\d)/);
@@ -33,11 +34,16 @@ function getNoteFromPosition(openNote: string, position: number): string {
     const [, note, octaveStr] = match;
     let octave = parseInt(octaveStr);
 
-    const noteIndex = NOTES.indexOf(note);
-    let newNoteIndex = (noteIndex + position) % 12;
+    const noteIndex = NOTES_MAP.indexOf(note);
+    const newNoteIndex = (noteIndex + position) % 12;
     octave += Math.floor((noteIndex + position) / 12);
 
-    return `${NOTES[newNoteIndex]}${octave}`;
+    return `${NOTES_MAP[newNoteIndex]}${octave}`;
+}
+
+function getNoteName(openNote: string, position: number): string {
+    const note = getNoteFromPosition(openNote, position);
+    return note.replace(/\d/, "");
 }
 
 export function Violin({
@@ -97,6 +103,8 @@ export function Violin({
         const state = fretStates[posKey] || {};
         const classes = [styles.position];
 
+        if (position === 0) classes.push(styles.openString);
+
         if (pressedPositions.has(posKey) || state.pressed) {
             classes.push(styles.pressed);
         }
@@ -107,12 +115,8 @@ export function Violin({
         if (isHighlighted || state.highlighted) {
             classes.push(styles.highlighted);
         }
-        if (state.correct) {
-            classes.push(styles.correct);
-        }
-        if (state.wrong) {
-            classes.push(styles.wrong);
-        }
+        if (state.correct) classes.push(styles.correct);
+        if (state.wrong) classes.push(styles.wrong);
 
         return classes.join(" ");
     };
@@ -121,40 +125,60 @@ export function Violin({
         <div className={styles.violin}>
             <div className={styles.violinContainer}>
                 {isLoading && (
-                    <div className={styles.loading}>Loading sounds...</div>
+                    <div className={styles.loading}>Loading violin...</div>
                 )}
 
-                {/* Scroll (head) */}
+                {/* Scroll (decorative top) */}
                 <div className={styles.scroll}>
-                    <div className={styles.pegBox}>
-                        {STRING_NAMES.map((name, i) => (
-                            <div key={i} className={styles.peg} title={`${name} string`} />
-                        ))}
+                    <div className={styles.scrollSpiral} />
+                </div>
+
+                {/* Peg box */}
+                <div className={styles.pegBox}>
+                    <div className={styles.pegsLeft}>
+                        <div className={styles.peg} title="E string" />
+                        <div className={styles.peg} title="A string" />
+                    </div>
+                    <div className={styles.pegBoxCenter} />
+                    <div className={styles.pegsRight}>
+                        <div className={styles.peg} title="D string" />
+                        <div className={styles.peg} title="G string" />
                     </div>
                 </div>
 
-                {/* Fingerboard */}
-                <div className={styles.fingerboard}>
-                    {/* Strings */}
-                    <div className={styles.strings}>
-                        {STRING_TUNING.map((_, stringIndex) => (
-                            <div key={stringIndex} className={styles.stringLine}>
-                                {/* String label */}
-                                {showLabels && (
-                                    <span className={styles.stringLabel}>
-                                        {STRING_NAMES[stringIndex]}
-                                    </span>
-                                )}
+                {/* Nut */}
+                <div className={styles.nut} />
 
-                                {/* Finger positions */}
-                                {Array.from({ length: POSITIONS }).map((_, posIndex) => (
+                {/* Fingerboard with strings */}
+                <div className={styles.fingerboard}>
+                    {/* String lines (visual) */}
+                    <div className={styles.stringLines}>
+                        {STRING_TUNING.map((_, i) => (
+                            <div
+                                key={i}
+                                className={styles.stringLine}
+                                style={{
+                                    background: STRING_COLORS[i],
+                                    width: `${1 + i * 0.5}px`,
+                                }}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Finger positions grid */}
+                    <div className={styles.positionGrid}>
+                        {Array.from({ length: POSITIONS }).map((_, posIndex) => (
+                            <div key={posIndex} className={styles.positionRow}>
+                                {STRING_TUNING.map((_, stringIndex) => (
                                     <div
-                                        key={posIndex}
+                                        key={stringIndex}
                                         className={getPositionClassName(stringIndex, posIndex)}
                                         onClick={() => handlePress(stringIndex, posIndex)}
                                     >
-                                        {showLabels && posIndex === 0 && (
-                                            <span className={styles.posLabel}>Open</span>
+                                        {showLabels && (
+                                            <span className={styles.posLabel}>
+                                                {posIndex === 0 ? "○" : getNoteName(STRING_TUNING[stringIndex], posIndex)}
+                                            </span>
                                         )}
                                     </div>
                                 ))}
@@ -163,13 +187,41 @@ export function Violin({
                     </div>
                 </div>
 
-                {/* Body */}
-                <div className={styles.body}>
-                    <div className={styles.fHole} />
-                    <div className={styles.bridge} />
-                    <div className={styles.fHoleRight} />
-                    <div className={styles.tailpiece} />
+                {/* Upper bout */}
+                <div className={styles.upperBout} />
+
+                {/* C-bout (waist) with f-holes */}
+                <div className={styles.cBout}>
+                    <div className={styles.fHoleLeft}>𝑓</div>
+                    <div className={styles.fHoleRight}>𝑓</div>
                 </div>
+
+                {/* Bridge */}
+                <div className={styles.bridge} />
+
+                {/* Lower bout */}
+                <div className={styles.lowerBout}>
+                    {/* Tailpiece */}
+                    <div className={styles.tailpiece}>
+                        <div className={styles.fineTuners}>
+                            {STRING_NAMES.map((_, i) => (
+                                <div key={i} className={styles.fineTuner} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Chin rest */}
+                <div className={styles.chinRest} />
+
+                {/* String labels */}
+                {showLabels && (
+                    <div className={styles.stringLabels}>
+                        {STRING_NAMES.map((name, i) => (
+                            <span key={i} className={styles.stringName}>{name}</span>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

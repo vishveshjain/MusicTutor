@@ -11,19 +11,21 @@ export interface SaxophoneProps {
     interactive?: boolean;
 }
 
-// Saxophone notes (simplified - Alto Saxophone range)
+// Saxophone notes (Alto Saxophone concert pitch range)
 const NOTES = [
     { note: "D4", label: "D", position: 0 },
     { note: "E4", label: "E", position: 1 },
     { note: "F4", label: "F", position: 2 },
-    { note: "G4", label: "G", position: 3 },
-    { note: "A4", label: "A", position: 4 },
-    { note: "B4", label: "B", position: 5 },
-    { note: "C5", label: "C", position: 6 },
-    { note: "D5", label: "D'", position: 7 },
-    { note: "E5", label: "E'", position: 8 },
-    { note: "F5", label: "F'", position: 9 },
-    { note: "G5", label: "G'", position: 10 },
+    { note: "F#4", label: "F#", position: 3 },
+    { note: "G4", label: "G", position: 4 },
+    { note: "A4", label: "A", position: 5 },
+    { note: "A#4", label: "Bb", position: 6 },
+    { note: "B4", label: "B", position: 7 },
+    { note: "C5", label: "C'", position: 8 },
+    { note: "D5", label: "D'", position: 9 },
+    { note: "E5", label: "E'", position: 10 },
+    { note: "F5", label: "F'", position: 11 },
+    { note: "G5", label: "G'", position: 12 },
 ];
 
 export function Saxophone({
@@ -69,58 +71,89 @@ export function Saxophone({
         [interactive, onNotePlay]
     );
 
-    const getKeyClassName = (note: string) => {
-        const classes = [styles.key];
-        if (pressedNote === note) classes.push(styles.pressed);
-        if (highlightedNote === note) classes.push(styles.highlighted);
-        return classes.join(" ");
-    };
+    const isActive = (note: string) => pressedNote === note;
+    const isHighlighted = (note: string) => highlightedNote === note;
 
     return (
         <div className={styles.saxophone}>
-            <div className={styles.saxContainer}>
+            <div className={styles.layout}>
                 {isLoading && (
-                    <div className={styles.loading}>Loading sounds...</div>
+                    <div className={styles.loading}>Loading saxophone...</div>
                 )}
 
-                {/* Mouthpiece and neck */}
-                <div className={styles.mouthpiece}>
-                    <div className={styles.reed}></div>
-                </div>
-                <div className={styles.neck}></div>
+                {/* Visual saxophone */}
+                <div className={styles.saxVisual}>
+                    {/* Mouthpiece */}
+                    <div className={styles.mouthpiece}>
+                        <div className={styles.reed} />
+                        <div className={styles.ligature} />
+                    </div>
 
-                {/* Body with keys */}
-                <div className={styles.body}>
-                    <div className={styles.keys}>
-                        {NOTES.map((noteObj) => (
+                    {/* Neck (crook) */}
+                    <div className={styles.neck}>
+                        <div className={styles.neckOctaveKey} />
+                    </div>
+
+                    {/* Upper body */}
+                    <div className={styles.upperBody}>
+                        {/* Left hand keys */}
+                        <div className={styles.keyCluster}>
+                            {NOTES.slice(0, 6).map((n) => (
+                                <div
+                                    key={n.note}
+                                    className={`${styles.saxKey} ${isActive(n.note) ? styles.keyDown : ""} ${isHighlighted(n.note) ? styles.keyGlow : ""}`}
+                                    onClick={() => handlePress(n.note)}
+                                    title={n.label}
+                                >
+                                    <div className={styles.keyPad} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className={styles.bodyTube} />
+                    </div>
+
+                    {/* Lower body (bow area) */}
+                    <div className={styles.lowerBody}>
+                        {/* Right hand keys */}
+                        <div className={styles.keyCluster}>
+                            {NOTES.slice(6).map((n) => (
+                                <div
+                                    key={n.note}
+                                    className={`${styles.saxKey} ${isActive(n.note) ? styles.keyDown : ""} ${isHighlighted(n.note) ? styles.keyGlow : ""}`}
+                                    onClick={() => handlePress(n.note)}
+                                    title={n.label}
+                                >
+                                    <div className={styles.keyPad} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className={styles.bodyTube} />
+                    </div>
+
+                    {/* Bell */}
+                    <div className={styles.bell}>
+                        <div className={styles.bellRim} />
+                        <div className={styles.bellInner} />
+                    </div>
+                </div>
+
+                {/* Note buttons grid for easy playing */}
+                <div className={styles.notePanel}>
+                    <div className={styles.notePanelTitle}>
+                        🎷 Play Notes
+                    </div>
+                    <div className={styles.noteGrid}>
+                        {NOTES.map((n) => (
                             <button
-                                key={noteObj.note}
-                                className={getKeyClassName(noteObj.note)}
-                                onClick={() => handlePress(noteObj.note)}
+                                key={n.note}
+                                className={`${styles.noteBtn} ${isActive(n.note) ? styles.noteBtnActive : ""} ${isHighlighted(n.note) ? styles.noteBtnHighlighted : ""}`}
+                                onClick={() => handlePress(n.note)}
                             >
-                                {showLabels && (
-                                    <span className={styles.keyLabel}>{noteObj.label}</span>
-                                )}
+                                <span className={styles.noteName}>{n.label}</span>
                             </button>
                         ))}
                     </div>
                 </div>
-
-                {/* Bell */}
-                <div className={styles.bell}></div>
-            </div>
-
-            {/* Note buttons for easier access */}
-            <div className={styles.noteGrid}>
-                {NOTES.map((noteObj) => (
-                    <button
-                        key={noteObj.note}
-                        className={`${styles.noteBtn} ${highlightedNote === noteObj.note ? styles.highlighted : ""} ${pressedNote === noteObj.note ? styles.pressed : ""}`}
-                        onClick={() => handlePress(noteObj.note)}
-                    >
-                        {noteObj.label}
-                    </button>
-                ))}
             </div>
         </div>
     );

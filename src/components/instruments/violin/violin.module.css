@@ -1,7 +1,10 @@
+/* ===== VIOLIN - REALISTIC STYLE ===== */
+
 .violin {
     display: flex;
     justify-content: center;
-    padding: var(--space-4);
+    padding: 1rem;
+    overflow-y: auto;
 }
 
 .violinContainer {
@@ -9,6 +12,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    max-width: 220px;
 }
 
 .loading {
@@ -16,178 +20,343 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: var(--bg-elevated);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #aaa;
+    z-index: 20;
+    backdrop-filter: blur(4px);
 }
 
-/* Scroll (head) */
+/* ===== SCROLL ===== */
 .scroll {
-    width: 60px;
-    height: 40px;
-    background: linear-gradient(135deg, #3d2817 0%, #5c3d2e 100%);
-    border-radius: 30px 30px 5px 5px;
+    width: 30px;
+    height: 22px;
+    background: linear-gradient(180deg,
+            #6b4226 0%, #4a2a14 100%);
+    border-radius: 15px 15px 3px 3px;
     position: relative;
+    z-index: 2;
 }
 
+.scrollSpiral {
+    position: absolute;
+    top: 3px;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(90, 50, 20, 0.6);
+    border-radius: 50%;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    transform: rotate(-45deg);
+}
+
+/* ===== PEG BOX ===== */
 .pegBox {
     display: flex;
-    justify-content: space-around;
-    padding: 8px;
-}
-
-.peg {
-    width: 8px;
-    height: 20px;
-    background: #1a1a1a;
-    border-radius: 2px;
-}
-
-/* Fingerboard */
-.fingerboard {
-    width: 80px;
-    background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-radius: 4px;
-    padding: var(--space-2);
-    min-height: 300px;
-}
-
-.strings {
-    display: flex;
-    justify-content: space-around;
-    height: 100%;
-}
-
-.stringLine {
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 50px;
     position: relative;
-}
-
-.stringLine::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
-    z-index: 0;
-}
-
-.stringLabel {
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    margin-bottom: var(--space-1);
     z-index: 1;
 }
 
+.pegBoxCenter {
+    width: 16px;
+    height: 100%;
+    background: linear-gradient(180deg,
+            #5a3218 0%, #3d2010 100%);
+    border-radius: 2px;
+}
+
+.pegsLeft,
+.pegsRight {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+}
+
+.peg {
+    width: 20px;
+    height: 5px;
+    background: linear-gradient(90deg,
+            #2a1a0a 0%, #1a0e05 50%, #2a1a0a 100%);
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.pegsLeft .peg {
+    margin-right: -4px;
+}
+
+.pegsRight .peg {
+    margin-left: -4px;
+}
+
+/* ===== NUT ===== */
+.nut {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(180deg, #f5f0e0, #d8d0b8);
+    border-radius: 1px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+/* ===== FINGERBOARD ===== */
+.fingerboard {
+    width: 68px;
+    background: linear-gradient(180deg,
+            #1a1a1a 0%, #0f0f0f 50%, #1a1a1a 100%);
+    border-radius: 3px;
+    padding: 4px 6px;
+    position: relative;
+    z-index: 2;
+    box-shadow:
+        inset 0 0 8px rgba(0, 0, 0, 0.5),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* String lines running through fingerboard */
+.stringLines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stringLine {
+    height: 100%;
+    border-radius: 1px;
+    opacity: 0.7;
+    box-shadow: 0 0 2px rgba(200, 180, 140, 0.3);
+}
+
+/* Grid of finger positions */
+.positionGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+.positionRow {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.positionRow:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Individual finger position */
 .position {
-    width: 24px;
-    height: 32px;
+    width: 28%;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     position: relative;
-    z-index: 1;
-    transition: all 0.15s ease;
+    transition: all 0.1s ease;
+    border-radius: 3px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.openString {
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .position:hover {
     background: rgba(139, 92, 246, 0.2);
-    border-radius: 4px;
 }
 
 .position.pressed {
-    background: rgba(139, 92, 246, 0.5);
-    border-radius: 4px;
+    background: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
 }
 
 .position.highlighted {
     background: rgba(139, 92, 246, 0.4);
-    border-radius: 4px;
-    animation: pulse 1s infinite;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    animation: violinPulse 0.8s infinite ease-in-out;
 }
 
 .position.correct {
     background: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 .position.wrong {
     background: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 }
 
 .posLabel {
-    font-size: 8px;
-    color: var(--text-muted);
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* Body */
-.body {
-    width: 120px;
-    height: 160px;
-    background: linear-gradient(135deg, #8B4513 0%, #5c3d2e 50%, #8B4513 100%);
-    border-radius: 10px 10px 60px 60px;
+/* ===== UPPER BOUT ===== */
+.upperBout {
+    width: 100px;
+    height: 40px;
+    background: linear-gradient(135deg,
+            #a06830 0%, #8b5020 25%, #7a4518 50%, #8b5020 75%, #a06830 100%);
+    border-radius: 50px 50px 20px 20px;
+    margin-top: -2px;
+    box-shadow:
+        inset 0 4px 10px rgba(0, 0, 0, 0.2),
+        inset -4px 0 8px rgba(0, 0, 0, 0.15),
+        inset 4px 0 8px rgba(255, 255, 255, 0.05),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== C-BOUT (Waist) ===== */
+.cBout {
+    width: 66px;
+    height: 35px;
+    background: linear-gradient(135deg,
+            #a06830 0%, #8b5020 30%, #7a4518 60%, #8b5020 100%);
     position: relative;
     box-shadow:
-        inset 0 0 30px rgba(0, 0, 0, 0.3),
-        0 4px 15px rgba(0, 0, 0, 0.4);
+        inset -3px 0 6px rgba(0, 0, 0, 0.2),
+        inset 3px 0 6px rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
 }
 
-.fHole,
+/* f-holes */
+.fHoleLeft,
 .fHoleRight {
-    position: absolute;
-    width: 12px;
-    height: 40px;
-    border: 2px solid #1a1a1a;
-    border-radius: 50%;
-    top: 40px;
-}
-
-.fHole {
-    left: 20px;
-    transform: rotate(-15deg);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(20, 12, 5, 0.8);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    font-family: "Times New Roman", serif;
+    line-height: 1;
+    user-select: none;
 }
 
 .fHoleRight {
-    right: 20px;
-    transform: rotate(15deg);
+    transform: scaleX(-1);
 }
 
+/* ===== BRIDGE ===== */
 .bridge {
-    position: absolute;
     width: 50px;
-    height: 6px;
-    background: #3d2817;
-    top: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 2px;
+    height: 5px;
+    background: linear-gradient(180deg,
+            #e8dcc0 0%, #c8b890 100%);
+    border-radius: 1px 1px 0 0;
+    z-index: 3;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    margin: -1px 0;
 }
 
+/* ===== LOWER BOUT ===== */
+.lowerBout {
+    width: 120px;
+    height: 65px;
+    background: linear-gradient(135deg,
+            #a06830 0%, #8b5020 20%, #7a4518 45%, #6b3a12 65%, #8b5020 85%, #a06830 100%);
+    border-radius: 15px 15px 60px 60px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    box-shadow:
+        inset 0 -6px 15px rgba(0, 0, 0, 0.2),
+        inset -5px 0 10px rgba(0, 0, 0, 0.15),
+        inset 5px 0 10px rgba(255, 255, 255, 0.05),
+        0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Tailpiece */
 .tailpiece {
     position: absolute;
-    width: 20px;
-    height: 30px;
-    background: #1a1a1a;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 4px;
+    top: 6px;
+    width: 22px;
+    height: 32px;
+    background: linear-gradient(180deg,
+            #1a1a1a 0%, #0a0a0a 100%);
+    border-radius: 3px 3px 8px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 4px;
 }
 
-@keyframes pulse {
+.fineTuners {
+    display: flex;
+    gap: 2px;
+}
+
+.fineTuner {
+    width: 3px;
+    height: 8px;
+    background: linear-gradient(180deg, #d0d0d0, #888);
+    border-radius: 1px;
+}
+
+/* ===== CHIN REST ===== */
+.chinRest {
+    width: 36px;
+    height: 18px;
+    background: linear-gradient(135deg,
+            #2a1a0a 0%, #1a0e05 60%, #2a1a0a 100%);
+    border-radius: 0 0 18px 18px;
+    margin-top: -3px;
+    margin-left: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== STRING LABELS ===== */
+.stringLabels {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.stringName {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    width: 20px;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes violinPulse {
 
     0%,
     100% {
-        opacity: 1;
+        box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
     }
 
     50% {
-        opacity: 0.6;
+        box-shadow: 0 0 16px rgba(139, 92, 246, 0.7);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .violinContainer {
+        transform: scale(0.9);
     }
 }
