@@ -11,6 +11,11 @@ import { HARMONIUM_BEGINNER_LESSONS } from "./harmonium-lessons";
 import { HARMONIUM_INTERMEDIATE_LESSONS } from "./harmonium-intermediate";
 import { HARMONIUM_ADVANCED_LESSONS } from "./harmonium-advanced";
 
+// Import comprehensive piano curriculum
+import { PIANO_BEGINNER_LESSONS } from "./piano-lessons";
+import { PIANO_INTERMEDIATE_LESSONS } from "./piano-intermediate";
+import { PIANO_ADVANCED_LESSONS } from "./piano-advanced";
+
 // ===== HARMONIUM LESSONS =====
 
 export const HARMONIUM_BEGINNER_LESSON_1: Lesson = {
@@ -973,6 +978,23 @@ export function getLesson(instrument: string, level: SkillLevel, lessonId: strin
         if (level === "beginner") return HARMONIUM_BEGINNER_LESSONS[HARMONIUM_BEGINNER_LESSONS.length - 1];
         if (level === "intermediate") return HARMONIUM_INTERMEDIATE_LESSONS[HARMONIUM_INTERMEDIATE_LESSONS.length - 1];
         if (level === "advanced") return HARMONIUM_ADVANCED_LESSONS[HARMONIUM_ADVANCED_LESSONS.length - 1];
+    }
+
+    // Special handling for piano - use comprehensive curriculum
+    if (instrument === "piano") {
+        const lessonIndex = lessonNum - 1;
+        if (level === "beginner" && lessonIndex < PIANO_BEGINNER_LESSONS.length) {
+            return PIANO_BEGINNER_LESSONS[lessonIndex];
+        }
+        if (level === "intermediate" && lessonIndex < PIANO_INTERMEDIATE_LESSONS.length) {
+            return PIANO_INTERMEDIATE_LESSONS[lessonIndex];
+        }
+        if (level === "advanced" && lessonIndex < PIANO_ADVANCED_LESSONS.length) {
+            return PIANO_ADVANCED_LESSONS[lessonIndex];
+        }
+        if (level === "beginner") return PIANO_BEGINNER_LESSONS[PIANO_BEGINNER_LESSONS.length - 1];
+        if (level === "intermediate") return PIANO_INTERMEDIATE_LESSONS[PIANO_INTERMEDIATE_LESSONS.length - 1];
+        if (level === "advanced") return PIANO_ADVANCED_LESSONS[PIANO_ADVANCED_LESSONS.length - 1];
     }
 
     // Get the instrument lessons
