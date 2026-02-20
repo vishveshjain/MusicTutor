@@ -17,10 +17,10 @@ const DRUMS = [
     { id: "crash", name: "Crash", shortcut: "C", note: "A#4" },
     { id: "ride", name: "Ride", shortcut: "R", note: "D#5" },
     { id: "snare", name: "Snare", shortcut: "S", note: "D4" },
-    { id: "tom1", name: "Tom 1", shortcut: "T", note: "G4" },
-    { id: "tom2", name: "Tom 2", shortcut: "Y", note: "E4" },
+    { id: "tom1", name: "High Tom", shortcut: "T", note: "G4" },
+    { id: "tom2", name: "Mid Tom", shortcut: "Y", note: "E4" },
     { id: "floortom", name: "Floor Tom", shortcut: "F", note: "C4" },
-    { id: "kick", name: "Kick", shortcut: "K", note: "C3" },
+    { id: "kick", name: "Bass Drum", shortcut: "K", note: "C3" },
 ];
 
 export function Drums({
@@ -94,63 +94,107 @@ export function Drums({
                     <div className={styles.loading}>Loading sounds...</div>
                 )}
 
+                {/* Cymbal stands (behind everything) */}
+                <div className={styles.stands}>
+                    <div className={`${styles.stand} ${styles.hihatStand}`} />
+                    <div className={`${styles.stand} ${styles.crashStand}`} />
+                    <div className={`${styles.stand} ${styles.rideStand}`} />
+                </div>
+
                 {/* Cymbals row */}
                 <div className={styles.cymbalsRow}>
                     <div
                         className={getDrumClassName("hihat")}
                         onClick={() => handlePress("hihat", "F#4")}
                     >
-                        {showLabels && <span className={styles.label}>Hi-Hat</span>}
+                        <div className={styles.cymbalSurface}>
+                            <div className={styles.cymbalRings} />
+                            <div className={styles.cymbalBell} />
+                        </div>
+                        {showLabels && <span className={styles.label}>Hi-Hat <kbd>{DRUMS[0].shortcut}</kbd></span>}
                     </div>
                     <div
                         className={getDrumClassName("crash")}
                         onClick={() => handlePress("crash", "A#4")}
                     >
-                        {showLabels && <span className={styles.label}>Crash</span>}
+                        <div className={styles.cymbalSurface}>
+                            <div className={styles.cymbalRings} />
+                            <div className={styles.cymbalBell} />
+                        </div>
+                        {showLabels && <span className={styles.label}>Crash <kbd>{DRUMS[1].shortcut}</kbd></span>}
                     </div>
                     <div
                         className={getDrumClassName("ride")}
                         onClick={() => handlePress("ride", "D#5")}
                     >
-                        {showLabels && <span className={styles.label}>Ride</span>}
+                        <div className={styles.cymbalSurface}>
+                            <div className={styles.cymbalRings} />
+                            <div className={styles.cymbalBell} />
+                        </div>
+                        {showLabels && <span className={styles.label}>Ride <kbd>{DRUMS[2].shortcut}</kbd></span>}
                     </div>
                 </div>
 
-                {/* Toms row */}
+                {/* Toms mounted on bass drum */}
                 <div className={styles.tomsRow}>
                     <div
                         className={getDrumClassName("tom1")}
                         onClick={() => handlePress("tom1", "G4")}
                     >
-                        {showLabels && <span className={styles.label}>Tom 1</span>}
-                    </div>
-                    <div
-                        className={getDrumClassName("snare")}
-                        onClick={() => handlePress("snare", "D4")}
-                    >
-                        {showLabels && <span className={styles.label}>Snare</span>}
+                        <div className={styles.drumHead}>
+                            <div className={styles.drumRim} />
+                        </div>
+                        <div className={styles.drumShell} />
+                        {showLabels && <span className={styles.label}>Hi Tom <kbd>{DRUMS[4].shortcut}</kbd></span>}
                     </div>
                     <div
                         className={getDrumClassName("tom2")}
                         onClick={() => handlePress("tom2", "E4")}
                     >
-                        {showLabels && <span className={styles.label}>Tom 2</span>}
+                        <div className={styles.drumHead}>
+                            <div className={styles.drumRim} />
+                        </div>
+                        <div className={styles.drumShell} />
+                        {showLabels && <span className={styles.label}>Mid Tom <kbd>{DRUMS[5].shortcut}</kbd></span>}
                     </div>
                 </div>
 
-                {/* Bottom row */}
-                <div className={styles.bottomRow}>
+                {/* Main row: snare + kick + floor tom */}
+                <div className={styles.mainRow}>
                     <div
-                        className={getDrumClassName("floortom")}
-                        onClick={() => handlePress("floortom", "C4")}
+                        className={getDrumClassName("snare")}
+                        onClick={() => handlePress("snare", "D4")}
                     >
-                        {showLabels && <span className={styles.label}>Floor</span>}
+                        <div className={styles.drumHead}>
+                            <div className={styles.drumRim} />
+                            <div className={styles.snareWires} />
+                        </div>
+                        <div className={styles.drumShell} />
+                        {showLabels && <span className={styles.label}>Snare <kbd>{DRUMS[3].shortcut}</kbd></span>}
                     </div>
+
                     <div
                         className={getDrumClassName("kick")}
                         onClick={() => handlePress("kick", "C3")}
                     >
-                        {showLabels && <span className={styles.label}>Kick</span>}
+                        <div className={styles.kickFront}>
+                            <div className={styles.kickPort} />
+                            <div className={styles.kickLogo}>🥁</div>
+                        </div>
+                        <div className={styles.kickLegs} />
+                        {showLabels && <span className={styles.label}>Bass Drum <kbd>{DRUMS[7].shortcut}</kbd></span>}
+                    </div>
+
+                    <div
+                        className={getDrumClassName("floortom")}
+                        onClick={() => handlePress("floortom", "C4")}
+                    >
+                        <div className={styles.drumHead}>
+                            <div className={styles.drumRim} />
+                        </div>
+                        <div className={styles.drumShell} />
+                        <div className={styles.floorTomLegs} />
+                        {showLabels && <span className={styles.label}>Floor Tom <kbd>{DRUMS[6].shortcut}</kbd></span>}
                     </div>
                 </div>
             </div>
@@ -158,7 +202,7 @@ export function Drums({
             {/* Keyboard hints */}
             {showLabels && (
                 <div className={styles.hints}>
-                    Use keyboard: H S K T Y F C R
+                    ⌨️ Keyboard shortcuts shown on each piece
                 </div>
             )}
         </div>

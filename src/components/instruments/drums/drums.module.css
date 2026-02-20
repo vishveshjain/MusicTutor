@@ -1,156 +1,612 @@
+/* ===== DRUM KIT - REALISTIC STYLE ===== */
+
 .drums {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: var(--space-4);
-    gap: var(--space-4);
+    padding: 1.5rem 1rem;
+    gap: 0.5rem;
+    perspective: 800px;
 }
 
 .drumKit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-3);
     position: relative;
+    transform: rotateX(15deg);
+    transform-style: preserve-3d;
+    min-height: 420px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .loading {
     position: absolute;
-    background: var(--bg-elevated);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #aaa;
+    z-index: 20;
+    backdrop-filter: blur(4px);
 }
 
-.cymbalsRow,
-.tomsRow,
-.bottomRow {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4);
-}
-
-.drum {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.1s ease;
-    position: relative;
-}
-
-.label {
+/* ===== CYMBAL STANDS ===== */
+.stands {
     position: absolute;
-    bottom: -20px;
-    font-size: var(--text-xs);
-    color: var(--text-muted);
-    white-space: nowrap;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* Cymbals */
+.stand {
+    position: absolute;
+    width: 3px;
+    background: linear-gradient(to bottom,
+            #c0c0c0 0%,
+            #888 30%,
+            #666 100%);
+    border-radius: 2px;
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.hihatStand {
+    left: 12%;
+    top: 30px;
+    height: 180px;
+}
+
+.crashStand {
+    left: 38%;
+    top: 10px;
+    height: 160px;
+}
+
+.rideStand {
+    right: 15%;
+    top: 20px;
+    height: 170px;
+}
+
+/* ===== CYMBALS ROW ===== */
+.cymbalsRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 10px;
+    z-index: 2;
+    margin-bottom: -10px;
+}
+
+/* ===== CYMBAL BASE STYLE ===== */
 .hihat,
 .crash,
 .ride {
     border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #ffd700 100%);
+    cursor: pointer;
+    transition: all 0.08s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.cymbalSurface {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Concentric ring texture on cymbals */
+.cymbalRings {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        repeating-radial-gradient(circle at center,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.08) 3px,
+            rgba(0, 0, 0, 0.08) 4px);
+}
+
+/* Central bell of cymbal */
+.cymbalBell {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22%;
+    height: 22%;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            #ffe066 0%,
+            #daa520 60%,
+            #b8860b 100%);
     box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.3),
-        0 4px 10px rgba(0, 0, 0, 0.3);
+        0 1px 3px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 
+/* Hi-hat (smallest cymbal, left side) */
 .hihat {
-    width: 70px;
-    height: 70px;
+    width: 85px;
+    height: 85px;
+    background: radial-gradient(ellipse at 35% 35%,
+            #e8d44d 0%,
+            #c9a80f 25%,
+            #a68b00 50%,
+            #8b7500 75%,
+            #6b5a00 100%);
+    box-shadow:
+        inset 0 0 12px rgba(0, 0, 0, 0.25),
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 0 0 2px rgba(139, 117, 0, 0.5);
+    transform: rotateX(-20deg);
 }
 
+/* Crash (medium, tilted) */
 .crash {
-    width: 90px;
-    height: 90px;
-}
-
-.ride {
     width: 100px;
     height: 100px;
-}
-
-/* Drums */
-.snare,
-.tom1,
-.tom2,
-.floortom,
-.kick {
-    border-radius: 50%;
+    background: radial-gradient(ellipse at 40% 30%,
+            #ffd700 0%,
+            #daa520 30%,
+            #b8860b 55%,
+            #996515 80%,
+            #7a4f00 100%);
     box-shadow:
-        inset 0 0 20px rgba(0, 0, 0, 0.4),
-        0 4px 15px rgba(0, 0, 0, 0.4);
+        inset 0 0 15px rgba(0, 0, 0, 0.2),
+        0 3px 12px rgba(0, 0, 0, 0.5),
+        0 0 0 2px rgba(184, 134, 11, 0.5);
+    transform: rotateX(-15deg) rotateZ(-8deg);
+    margin-top: -15px;
 }
 
+/* Ride (largest cymbal, right side) */
+.ride {
+    width: 115px;
+    height: 115px;
+    background: radial-gradient(ellipse at 45% 35%,
+            #f0d060 0%,
+            #c9a80f 20%,
+            #a08000 45%,
+            #8b7500 70%,
+            #705c00 100%);
+    box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.2),
+        0 3px 14px rgba(0, 0, 0, 0.5),
+        0 0 0 3px rgba(160, 128, 0, 0.4);
+    transform: rotateX(-18deg) rotateZ(5deg);
+}
+
+/* ===== TOMS ROW (mounted on kick) ===== */
+.tomsRow {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 3;
+    margin-bottom: -20px;
+    margin-top: 5px;
+}
+
+/* ===== MAIN ROW: Snare + Kick + Floor Tom ===== */
+.mainRow {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 12px;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+}
+
+/* ===== DRUM PIECES ===== */
+.drum {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.06s ease, filter 0.06s ease;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* Drum head (top face, visible from above) */
+.drumHead {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Chrome rim around drum head */
+.drumRim {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: linear-gradient(135deg, #e0e0e0, #999, #ccc, #888) border-box;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Drum shell (body visible from side) */
+.drumShell {
+    width: 90%;
+    height: 16px;
+    border-radius: 0 0 6px 6px;
+    margin-top: -4px;
+    z-index: 0;
+}
+
+/* ===== SNARE DRUM ===== */
 .snare {
+    width: 110px;
+    height: 110px;
+    align-self: flex-end;
+}
+
+.snare .drumHead {
+    background: radial-gradient(ellipse at 40% 35%,
+            #fff 0%,
+            #f0ece0 20%,
+            #e8e0d0 50%,
+            #d8cbb8 80%,
+            #c8b8a0 100%);
+    box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 3px solid #b0b0b0;
+}
+
+/* Snare wires visual */
+.snareWires {
+    position: absolute;
+    bottom: 20%;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: repeating-linear-gradient(to right,
+            transparent 0px,
+            transparent 3px,
+            rgba(180, 180, 180, 0.7) 3px,
+            rgba(180, 180, 180, 0.7) 4px);
+}
+
+.snare .drumShell {
+    background: linear-gradient(to bottom,
+            #d0d0d0 0%,
+            #a8a8a8 50%,
+            #888 100%);
+    border: 1px solid #999;
+    height: 22px;
+}
+
+/* ===== HIGH TOM ===== */
+.tom1 {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%);
-    border: 4px solid #8B4513;
 }
 
-.tom1 {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%);
-    border: 3px solid #8B0000;
+.tom1 .drumHead {
+    background: radial-gradient(ellipse at 40% 35%,
+            #fff 0%,
+            #f0ece0 30%,
+            #e0d8c8 60%,
+            #d0c0a8 100%);
+    box-shadow:
+        inset 0 0 12px rgba(0, 0, 0, 0.15),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+    border: 2px solid #b0b0b0;
 }
 
+.tom1 .drumShell {
+    background: linear-gradient(to bottom,
+            #8b0000 0%,
+            #6b0000 40%,
+            #4a0000 100%);
+    border: 1px solid #5a0000;
+    height: 20px;
+}
+
+/* ===== MID TOM ===== */
 .tom2 {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%);
-    border: 3px solid #8B0000;
-}
-
-.floortom {
     width: 90px;
     height: 90px;
-    background: linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%);
-    border: 4px solid #8B0000;
 }
 
-.kick {
+.tom2 .drumHead {
+    background: radial-gradient(ellipse at 40% 35%,
+            #fff 0%,
+            #f0ece0 30%,
+            #e0d8c8 60%,
+            #d0c0a8 100%);
+    box-shadow:
+        inset 0 0 14px rgba(0, 0, 0, 0.15),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+    border: 2px solid #b0b0b0;
+}
+
+.tom2 .drumShell {
+    background: linear-gradient(to bottom,
+            #8b0000 0%,
+            #6b0000 40%,
+            #4a0000 100%);
+    border: 1px solid #5a0000;
+    height: 24px;
+}
+
+/* ===== FLOOR TOM ===== */
+.floortom {
     width: 120px;
     height: 120px;
-    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-    border: 6px solid #4a4a4a;
+    align-self: flex-end;
 }
 
-/* States */
+.floortom .drumHead {
+    background: radial-gradient(ellipse at 40% 35%,
+            #fff 0%,
+            #f0ece0 25%,
+            #e0d8c8 55%,
+            #d0c0a8 100%);
+    box-shadow:
+        inset 0 0 18px rgba(0, 0, 0, 0.15),
+        0 2px 10px rgba(0, 0, 0, 0.3);
+    border: 3px solid #b0b0b0;
+}
+
+.floortom .drumShell {
+    background: linear-gradient(to bottom,
+            #8b0000 0%,
+            #6b0000 40%,
+            #4a0000 100%);
+    border: 1px solid #5a0000;
+    height: 30px;
+}
+
+/* Floor tom legs */
+.floorTomLegs {
+    position: absolute;
+    bottom: -20px;
+    left: 10%;
+    right: 10%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.floorTomLegs::before,
+.floorTomLegs::after {
+    content: '';
+    width: 3px;
+    height: 22px;
+    background: linear-gradient(to bottom, #aaa, #777);
+    border-radius: 2px;
+}
+
+/* ===== BASS DRUM (KICK) ===== */
+.kick {
+    width: 160px;
+    height: 160px;
+    z-index: 0;
+}
+
+.kickFront {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 45% 40%,
+            #2a2a2a 0%,
+            #1a1a1a 40%,
+            #111 70%,
+            #0a0a0a 100%);
+    border: 6px solid #555;
+    box-shadow:
+        inset 0 0 30px rgba(0, 0, 0, 0.6),
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        0 0 0 2px rgba(80, 80, 80, 0.3);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Sound hole on front head */
+.kickPort {
+    position: absolute;
+    width: 35%;
+    height: 35%;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            #000 0%,
+            #0a0a0a 60%,
+            #1a1a1a 100%);
+    border: 2px solid #444;
+    top: 25%;
+    right: 22%;
+}
+
+/* Brand logo area */
+.kickLogo {
+    font-size: 2rem;
+    position: absolute;
+    bottom: 28%;
+    left: 28%;
+    opacity: 0.7;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Kick drum spurs/legs */
+.kickLegs {
+    position: absolute;
+    bottom: -8px;
+    left: 15%;
+    right: 15%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.kickLegs::before,
+.kickLegs::after {
+    content: '';
+    width: 4px;
+    height: 14px;
+    background: linear-gradient(to bottom, #999, #666);
+    border-radius: 2px;
+}
+
+/* ===== LABELS ===== */
+.label {
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.label kbd {
+    display: inline-block;
+    padding: 0px 4px;
+    font-size: 0.55rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: inherit;
+    line-height: 1.4;
+}
+
+/* ===== INTERACTION STATES ===== */
 .drum:hover {
-    transform: scale(1.05);
+    transform: scale(1.04);
+    filter: brightness(1.1);
 }
 
+.drum:active,
 .drum.pressed {
-    transform: scale(0.95);
-    filter: brightness(1.2);
+    transform: scale(0.94);
+    filter: brightness(1.3);
+}
+
+/* Hit flash animation */
+.drum.pressed .drumHead,
+.drum.pressed .cymbalSurface,
+.drum.pressed .kickFront {
+    box-shadow:
+        0 0 20px rgba(255, 200, 60, 0.5),
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .drum.highlighted {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
-    animation: pulse 1s infinite;
+    animation: drumPulse 0.8s infinite ease-in-out;
 }
 
+.drum.highlighted .drumHead,
+.drum.highlighted .cymbalSurface,
+.drum.highlighted .kickFront {
+    box-shadow:
+        0 0 25px rgba(139, 92, 246, 0.7),
+        0 0 50px rgba(139, 92, 246, 0.3);
+}
+
+/* ===== HINTS ===== */
 .hints {
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    margin-top: var(--space-4);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 1.5rem;
+    text-align: center;
 }
 
-@keyframes pulse {
+/* ===== ANIMATIONS ===== */
+@keyframes drumPulse {
 
     0%,
     100% {
-        box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+        filter: brightness(1) drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
     }
 
     50% {
-        box-shadow: 0 0 30px rgba(139, 92, 246, 0.8);
+        filter: brightness(1.15) drop-shadow(0 0 16px rgba(139, 92, 246, 0.9));
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .drumKit {
+        transform: rotateX(10deg) scale(0.8);
+        min-height: 340px;
+    }
+
+    .cymbalsRow {
+        gap: 4px;
+    }
+
+    .hihat {
+        width: 65px;
+        height: 65px;
+    }
+
+    .crash {
+        width: 80px;
+        height: 80px;
+    }
+
+    .ride {
+        width: 90px;
+        height: 90px;
+    }
+
+    .snare {
+        width: 85px;
+        height: 85px;
+    }
+
+    .tom1 {
+        width: 62px;
+        height: 62px;
+    }
+
+    .tom2 {
+        width: 72px;
+        height: 72px;
+    }
+
+    .floortom {
+        width: 95px;
+        height: 95px;
+    }
+
+    .kick {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+@media (max-width: 360px) {
+    .drumKit {
+        transform: rotateX(8deg) scale(0.65);
     }
 }
