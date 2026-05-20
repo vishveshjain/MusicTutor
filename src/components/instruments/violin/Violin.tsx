@@ -13,6 +13,7 @@ export interface FretState {
 
 export interface ViolinProps {
     highlightedPositions?: { string: number; position: number }[];
+    highlightedNote?: string;
     onNotePlay?: (string: number, position: number, note: string) => void;
     fretStates?: Record<string, FretState>;
     showLabels?: boolean;
@@ -23,7 +24,7 @@ export interface ViolinProps {
 const STRING_TUNING = ["E5", "A4", "D4", "G3"];
 const STRING_NAMES = ["E", "A", "D", "G"];
 const STRING_COLORS = ["#e8e0d0", "#d4c8b0", "#c8b890", "#b8a878"];
-const POSITIONS = 8; // Finger positions on the fingerboard
+const POSITIONS = 9; // Finger positions on the fingerboard (0 is open, 1-8 are positions)
 
 const NOTES_MAP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
@@ -48,12 +49,14 @@ function getNoteName(openNote: string, position: number): string {
 
 export function Violin({
     highlightedPositions = [],
+    highlightedNote,
     onNotePlay,
     fretStates = {},
     showLabels = true,
     interactive = true,
 }: ViolinProps) {
     const [pressedPositions, setPressedPositions] = useState<Set<string>>(new Set());
+    const [lastPlayedNote, setLastPlayedNote] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -79,6 +82,7 @@ export function Violin({
             const note = getNoteFromPosition(openNote, position);
 
             setPressedPositions((prev) => new Set(prev).add(posKey));
+            setLastPlayedNote(note);
 
             const player = getSoundPlayer();
             await player.playNote("violin", note, 1.5);
@@ -96,6 +100,47 @@ export function Violin({
             }, 600);
         },
         [interactive, onNotePlay]
+    );
+
+    // Keyboard support: keys 1-4 trigger strings
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!interactive) return;
+            const key = e.key;
+            if (key >= "1" && key <= "4") {
+                const stringIndex = parseInt(key) - 1;
+                // If this string has a highlighted position, play that position, else play open (0)
+                const targetPos = highlightedPositions.find((p) => p.string === stringIndex);
+                const positionIndex = targetPos ? targetPos.position : 0;
+                handlePress(stringIndex, positionIndex);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [interactive, highlightedPositions, handlePress]);
+
+    const getViolinHint = useCallback(() => {
+        if (!highlightedNote) return "Play any string to practice";
+        if (highlightedPositions.length === 0) return `Locating ${highlightedNote}...`;
+
+        const pos = highlightedPositions[0];
+        const stringName = STRING_NAMES[pos.string];
+        const stringNum = pos.string + 1;
+        if (pos.position === 0) {
+            return `Play Open String ${stringNum} (${stringName}) [Key ${stringNum}]`;
+        }
+        return `Press String ${stringNum} (${stringName}) at Position ${pos.position} [Key ${stringNum}]`;
+    }, [highlightedPositions, highlightedNote]);
+
+    const getCleanNoteName = (noteStr: string | null) => {
+        if (!noteStr) return "-";
+        return noteStr;
+    };
+
+    const isCorrect = lastPlayedNote && highlightedNote && (
+        lastPlayedNote === highlightedNote ||
+        lastPlayedNote.replace(/\d/, "") === highlightedNote.replace(/\d/, "")
     );
 
     const getPositionClassName = (stringIndex: number, position: number) => {
@@ -123,6 +168,25 @@ export function Violin({
 
     return (
         <div className={styles.violin}>
+            {/* Note Tutor Dashboard */}
+            <div className={styles.tutorDashboard}>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Target Note</span>
+                    <span className={styles.metricValue}>{getCleanNoteName(highlightedNote || null)}</span>
+                </div>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Your Note</span>
+                    <span className={`${styles.metricValue} ${isCorrect ? styles.tutorCorrect : ""}`}>
+                        {getCleanNoteName(lastPlayedNote)}
+                    </span>
+                </div>
+                <div className={styles.tutorHint}>
+                    <span className={styles.hintLabel}>Violin Guide:</span>
+                    <span className={styles.hintValue}>{getViolinHint()}</span>
+                    <span className={styles.keyboardGuide}>Keyboard: Keys 1 to 4 pluck strings</span>
+                </div>
+            </div>
+
             <div className={styles.violinContainer}>
                 {isLoading && (
                     <div className={styles.loading}>Loading violin...</div>

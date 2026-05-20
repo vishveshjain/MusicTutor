@@ -224,6 +224,7 @@ export function Tabla({
     interactive = true,
 }: TablaProps) {
     const [pressedBol, setPressedBol] = useState<string | null>(null);
+    const [lastPlayedBol, setLastPlayedBol] = useState<string | null>(null);
     const [activeDrum, setActiveDrum] = useState<"dayan" | "bayan" | "both" | null>(null);
     const audioCtxRef = useRef<AudioContext | null>(null);
 
@@ -243,6 +244,7 @@ export function Tabla({
             if (!interactive) return;
 
             setPressedBol(bolName);
+            setLastPlayedBol(bolName);
             setActiveDrum(drum as "dayan" | "bayan" | "both");
 
             const ctx = getAudioCtx();
@@ -281,8 +283,39 @@ export function Tabla({
         return classes.join(" ");
     };
 
+    const getBolHint = useCallback(() => {
+        if (!highlightedBol) return "Play any bol to practice";
+        const bol = BOLS.find(b => b.name.toLowerCase() === highlightedBol.toLowerCase());
+        if (bol) {
+            return `Play ${bol.name} (Press keyboard key "${bol.key}")`;
+        }
+        return `Play ${highlightedBol}`;
+    }, [highlightedBol]);
+
+    const isCorrect = lastPlayedBol && highlightedBol && (
+        lastPlayedBol.toLowerCase() === highlightedBol.toLowerCase()
+    );
+
     return (
         <div className={styles.tabla}>
+            {/* Note Tutor Dashboard */}
+            <div className={styles.tutorDashboard}>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Target Stroke</span>
+                    <span className={styles.metricValue}>{highlightedBol || "-"}</span>
+                </div>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Your Stroke</span>
+                    <span className={`${styles.metricValue} ${isCorrect ? styles.tutorCorrect : ""}`}>
+                        {lastPlayedBol || "-"}
+                    </span>
+                </div>
+                <div className={styles.tutorHint}>
+                    <span className={styles.hintLabel}>Tabla Guide:</span>
+                    <span className={styles.hintValue}>{getBolHint()}</span>
+                    <span className={styles.keyboardGuide}>Keyboard: Press keys shown on bols</span>
+                </div>
+            </div>
             <div className={styles.tablaContainer}>
                 {/* Realistic tabla pair */}
                 <div className={styles.drumPair}>

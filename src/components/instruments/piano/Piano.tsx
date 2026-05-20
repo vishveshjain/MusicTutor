@@ -15,6 +15,7 @@ export interface PianoProps {
     startOctave?: number;
     octaves?: number;
     highlightedNotes?: string[];
+    highlightedNote?: string;
     onNotePlay?: (note: string) => void;
     keyStates?: Record<string, KeyState>;
     showLabels?: boolean;
@@ -32,12 +33,14 @@ export function Piano({
     startOctave = 3,
     octaves = 3,
     highlightedNotes = [],
+    highlightedNote,
     onNotePlay,
     keyStates = {},
     showLabels = true,
     interactive = true,
 }: PianoProps) {
     const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
+    const [lastPlayedNote, setLastPlayedNote] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     // Preload the piano instrument sounds
@@ -94,12 +97,38 @@ export function Piano({
 
     const { whiteKeys, blackKeys } = generateKeys();
 
+    // Get keyboard shortcut character for a note
+    const getKeyboardShortcut = useCallback((fullNote: string): string | null => {
+        const keyMap: Record<string, string> = {
+            a: `C${startOctave}`,
+            w: `C#${startOctave}`,
+            s: `D${startOctave}`,
+            e: `D#${startOctave}`,
+            d: `E${startOctave}`,
+            f: `F${startOctave}`,
+            t: `F#${startOctave}`,
+            g: `G${startOctave}`,
+            y: `G#${startOctave}`,
+            h: `A${startOctave}`,
+            u: `A#${startOctave}`,
+            j: `B${startOctave}`,
+            k: `C${startOctave + 1}`,
+            o: `C#${startOctave + 1}`,
+            l: `D${startOctave + 1}`,
+            p: `D#${startOctave + 1}`,
+            ";": `E${startOctave + 1}`,
+        };
+        const entry = Object.entries(keyMap).find(([_, note]) => note === fullNote);
+        return entry ? entry[0].toUpperCase() : null;
+    }, [startOctave]);
+
     // Handle key press
     const handleKeyPress = useCallback(
         async (fullNote: string) => {
             if (!interactive) return;
 
             setPressedKeys((prev) => new Set(prev).add(fullNote));
+            setLastPlayedNote(fullNote);
 
             // Play sound
             const player = getSoundPlayer();
@@ -179,8 +208,46 @@ export function Piano({
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [interactive, startOctave, pressedKeys, handleKeyPress]);
 
+    const getPianoHint = useCallback(() => {
+        if (!highlightedNote) return "Play any key to practice";
+        const shortcut = getKeyboardShortcut(highlightedNote);
+        if (shortcut) {
+            return `Play ${highlightedNote} (Press keyboard key "${shortcut}")`;
+        }
+        return `Play key ${highlightedNote}`;
+    }, [highlightedNote, getKeyboardShortcut]);
+
+    const getCleanNoteName = (noteStr: string | null) => {
+        if (!noteStr) return "-";
+        return noteStr;
+    };
+
+    const isCorrect = lastPlayedNote && highlightedNote && (
+        lastPlayedNote === highlightedNote ||
+        lastPlayedNote.replace(/\d/, "") === highlightedNote.replace(/\d/, "")
+    );
+
     return (
         <div className={styles.piano}>
+            {/* Note Tutor Dashboard */}
+            <div className={styles.tutorDashboard}>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Target Note</span>
+                    <span className={styles.metricValue}>{getCleanNoteName(highlightedNote || null)}</span>
+                </div>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Your Note</span>
+                    <span className={`${styles.metricValue} ${isCorrect ? styles.tutorCorrect : ""}`}>
+                        {getCleanNoteName(lastPlayedNote)}
+                    </span>
+                </div>
+                <div className={styles.tutorHint}>
+                    <span className={styles.hintLabel}>Piano Guide:</span>
+                    <span className={styles.hintValue}>{getPianoHint()}</span>
+                    <span className={styles.keyboardGuide}>Keyboard: Press keys shown on screen</span>
+                </div>
+            </div>
+
             <div className={styles.pianoBody}>
                 {/* Loading overlay */}
                 {isLoading && (
@@ -208,10 +275,17 @@ export function Piano({
                                     aria-label={`Play ${fullNote}`}
                                 >
                                     {showLabels && (
-                                        <span className={styles.noteLabel}>
-                                            {note}
-                                            {note === "C" && <sub>{octave}</sub>}
-                                        </span>
+                                        <div className={styles.labelContainer}>
+                                            <span className={styles.noteLabel}>
+                                                {note}
+                                                {note === "C" && <sub>{octave}</sub>}
+                                            </span>
+                                            {getKeyboardShortcut(fullNote) && (
+                                                <span className={styles.keyShortcut}>
+                                                    {getKeyboardShortcut(fullNote)}
+                                                </span>
+                                            )}
+                                        </div>
                                     )}
                                 </button>
                             ))}
@@ -239,7 +313,14 @@ export function Piano({
                                             aria-label={`Play ${blackKey.fullNote}`}
                                         >
                                             {showLabels && (
-                                                <span className={styles.noteLabel}>{blackKey.note}</span>
+                                                <div className={styles.labelContainer}>
+                                                    <span className={styles.noteLabel}>{blackKey.note}</span>
+                                                    {getKeyboardShortcut(blackKey.fullNote) && (
+                                                        <span className={styles.keyShortcut}>
+                                                            {getKeyboardShortcut(blackKey.fullNote)}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             )}
                                         </button>
                                     </div>

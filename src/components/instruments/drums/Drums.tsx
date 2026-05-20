@@ -30,6 +30,7 @@ export function Drums({
     interactive = true,
 }: DrumsProps) {
     const [pressedDrum, setPressedDrum] = useState<string | null>(null);
+    const [lastPlayedDrum, setLastPlayedDrum] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -51,6 +52,7 @@ export function Drums({
             if (!interactive) return;
 
             setPressedDrum(drumId);
+            setLastPlayedDrum(drumId);
 
             const player = getSoundPlayer();
             await player.playNote("drums", note, 0.3);
@@ -87,8 +89,46 @@ export function Drums({
         return classes.join(" ");
     };
 
+    const getCleanDrumName = (drumId: string | null) => {
+        if (!drumId) return "-";
+        const drum = DRUMS.find(d => d.id === drumId);
+        return drum ? drum.name : drumId;
+    };
+
+    const getDrumHint = useCallback(() => {
+        if (!highlightedDrum) return "Hit any drum/cymbal to practice";
+        const drum = DRUMS.find(d => d.id === highlightedDrum);
+        if (drum) {
+            return `Hit ${drum.name} (Press keyboard key "${drum.shortcut}")`;
+        }
+        return `Hit ${highlightedDrum}`;
+    }, [highlightedDrum]);
+
+    const isCorrect = lastPlayedDrum && highlightedDrum && (
+        lastPlayedDrum === highlightedDrum
+    );
+
     return (
         <div className={styles.drums}>
+            {/* Note Tutor Dashboard */}
+            <div className={styles.tutorDashboard}>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Target Piece</span>
+                    <span className={styles.metricValue}>{getCleanDrumName(highlightedDrum || null)}</span>
+                </div>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Your Hit</span>
+                    <span className={`${styles.metricValue} ${isCorrect ? styles.tutorCorrect : ""}`}>
+                        {getCleanDrumName(lastPlayedDrum)}
+                    </span>
+                </div>
+                <div className={styles.tutorHint}>
+                    <span className={styles.hintLabel}>Drum Guide:</span>
+                    <span className={styles.hintValue}>{getDrumHint()}</span>
+                    <span className={styles.keyboardGuide}>Keyboard: Press keys shown on kit</span>
+                </div>
+            </div>
+
             <div className={styles.drumKit}>
                 {isLoading && (
                     <div className={styles.loading}>Loading sounds...</div>

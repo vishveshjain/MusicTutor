@@ -19,7 +19,7 @@ import { getSoundPlayer } from "@/lib/audio/sound-player";
 import { getLesson, type Lesson, type LessonStep } from "@/lib/lessons/lesson-content";
 import { completeLesson as saveProgress, addPracticeTime } from "@/lib/progress/progress-service";
 import { getSong } from "@/lib/songs/song-data";
-import { INDIAN_TO_WESTERN } from "@/lib/audio/note-frequencies";
+import { INDIAN_TO_WESTERN, WESTERN_TO_INDIAN } from "@/lib/audio/note-frequencies";
 
 function LessonContent() {
     const params = useParams();
@@ -238,6 +238,37 @@ function LessonContent() {
         }
     }, [step, instrument]);
 
+    const notesMatch = useCallback((played: string, expected: string): boolean => {
+        if (!played || !expected) return false;
+
+        // 1. Exact match
+        if (played === expected) return true;
+
+        // 2. Convert expected to Western if it is in Indian shorthand/names
+        const expectedWestern = INDIAN_TO_WESTERN[expected] || expected;
+        if (played === expectedWestern) return true;
+
+        // 3. Pitch class matching (ignore octave numbers)
+        const playedBase = played.replace(/\d/, "");
+        const expectedBase = expected.replace(/\d/, "");
+        const expectedWesternBase = expectedWestern.replace(/\d/, "");
+
+        // Strip octave markers from Indian shorthand like S', .S
+        const cleanPlayedBase = playedBase.replace(/['.]/, "");
+        const cleanExpectedBase = expectedBase.replace(/['.]/, "");
+        const cleanExpectedWesternBase = expectedWesternBase.replace(/['.]/, "");
+
+        if (playedBase === expectedBase || playedBase === expectedWesternBase) return true;
+        if (cleanPlayedBase === cleanExpectedBase || cleanPlayedBase === cleanExpectedWesternBase) return true;
+
+        // 4. Indian notation mapping check
+        const playedIndian = WESTERN_TO_INDIAN[playedBase] || playedBase;
+        const expectedIndian = WESTERN_TO_INDIAN[expectedBase] || expectedBase;
+        if (playedIndian === expectedIndian || playedIndian === expected || playedBase === expected) return true;
+
+        return false;
+    }, []);
+
     // Handle note played from instrument click
     const handleNotePlay = useCallback((fullNote: string) => {
         if (!step) return;
@@ -245,7 +276,7 @@ function LessonContent() {
         if (step.type === "practice" && step.expectedNote) {
             setTotalAttempts(prev => prev + 1);
 
-            if (fullNote === step.expectedNote) {
+            if (notesMatch(fullNote, step.expectedNote)) {
                 // Correct!
                 setCorrectCount(prev => prev + 1);
                 setKeyStates({ [fullNote]: { highlighted: false, pressed: false, correct: true, wrong: false } });
@@ -271,9 +302,7 @@ function LessonContent() {
             const expectedNote = step.sequence[sequenceIndex];
             setTotalAttempts(prev => prev + 1);
 
-            // Convert expected note to Western for comparison (handles Indian notation)
-            const expectedWestern = INDIAN_TO_WESTERN[expectedNote] || expectedNote;
-            const isMatch = fullNote === expectedNote || fullNote === expectedWestern;
+            const isMatch = notesMatch(fullNote, expectedNote);
 
             if (isMatch) {
                 // Correct note in sequence!
@@ -305,7 +334,7 @@ function LessonContent() {
                 }, 800);
             }
         }
-    }, [step, language, goToNext, sequenceIndex]);
+    }, [step, language, goToNext, sequenceIndex, notesMatch]);
 
     // Auto-advance rest notes ("O") in sequence
     useEffect(() => {
@@ -601,6 +630,7 @@ function LessonContent() {
                         <Harmonium
                             octaves={2}
                             highlightedNotes={getHighlightedNotes()}
+                            highlightedNote={getHighlightedNotes()[0]}
                             keyStates={keyStates}
                             onNotePlay={handleNotePlay}
                         />
@@ -609,6 +639,7 @@ function LessonContent() {
                         <Piano
                             octaves={3}
                             highlightedNotes={getHighlightedNotes()}
+                            highlightedNote={getHighlightedNotes()[0]}
                             keyStates={keyStates}
                             onNotePlay={handleNotePlay}
                         />
@@ -617,6 +648,7 @@ function LessonContent() {
                         <Guitar
                             frets={12}
                             highlightedPositions={getGuitarPositions(getHighlightedNotes())}
+                            highlightedNote={getHighlightedNotes()[0]}
                             onNotePlay={(s, f, note) => handleNotePlay(note)}
                         />
                     )}
@@ -624,6 +656,7 @@ function LessonContent() {
                         <Ukulele
                             frets={12}
                             highlightedPositions={getUkulelePositions(getHighlightedNotes())}
+                            highlightedNote={getHighlightedNotes()[0]}
                             onNotePlay={(s, f, note) => handleNotePlay(note)}
                         />
                     )}
@@ -637,6 +670,7 @@ function LessonContent() {
                     {instrument === "violin" && (
                         <Violin
                             highlightedPositions={getViolinPositions(getHighlightedNotes())}
+                            highlightedNote={getHighlightedNotes()[0]}
                             onNotePlay={(s, p, note) => handleNotePlay(note)}
                         />
                     )}

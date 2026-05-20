@@ -14,6 +14,7 @@ export interface FretState {
 export interface GuitarProps {
     frets?: number;
     highlightedPositions?: { string: number; fret: number }[];
+    highlightedNote?: string;
     onNotePlay?: (string: number, fret: number, note: string) => void;
     fretStates?: Record<string, FretState>;
     showLabels?: boolean;
@@ -48,12 +49,14 @@ const DOUBLE_MARKERS = [12];
 export function Guitar({
     frets = 14,
     highlightedPositions = [],
+    highlightedNote,
     onNotePlay,
     fretStates = {},
     showLabels = true,
     interactive = true,
 }: GuitarProps) {
     const [pressedPositions, setPressedPositions] = useState<Set<string>>(new Set());
+    const [lastPlayedNote, setLastPlayedNote] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -79,6 +82,7 @@ export function Guitar({
             const note = getNoteFromFret(openNote, fretIndex);
 
             setPressedPositions((prev) => new Set(prev).add(posKey));
+            setLastPlayedNote(note);
 
             const player = getSoundPlayer();
             await player.playNote("guitar", note, 1.0);
@@ -96,6 +100,47 @@ export function Guitar({
             }, 500);
         },
         [interactive, onNotePlay]
+    );
+
+    // Keyboard support: keys 1-6 trigger strings
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!interactive) return;
+            const key = e.key;
+            if (key >= "1" && key <= "6") {
+                const stringIndex = parseInt(key) - 1;
+                // If this string has a highlighted position, play that fret, else play open
+                const targetPos = highlightedPositions.find((p) => p.string === stringIndex);
+                const fretIndex = targetPos ? targetPos.fret : 0;
+                handlePress(stringIndex, fretIndex);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [interactive, highlightedPositions, handlePress]);
+
+    const getGuitarHint = useCallback(() => {
+        if (!highlightedNote) return "Play any string to practice";
+        if (highlightedPositions.length === 0) return `Locating ${highlightedNote}...`;
+
+        const pos = highlightedPositions[0];
+        const stringName = STRING_LABELS[pos.string];
+        const stringNum = pos.string + 1;
+        if (pos.fret === 0) {
+            return `Play Open String ${stringNum} (${stringName}) [Key ${stringNum}]`;
+        }
+        return `Press String ${stringNum} (${stringName}) at Fret ${pos.fret} [Key ${stringNum}]`;
+    }, [highlightedPositions, highlightedNote]);
+
+    const getCleanNoteName = (noteStr: string | null) => {
+        if (!noteStr) return "-";
+        return noteStr;
+    };
+
+    const isCorrect = lastPlayedNote && highlightedNote && (
+        lastPlayedNote === highlightedNote ||
+        lastPlayedNote.replace(/\d/, "") === highlightedNote.replace(/\d/, "")
     );
 
     const getPositionClassName = (stringIndex: number, fretIndex: number) => {
@@ -125,6 +170,25 @@ export function Guitar({
 
     return (
         <div className={styles.guitar}>
+            {/* Note Tutor Dashboard */}
+            <div className={styles.tutorDashboard}>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Target Note</span>
+                    <span className={styles.metricValue}>{getCleanNoteName(highlightedNote || null)}</span>
+                </div>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Your Note</span>
+                    <span className={`${styles.metricValue} ${isCorrect ? styles.tutorCorrect : ""}`}>
+                        {getCleanNoteName(lastPlayedNote)}
+                    </span>
+                </div>
+                <div className={styles.tutorHint}>
+                    <span className={styles.hintLabel}>Fretboard Guide:</span>
+                    <span className={styles.hintValue}>{getGuitarHint()}</span>
+                    <span className={styles.keyboardGuide}>Keyboard: Keys 1 to 6 pluck strings</span>
+                </div>
+            </div>
+
             <div className={styles.guitarContainer}>
                 {isLoading && (
                     <div className={styles.loading}>Loading sounds...</div>

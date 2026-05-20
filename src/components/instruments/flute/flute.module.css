@@ -1,186 +1,408 @@
-/* Flute - Realistic Silver Concert Flute */
+/* Flute - Premium Realistic Concert Flute Visuals & Interactive Styles */
 
 .flute {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 32px;
+    padding: 32px 16px;
     user-select: none;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Control Panel */
+.controlPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px 24px;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 16px;
+}
+
+.modeToggle {
+    display: flex;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modeBtn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modeBtnActive {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.blowIndicator {
+    background: rgba(99, 102, 241, 0.1);
+    color: #818cf8;
+    border: 1px dashed rgba(99, 102, 241, 0.4);
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    text-align: center;
+}
+
+.blowIndicator:hover {
+    background: rgba(99, 102, 241, 0.18);
+    border-color: #818cf8;
+}
+
+.blowIndicator.blowing {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    transform: scale(1.02);
+}
+
+/* Tutor Dashboard */
+.tutorDashboard {
+    display: flex;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    align-items: center;
+    gap: 24px;
+}
+
+.tutorLeft {
+    display: flex;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.targetNoteContainer, .currentNoteContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 18px;
+    border-radius: 12px;
+    min-width: 100px;
+    align-items: center;
+}
+
+.targetNoteContainer {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.currentNoteContainer {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.targetLabel, .currentLabel {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.targetValue {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f59e0b;
+    text-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+.currentValue {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f1f5f9;
+    transition: all 0.2s ease;
+}
+
+.matchingNote {
+    color: #10b981;
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+}
+
+.tutorHint {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #cbd5e1;
+    flex-grow: 1;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Flute Container & Animations */
 .fluteContainer {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 60px 20px;
+    width: 100%;
+    background: radial-gradient(circle at center, rgba(30, 41, 59, 0.3) 0%, transparent 70%);
 }
 
-/* Main tube sections */
+.windStream {
+    position: absolute;
+    left: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 220px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.windSvg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.windPath {
+    stroke: rgba(129, 140, 248, 0.6);
+    animation: flow 1.5s linear infinite;
+}
+
+.windPathSlow {
+    stroke: rgba(16, 185, 129, 0.4);
+    animation: flow 2s linear infinite;
+}
+
+@keyframes flow {
+    0% {
+        stroke-dashoffset: 20;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Flute body alignment */
 .fluteBody {
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
+    transition: transform 0.05s ease;
+}
+
+.fluteBodyVibrating {
+    animation: vibrate 0.08s linear infinite;
+}
+
+@keyframes vibrate {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-0.5px); }
+    75% { transform: translateY(0.5px); }
 }
 
 /* Head joint (with embouchure) */
 .headJoint {
-    width: 120px;
-    height: 28px;
+    width: 130px;
+    height: 32px;
     background: linear-gradient(180deg,
-            #e8e8e8 0%,
-            #f5f5f5 20%,
-            #d8d8d8 40%,
-            #c0c0c0 60%,
-            #d8d8d8 80%,
-            #e8e8e8 100%);
-    border-radius: 14px 4px 4px 14px;
+            #e2e8f0 0%,
+            #f8fafc 20%,
+            #cbd5e1 45%,
+            #94a3b8 60%,
+            #cbd5e1 80%,
+            #f8fafc 100%);
+    border-radius: 16px 4px 4px 16px;
     position: relative;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.25),
+        0 8px 24px rgba(0, 0, 0, 0.35),
         inset 0 2px 4px rgba(255, 255, 255, 0.8),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #a0a0a0;
+        inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid #94a3b8;
 }
 
-/* Crown (end cap) */
 .crown {
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 12px;
-    height: 22px;
+    width: 14px;
+    height: 26px;
     background: linear-gradient(90deg,
-            #c0c0c0 0%,
-            #e8e8e8 40%,
-            #f0f0f0 60%,
-            #d0d0d0 100%);
-    border-radius: 8px 0 0 8px;
+            #64748b 0%,
+            #cbd5e1 40%,
+            #f8fafc 65%,
+            #475569 100%);
+    border-radius: 10px 0 0 10px;
     box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    border-right: 1px solid #475569;
 }
 
-/* Embouchure plate (lip plate) */
 .embouchurePlate {
     position: absolute;
-    left: 30px;
-    top: -6px;
-    width: 45px;
-    height: 38px;
+    left: 45px;
+    top: -8px;
+    width: 48px;
+    height: 48px;
     background: linear-gradient(180deg,
-            #d0d0d0 0%,
-            #e8e8e8 30%,
-            #f0f0f0 50%,
-            #d8d8d8 70%,
-            #c0c0c0 100%);
-    border-radius: 8px;
+            #cbd5e1 0%,
+            #f8fafc 25%,
+            #e2e8f0 50%,
+            #94a3b8 75%,
+            #64748b 100%);
+    border-radius: 14px;
     box-shadow:
-        0 2px 6px rgba(0, 0, 0, 0.2),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5);
-    border: 1px solid #a8a8a8;
+        0 3px 8px rgba(0, 0, 0, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    border: 1px solid #94a3b8;
 }
 
-/* Embouchure hole */
 .embouchureHole {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 12px;
-    height: 8px;
-    background: linear-gradient(180deg,
-            #1a1a1a 0%,
-            #2a2a2a 50%,
-            #1a1a1a 100%);
+    width: 14px;
+    height: 10px;
+    background: #0f172a;
     border-radius: 50%;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9);
+    transition: all 0.2s ease;
+}
+
+.activeBlowHole {
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 10px rgba(16, 185, 129, 0.8);
+    background: #047857;
 }
 
 /* Body joint (main tube with keys) */
 .bodyJoint {
-    width: 280px;
-    height: 28px;
+    width: 320px;
+    height: 32px;
     background: linear-gradient(180deg,
-            #e8e8e8 0%,
-            #f5f5f5 20%,
-            #d8d8d8 40%,
-            #c0c0c0 60%,
-            #d8d8d8 80%,
-            #e8e8e8 100%);
+            #e2e8f0 0%,
+            #f8fafc 20%,
+            #cbd5e1 45%,
+            #94a3b8 60%,
+            #cbd5e1 80%,
+            #f8fafc 100%);
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: 0 15px;
+    padding: 0 20px;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.25),
+        0 8px 24px rgba(0, 0, 0, 0.35),
         inset 0 2px 4px rgba(255, 255, 255, 0.8),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-    border-top: 1px solid #a0a0a0;
-    border-bottom: 1px solid #a0a0a0;
+        inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+    border-top: 1px solid #94a3b8;
+    border-bottom: 1px solid #94a3b8;
 }
 
-/* Foot joint (end section) */
+/* Foot joint */
 .footJoint {
-    width: 60px;
-    height: 28px;
+    width: 110px;
+    height: 32px;
     background: linear-gradient(180deg,
-            #e8e8e8 0%,
-            #f5f5f5 20%,
-            #d8d8d8 40%,
-            #c0c0c0 60%,
-            #d8d8d8 80%,
-            #e8e8e8 100%);
-    border-radius: 4px 14px 14px 4px;
+            #e2e8f0 0%,
+            #f8fafc 20%,
+            #cbd5e1 45%,
+            #94a3b8 60%,
+            #cbd5e1 80%,
+            #f8fafc 100%);
+    border-radius: 4px 16px 16px 4px;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 0 10px;
+    justify-content: space-around;
+    padding: 0 12px;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.25),
+        0 8px 24px rgba(0, 0, 0, 0.35),
         inset 0 2px 4px rgba(255, 255, 255, 0.8),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #a0a0a0;
+        inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid #94a3b8;
 }
 
-/* Key base styling */
+/* Interactive Keys Wrapper (Labels above + Keys) */
+.keyWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.keyShortcut {
+    position: absolute;
+    top: -36px;
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 700;
+    background: rgba(15, 23, 42, 0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* Key Component Details */
 .key {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: linear-gradient(145deg,
-            #f0f0f0 0%,
-            #e0e0e0 30%,
-            #c8c8c8 60%,
-            #d8d8d8 100%);
-    border: 2px solid #b0b0b0;
+            #f8fafc 0%,
+            #cbd5e1 40%,
+            #94a3b8 75%,
+            #e2e8f0 100%);
+    border: 2px solid #cbd5e1;
     cursor: pointer;
-    transition: all 0.08s ease;
+    transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
     position: relative;
     box-shadow:
-        0 3px 8px rgba(0, 0, 0, 0.25),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    z-index: 5;
 }
 
-/* Key arm/lever */
 .key::before {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 6px;
-    height: 10px;
+    width: 4px;
+    height: 12px;
     background: linear-gradient(90deg,
-            #c0c0c0 0%,
-            #e0e0e0 50%,
-            #c0c0c0 100%);
-    border-radius: 2px;
+            #94a3b8 0%,
+            #cbd5e1 50%,
+            #64748b 100%);
+    border-radius: 1px;
+    z-index: -1;
 }
 
-/* Key pad (the part touching the hole) */
 .key::after {
     content: '';
     position: absolute;
@@ -191,156 +413,179 @@
     height: 16px;
     border-radius: 50%;
     background: linear-gradient(145deg,
-            #d8d8d8 0%,
-            #c0c0c0 50%,
-            #b8b8b8 100%);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+            #cbd5e1 0%,
+            #94a3b8 60%,
+            #475569 100%);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Key hover state */
 .key:hover {
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(1.05);
     box-shadow:
-        0 4px 10px rgba(0, 0, 0, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+        0 6px 14px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.6);
 }
 
-/* Key pressed state (covering hole) */
+/* Pressed/Covered Holes (Sound state) */
 .key.pressed {
-    transform: translateY(2px);
+    transform: translateY(2px) scale(0.95);
     background: linear-gradient(145deg,
-            #d0d0d0 0%,
-            #c0c0c0 30%,
-            #b8b8b8 60%,
-            #c8c8c8 100%);
+            #64748b 0%,
+            #475569 50%,
+            #334155 100%);
+    border-color: #475569;
     box-shadow:
-        0 1px 4px rgba(0, 0, 0, 0.2),
-        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        0 1px 3px rgba(0, 0, 0, 0.4),
+        inset 0 2px 5px rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(99, 102, 241, 0.6); /* standard blue pressed glow */
 }
 
-/* Key highlighted */
-.key.highlighted {
-    border-color: #ffd700;
-    box-shadow:
-        0 0 15px rgba(255, 215, 0, 0.5),
-        0 3px 8px rgba(0, 0, 0, 0.25);
-    animation: pulse 1s ease-in-out infinite;
+.key.pressed::after {
+    background: linear-gradient(145deg,
+            #475569 0%,
+            #1e293b 100%);
 }
 
-/* Key correct state */
-.key.correct {
-    border-color: #4caf50;
+/* HIGHLIGHT STYLING FOR INTERACTIVE TUTORING */
+
+/* 1. Golden pulse: key is OPEN, but NEEDED to be closed */
+.key.highlightedNeeded {
+    border-color: #f59e0b;
     box-shadow:
-        0 0 15px rgba(76, 175, 80, 0.5),
-        0 3px 8px rgba(0, 0, 0, 0.25);
-    animation: none;
+        0 0 15px rgba(245, 158, 11, 0.8),
+        0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: goldPulse 1.2s ease-in-out infinite;
 }
 
-/* Key wrong state */
-.key.wrong {
-    border-color: #f44336;
-    box-shadow:
-        0 0 15px rgba(244, 67, 54, 0.5),
-        0 3px 8px rgba(0, 0, 0, 0.25);
-    animation: shake 0.3s ease-in-out;
+@keyframes goldPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 4px 10px rgba(0, 0, 0, 0.3); }
+    50% { transform: scale(1.08); box-shadow: 0 0 24px rgba(245, 158, 11, 0.9), 0 6px 14px rgba(0, 0, 0, 0.45); }
 }
 
-/* Key label */
+/* 2. Crimson warning: key is CLOSED, but NEEDED to be open */
+.key.highlightedWrong {
+    border-color: #ef4444;
+    transform: translateY(2px) scale(0.95);
+    background: linear-gradient(145deg, #7f1d1d 0%, #ef4444 100%);
+    box-shadow:
+        0 0 15px rgba(239, 68, 68, 0.8),
+        0 1px 3px rgba(0, 0, 0, 0.4);
+    animation: shakeKey 0.4s ease-in-out infinite;
+}
+
+@keyframes shakeKey {
+    0%, 100% { transform: translateY(2px) translateX(0) scale(0.95); }
+    25% { transform: translateY(2px) translateX(-2px) scale(0.95); }
+    75% { transform: translateY(2px) translateX(2px) scale(0.95); }
+}
+
+/* 3. Emerald Success: key is CLOSED, and CORRECTLY matches target */
+.key.highlightedCorrect {
+    transform: translateY(2px) scale(0.95);
+    border-color: #10b981;
+    background: linear-gradient(145deg, #064e3b 0%, #059669 100%);
+    box-shadow:
+        0 0 12px rgba(16, 185, 129, 0.8),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.key.highlightedCorrect::after {
+    background: linear-gradient(145deg, #047857 0%, #022c22 100%);
+}
+
 .keyLabel {
     position: absolute;
-    bottom: -28px;
+    bottom: -36px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 9px;
-    color: #666;
-    font-weight: 600;
+    font-size: 10px;
+    color: #475569;
+    font-weight: 700;
     white-space: nowrap;
 }
 
-/* Note display */
-.noteDisplay {
+/* Fingering Reference Chart wrapper */
+.fingeringChartWrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 40px;
-    padding: 20px 40px;
-    background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    margin-top: 20px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px;
 }
 
-.currentNote {
-    font-size: 36px;
+.chartTitle {
+    font-size: 16px;
     font-weight: 700;
-    color: var(--text-primary, #fff);
+    color: #f8fafc;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.noteHint {
-    font-size: 14px;
-    color: var(--text-muted, #888);
-    margin-top: 4px;
-}
-
-/* Fingering chart */
 .fingeringChart {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-    margin-top: 32px;
-    padding: 20px;
-    background: var(--bg-secondary, rgba(0, 0, 0, 0.2));
-    border-radius: 12px;
-    max-width: 400px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
 }
 
 .fingeringItem {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 8px;
-    background: var(--glass-bg, rgba(255, 255, 255, 0.1));
-    border-radius: 8px;
+    padding: 12px 8px;
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
 }
 
 .fingeringItem:hover {
-    background: var(--color-primary, #6366f1);
-    border-color: var(--color-primary, #6366f1);
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: translateY(-2px);
 }
 
-.fingeringItem.active {
-    background: var(--color-primary, #6366f1);
-    border-color: var(--color-primary-light, #818cf8);
+.activeItem {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.targetItem {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
 }
 
 .fingeringNoteName {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    color: var(--text-primary, #fff);
+    color: #f8fafc;
 }
 
 .fingeringDots {
     display: flex;
-    gap: 3px;
-    margin-top: 8px;
+    gap: 2.5px;
+    margin-top: 10px;
 }
 
 .fingeringDot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.fingeringDot.closed {
-    background: #c0c0c0;
-    border-color: #a0a0a0;
+.closedDot {
+    background: #cbd5e1;
+    border-color: #94a3b8;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 }
 
 /* Loading */
@@ -350,68 +595,49 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 14px;
-    border-radius: 8px;
+    color: #cbd5e1;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 16px;
     z-index: 100;
 }
 
-/* Animations */
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.7;
-    }
-}
-
-@keyframes shake {
-
-    0%,
-    100% {
-        transform: translateY(2px) translateX(0);
-    }
-
-    25% {
-        transform: translateY(2px) translateX(-2px);
-    }
-
-    75% {
-        transform: translateY(2px) translateX(2px);
-    }
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .fluteBody {
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .controlPanel {
         flex-direction: column;
-        gap: 8px;
+        align-items: stretch;
+    }
+    
+    .tutorDashboard {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
     }
 
-    .headJoint,
-    .bodyJoint,
-    .footJoint {
-        width: 90%;
-        max-width: 280px;
-    }
-
-    .headJoint {
-        border-radius: 14px;
-    }
-
-    .footJoint {
-        border-radius: 14px;
+    .tutorHint {
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 16px;
     }
 
     .fingeringChart {
         grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 580px) {
+    .fluteBody {
+        transform: scale(0.8);
+    }
+    
+    .fingeringChart {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

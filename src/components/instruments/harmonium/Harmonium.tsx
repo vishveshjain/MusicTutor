@@ -16,6 +16,7 @@ export interface HarmoniumProps {
     startOctave?: number;
     octaves?: number;
     highlightedNotes?: string[];
+    highlightedNote?: string;
     onNotePlay?: (note: string, indianNote: string) => void;
     keyStates?: Record<string, KeyState>;
     showLabels?: boolean;
@@ -33,12 +34,14 @@ export function Harmonium({
     startOctave = 3,
     octaves = 3,
     highlightedNotes = [],
+    highlightedNote,
     onNotePlay,
     keyStates = {},
     showLabels = true,
     interactive = true,
 }: HarmoniumProps) {
     const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
+    const [lastPlayedNote, setLastPlayedNote] = useState<string | null>(null);
     const [bellowsExpanded, setBellowsExpanded] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [activeStoppers, setActiveStoppers] = useState<Set<number>>(new Set([0, 2])); // Some stoppers active by default
@@ -111,17 +114,38 @@ export function Harmonium({
         });
     };
 
+    // Get keyboard shortcut character for a note
+    const getKeyboardShortcut = useCallback((fullNote: string): string | null => {
+        const keyMap: Record<string, string> = {
+            a: `C${startOctave}`,
+            w: `C#${startOctave}`,
+            s: `D${startOctave}`,
+            e: `D#${startOctave}`,
+            d: `E${startOctave}`,
+            f: `F${startOctave}`,
+            t: `F#${startOctave}`,
+            g: `G${startOctave}`,
+            y: `G#${startOctave}`,
+            h: `A${startOctave}`,
+            u: `A#${startOctave}`,
+            j: `B${startOctave}`,
+            k: `C${startOctave + 1}`,
+        };
+        const entry = Object.entries(keyMap).find(([_, note]) => note === fullNote);
+        return entry ? entry[0].toUpperCase() : null;
+    }, [startOctave]);
+
     // Handle key press
     const handleKeyPress = useCallback(
         async (fullNote: string, note: string) => {
             if (!interactive) return;
 
             setPressedKeys((prev) => new Set(prev).add(fullNote));
+            setLastPlayedNote(fullNote);
             setBellowsExpanded(true);
 
             // Get Indian note name
             const indianNote = WESTERN_TO_INDIAN[note] || note;
-            const indianNoteHindi = INDIAN_NOTES[indianNote as keyof typeof INDIAN_NOTES] || "";
 
             // Play sound
             const player = getSoundPlayer();
@@ -168,15 +192,19 @@ export function Harmonium({
     };
 
     // Get note label
-    const getNoteLabel = (note: string) => {
+    const getNoteLabel = (note: string, fullNote: string) => {
         const indianNote = WESTERN_TO_INDIAN[note];
         const indianHindi = indianNote ? INDIAN_NOTES[indianNote as keyof typeof INDIAN_NOTES] : "";
+        const shortcut = getKeyboardShortcut(fullNote);
 
         return (
-            <span className={styles.noteLabel}>
-                {indianNote && <span className={styles.indian}>{indianHindi || indianNote}</span>}
-                <span>{note}</span>
-            </span>
+            <div className={styles.labelContainer}>
+                <span className={styles.noteLabel}>
+                    {indianNote && <span className={styles.indian}>{indianHindi || indianNote}</span>}
+                    <span>{note}</span>
+                </span>
+                {shortcut && <span className={styles.keyShortcut}>{shortcut}</span>}
+            </div>
         );
     };
 
@@ -213,8 +241,53 @@ export function Harmonium({
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [interactive, startOctave, pressedKeys, handleKeyPress]);
 
+    const getHarmoniumHint = useCallback(() => {
+        if (!highlightedNote) return "Play any key to practice";
+        const baseNote = highlightedNote.replace(/\d/, "");
+        const indianNote = WESTERN_TO_INDIAN[baseNote] || baseNote;
+        const indianHindi = INDIAN_NOTES[indianNote as keyof typeof INDIAN_NOTES] || indianNote;
+        const shortcut = getKeyboardShortcut(highlightedNote);
+
+        if (shortcut) {
+            return `Play ${indianHindi} / ${highlightedNote} (Press keyboard key "${shortcut}")`;
+        }
+        return `Play ${indianHindi} / ${highlightedNote}`;
+    }, [highlightedNote, getKeyboardShortcut]);
+
+    const getCleanNoteName = (noteStr: string | null) => {
+        if (!noteStr) return "-";
+        const baseNote = noteStr.replace(/\d/, "");
+        const indianNote = WESTERN_TO_INDIAN[baseNote] || baseNote;
+        const indianHindi = INDIAN_NOTES[indianNote as keyof typeof INDIAN_NOTES] || indianNote;
+        return `${indianHindi} (${noteStr})`;
+    };
+
+    const isCorrect = lastPlayedNote && highlightedNote && (
+        lastPlayedNote === highlightedNote ||
+        lastPlayedNote.replace(/\d/, "") === highlightedNote.replace(/\d/, "")
+    );
+
     return (
         <div className={styles.harmonium}>
+            {/* Note Tutor Dashboard */}
+            <div className={styles.tutorDashboard}>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Target Swar</span>
+                    <span className={styles.metricValue}>{getCleanNoteName(highlightedNote || null)}</span>
+                </div>
+                <div className={styles.tutorMetric}>
+                    <span className={styles.metricLabel}>Your Swar</span>
+                    <span className={`${styles.metricValue} ${isCorrect ? styles.tutorCorrect : ""}`}>
+                        {getCleanNoteName(lastPlayedNote)}
+                    </span>
+                </div>
+                <div className={styles.tutorHint}>
+                    <span className={styles.hintLabel}>Harmonium Guide:</span>
+                    <span className={styles.hintValue}>{getHarmoniumHint()}</span>
+                    <span className={styles.keyboardGuide}>Keyboard: Press keys shown on screen</span>
+                </div>
+            </div>
+
             <div className={styles.harmoniumBody}>
                 {/* Loading overlay */}
                 {isLoading && (
@@ -242,14 +315,14 @@ export function Harmonium({
                         <div className={styles.keyboard}>
                             {/* White keys */}
                             <div className={styles.whiteKeys}>
-                                {whiteKeys.map(({ note, fullNote }) => (
+                                {whiteKeys.map(({ note, octave, fullNote }) => (
                                     <button
                                         key={fullNote}
                                         className={getKeyClassName(fullNote, false)}
                                         onClick={() => handleKeyPress(fullNote, note)}
                                         aria-label={`Play ${fullNote}`}
                                     >
-                                        {showLabels && getNoteLabel(note)}
+                                        {showLabels && getNoteLabel(note, fullNote)}
                                     </button>
                                 ))}
                             </div>
@@ -275,7 +348,7 @@ export function Harmonium({
                                                 onClick={() => handleKeyPress(blackKey.fullNote, blackKey.note)}
                                                 aria-label={`Play ${blackKey.fullNote}`}
                                             >
-                                                {showLabels && getNoteLabel(blackKey.note)}
+                                                {showLabels && getNoteLabel(blackKey.note, blackKey.fullNote)}
                                             </button>
                                         </div>
                                     );
